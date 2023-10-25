@@ -1,0 +1,15 @@
+body {
+  display: flex;
+  align-items: center;
+  border: 5vw;
+  margin: 7%;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 2vw;
+  border: 2vw;
+}
+
