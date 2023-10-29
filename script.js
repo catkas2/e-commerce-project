@@ -1,21 +1,27 @@
 "use strict";
+
 (function() {
   window.addEventListener("load", init);
+  let numOfEntry = 0;
 
   function init() {
     id("feedback-btn").addEventListener("click", addFeedback);
   }
 
   function addFeedback() {
-    let entry = id("entry").value;
-    let container = document.createElement("section");
-    container.classList.add("post");
-    let contents = document.createElement("p");
-    contents.textContent = "Entry:" + entry;
-    container.appendChild(contents);
-    id("posts").appendChild(container);
-    //feedback.addEventListener("click", removePost);
-    id("entry").value = "";
+    if (numOfEntry < 5) { // place holder for later; only display 5 reviews at a time
+      let entry = id("entry").value;
+      let container = document.createElement("section");
+      container.classList.add("post");
+      let contents = document.createElement("p");
+      contents.textContent = "Entry:" + entry;
+      container.appendChild(contents);
+      id("posts").appendChild(container);
+      console.log(id("entry".value));
+      //feedback.addEventListener("click", removePost);
+      id("entry").value = "";
+      numOfEntry++;
+    }
   }
 
   /**

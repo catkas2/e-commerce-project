@@ -2,7 +2,7 @@ body {
   display: flex;
   align-items: center;
   border: 5vw;
-  margin: 7%;
+  margin: 5%;
   background-color: #0E3B43;
   flex-direction: column;
 }
@@ -11,8 +11,9 @@ nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin: 2vw;
-  border: 2vw;
+  width: 100%;
+  margin: 2.5%;
+  border: 5%;
   background-color: white;
 }
 
@@ -21,13 +22,17 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 90%;
   border-radius: 5px;
   background-color: red;
 }
 
 #about-us-container {
   background-color: white;
+  align-self:last baseline;
+  margin: 2.5%;
   border: 2vw;
+  width: 60%;
   border-radius: 5px;
   padding: 7px;
 }
@@ -36,8 +41,9 @@ nav {
   background-color: white;
   border: 2vw;
   border-radius: 5px;
-  padding: 7px;
-  margin: 10px;
+  padding: 2.5%;
+  width: 90%;
+  margin: 1%;
   flex-wrap: wrap;
 }
 
@@ -45,8 +51,8 @@ nav {
   display: flex;
   flex-wrap: wrap;
   background-color: white;
-  margin: 10px;
-  padding: 5px;
+  margin: 1%;
+  padding: 1%;
   justify-content: space-evenly;
   border-radius: 5px;
 }
@@ -63,11 +69,22 @@ nav {
 
 #good-reviews {
   display: flex;
+  flex-direction: column;
   margin: 10px;
-  width: 80%;
-  height: 300px;
+  padding: 2.5%;
+  width: 90%;
+  height: 400px;
   background-color: white;
   border-radius: 5px;
+}
+
+#feedback-btn {
+  width: 20%;
+}
+
+#entry {
+  width: 60%;
+  height: 100px;
 }
 
 footer {
