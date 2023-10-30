@@ -42,12 +42,12 @@ nav {
   border: 2vw;
   border-radius: 5px;
   padding: 2.5%;
+  height: auto;
   width: 90%;
   margin: 1%;
-  flex-wrap: wrap;
 }
 
-#more-product {
+#more-product, #new-arrivals-items {
   display: flex;
   flex-wrap: wrap;
   background-color: white;
@@ -57,10 +57,10 @@ nav {
   border-radius: 5px;
 }
 
-#more-product > section {
+#more-product > section, #new-arrivals-items > section {
   margin: 10px;
-  height: 400px;
-  width: 300px;
+  height: 300px;
+  width: 200px;
   background-color: purple;
   flex-direction: column;
   border: 10px;
