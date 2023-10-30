@@ -3,8 +3,9 @@ body {
   align-items: center;
   border: 10vw;
   margin: 5%;
-  background-color: #0E3B43;
+  background-color: #545775;
   flex-direction: column;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 nav {
@@ -14,7 +15,7 @@ nav {
   width: 100%;
   margin: 2.5%;
   border: 5%;
-  background-color: white;
+  background-color: #BFC8AD;
 }
 
 #main-container {
