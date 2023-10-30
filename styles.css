@@ -30,18 +30,12 @@ nav {
 
 #about-us-container {
   background-color: white;
-  display: flex;
-  width: 80%;
+  align-self:last baseline;
   margin: 2.5%;
   border: 2vw;
+  width: 60%;
   border-radius: 5px;
   padding: 7px;
-}
-
-#about-us-container > img {
-  height: 100px;
-  width: 100px;
-  margin-right: 10px;
 }
 
 #new-arrivals {
@@ -65,31 +59,13 @@ nav {
 }
 
 #more-product > section, #new-arrivals-items > section {
-  display: flex;
   margin: 10px;
-  height: 250px;
+  height: 300px;
   width: 200px;
   background-color: purple;
   flex-direction: column;
   border: 10px;
   border-radius: 5px;
-  padding: 10px;
-}
-
-#new-arrivals-items > section > img {
-  height: 175px;
-  width: 175px;
-  align-self: center;
-  justify-content: center;
-}
-
-#new-arrivals-items > section > p {
-  display: none;
-  text-align: center;
-}
-
-#new-arrivals-items > section:hover > p {
-  display: inline;
 }
 
 #good-reviews {
