@@ -28,7 +28,7 @@
       let container = document.createElement("section");
       container.classList.add("post");
       let contents = document.createElement("p");
-      contents.textContent = "Entry:" + entry;
+      contents.textContent = "Feedback: " + entry;
       container.appendChild(contents);
       id("posts").appendChild(container);
       id("entry").value = "";

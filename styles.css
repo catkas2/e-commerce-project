@@ -22,7 +22,7 @@ a {
   color: white;
 }
 
-#about-us-container > p, #main-container > section > h3 {
+#about-us-container > p, #main-container > section > h3, #posts > section > p {
   color: #3A3B3C;
 }
 
