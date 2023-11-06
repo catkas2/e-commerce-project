@@ -1,3 +1,13 @@
+/*
+  Name: Catalina Kashiwa and Liana Rosado
+  Date: November 5th, 2023
+  Section: CSE 154 AB/AE
+
+  This is the styles.css for the final project. We wanted it to follow an earthy
+  and nature tone while using flex boxes to display our products. At the moment
+  it is bare bones with later appropriate implementation of product images and
+  formatting in their flex boxes.
+*/
 body {
   display: flex;
   align-items: center;
@@ -40,7 +50,7 @@ a {
 .product-container > p {
   font-size: 25px;
   font-weight: bolder;
-  color: white
+  color: white;
 }
 
 .product-container > img {
@@ -67,7 +77,7 @@ nav {
 }
 
 nav > h2 {
-  font-size: 20px
+  font-size: 20px;
 }
 
 #main-container {
@@ -86,7 +96,7 @@ h3 {
 
 #about-us-container {
   background-color: white;
-  align-self:last baseline;
+  align-self: baseline;
   margin: 2.5%;
   border: 2vw;
   width: 60%;
