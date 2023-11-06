@@ -26,8 +26,7 @@ a {
   color: #3A3B3C;
 }
 
-#bestseller-container
-#recommended-container {
+#bestseller-container, #recommended-container {
   width: 100%;
   height: 80%;
   border: 5px solid white;
