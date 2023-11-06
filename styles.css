@@ -22,7 +22,11 @@ a {
   color: white;
 }
 
-#bestseller-container,
+#about-us-container > p, #main-container > section > h3 {
+  color: #3A3B3C;
+}
+
+#bestseller-container
 #recommended-container {
   width: 100%;
   height: 80%;
@@ -190,4 +194,9 @@ header {
 #product-info > p {
   font-size: 20px;
   text-align: center;
+}
+
+#about-us-container > img {
+  height: 100px;
+  width: 100px;
 }
