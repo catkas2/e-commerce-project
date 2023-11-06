@@ -21,7 +21,7 @@
   /**
    * Gives the user the ability to write feedback and submit it.
    * Limited to the first 5 entries due to space.
-  */
+   */
   function addFeedback() {
     if (numOfEntry < MAX_ENTRIES) { // place holder for later; only display 5 reviews at a time
       let entry = id("entry").value;
@@ -41,7 +41,7 @@
    * @param {string} name - element ID.
    * @returns {object} - DOM object associated with id.
    */
-  function id(id) {
-    return document.getElementById(id);
+  function id(name) {
+    return document.getElementById(name);
   }
 })();
