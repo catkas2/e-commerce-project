@@ -149,8 +149,9 @@ footer {
   margin: 2.5%;
 }
 
-#all-products, #product-view, #login-view {
+#all-products, #product-view, #login-view, #cart, #user-info {
   background-color: white;
+  margin: 2.5%;
 }
 
 #product-view {
@@ -185,6 +186,21 @@ footer {
 
 #search-area > textarea {
   width: 200px;
+}
+
+#cart > div {
+  display: flex;
+  width: 60vw;
+  justify-content: space-around;
+}
+
+#cart > div > select {
+  align-self: center;
+}
+
+#cart > div > img {
+  width: 200px;
+  height: 200px;
 }
 
 .hidden {
