@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<!--
+  Name: Catalina Kashiwa and Liana Rosado
+  Date: November 5th, 2023
+  Section: CSE 154 AB/AE
+
+  This is the index.html for our final project. It includes the html for the
+  main page giving the user a main introduction to our page, product images
+  and information, as well as a feedback area.
+
+  All images are our own that we had taken from our phone in the past and
+  therefore are not cited in the html. If necessary, we may add this in the
+  footer so the user is clear that it is ours.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Gruppo&display=swap" rel="stylesheet">
+    <script src="script.js"></script>
+    <title>Our Shop!</title>
+  </head>
+  <body>
+    <header>
+      <h1>Rocks and Nature</h1>
+      <div id="search-area">
+        <textarea id="search"></textarea>
+        <button id="search-btn">Search</button>
+      </div>
+    </header>
+    <nav>
+      <h2 id="all">All</h2>
+      <h2 id="plants-rocks">Items</h2>
+      <h2 id="experiences">Experiences</h2>
+      <h2 id="login">Login</h2>
+    </nav>
+
+    <div id="main-view">
+      <div id="about-us-container">
+        <img src="img/rock1.jpg" alt="an image of a rock with holes">
+        <div>
+          <p>Welcome!</p>
+          <p>
+            We are Catalina and Liana and we are excited to bring you our carefully cultivated
+            collection of natural artifacts. Inspired by [and based in] the natural beauty of the
+            Pacific Northwest, our goal is for life pieces from all around the world to reach
+            <span id="italics">you.</span> From the thousand stars caladium to the common vermont
+            pebble - we offer you the chance to display beautiful pieces of the world in your home.
+          </p>
+        </div>
+      </div>
+      <h3>New Arrivals</h3>
+      <div id="new-arrivals-items">
+        <section></section>
+        <section></section>
+        <section></section>
+        <section></section>
+        <section></section>
+        <section></section>
+        <section></section>
+      </div>
+      <h3>Product Selection</h3>
+      <div id="product-category-cards">
+        <div id="plants">
+          <p>Plants</p>
+          <img src="img/plant1.jpg" alt="an image of a plant">
+        </div>
+        <div id="rocks">
+          <p>Rocks</p>
+          <img src="img/rock2.jpg" alt="an image of rocks">
+        </div>
+        <div id="hikes">
+          <p>Hikes</p>
+          <img src="img/nature3.jpg" alt="an image of rocks and a stream">
+        </div>
+        <div id="views">
+          <p>Views</p>
+          <img src="img/view1.jpg" alt="a view of buildings from high up">
+        </div>
+      </div>
+      <h3>Submit a Review!</h3>
+      <section id="good-reviews">
+        <textarea id="entry"></textarea>
+        <button id="feedback-btn">add review</button>
+        <article id="posts"></article>
+      </section>
+    </div>
+    <div id="all-products">
+      <section></section>
+      <section></section>
+      <section></section>
+      <section></section>
+      <!-- Fill with database -->
+    </div>
+    <div id="product-view">
+      <img src="img/rock1.jpg" alt="an image of a rock with holes">
+        <!--sample product page, actual poduct descriptions and images will probably
+        be pulled from an API-->
+      <section id="product-info">
+        <h3>Title</h3>
+        <p>Cost</p>
+        <p>product description</p>
+        <p>Options:</p>
+        <button class="size-btn-element">Small</button>
+        <button>Medium</button>
+      </section>
+    </div>
+    <div id="login-view">
+      <h3>Login to Your Account</h3>
+      <textarea id="user">Username</textarea>
+      <textarea id="pass">Password</textarea>
+      <button id="login-btn">Log In</button>
+    </div>
+    <footer>
+      <p></p>
+    </footer>
+  </body>
+</html>

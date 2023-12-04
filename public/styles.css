@@ -1,0 +1,192 @@
+/*
+  Name: Catalina Kashiwa and Liana Rosado
+  Date: November 5th, 2023
+  Section: CSE 154 AB/AE
+
+  This is the styles.css for the final project. We wanted it to follow an earthy
+  and nature tone while using flex boxes to display our products. At the moment
+  it is bare bones with later appropriate implementation of product images and
+  formatting in their flex boxes.
+*/
+body {
+  display: flex;
+  align-items: center;
+  border: 10vw;
+  margin: 5%;
+  font-size: 20px;
+  background-color: #3A3B3C;
+  color: #3A3B3C;
+  flex-direction: column;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+header {
+  width: 100%;
+  margin-top: 0px;
+  border-top: 0px;
+  padding-top: 0px;
+  color: white;
+  display: flex;
+}
+
+h1 {
+  font-size: 30px;
+  color: white;
+  padding: 0px;
+  width: 50%;
+}
+
+h3 {
+  font-size: 40px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+  color: white;
+  text-decoration: underline;
+  background-color: rgb(5, 174, 174);
+  border-radius: 5px;
+  margin: 3%;
+}
+
+nav > h2 {
+  font-size: 20px;
+}
+
+#about-us-container {
+  display: flex;
+  padding: 2%;
+}
+
+#about-us-container > img {
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+}
+
+#about-us-container > div {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+#main-view > div {
+  background-color: rgb(5, 174, 174);
+  border-radius: 5px;
+}
+
+#product-category-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#product-category-cards > div > img {
+  height: 250px;
+  width: 250px;
+  padding: 10px;
+}
+
+#main-view {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  border-radius: 5px;
+  color: white;
+}
+
+#all-products, #new-arrivals-items, #product-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1%;
+  padding: 1%;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  background-color: white;
+  border: 2vw;
+}
+
+#all-products > section, #new-arrivals-items > section {
+  margin: 10px;
+  height: 300px;
+  width: 200px;
+  background-color: purple;
+  flex-direction: column;
+  border: 10px;
+  border-radius: 5px;
+}
+
+#good-reviews {
+  display: flex;
+  flex-direction: column;
+  margin: 2.5%;
+  padding: 2.5%;
+  width: 90%;
+  height: 400px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+#feedback-btn {
+  width: 20%;
+}
+
+#entry {
+  width: 60%;
+  height: 100px;
+}
+
+footer {
+  width: 90%;
+  height: 100px;
+  background-color: white;
+  border-radius: 3px;
+  margin: 2.5%;
+}
+
+#all-products, #product-view, #login-view {
+  background-color: white;
+}
+
+#product-view {
+  display: flex;
+  margin: 2.5%;
+  width: 100%;
+  justify-content: left;
+}
+
+#product-info {
+  display: flex;
+  flex-direction: column;
+  padding: 2.5%;
+}
+
+#product-view > img {
+  padding: 2.5%;
+  width: 370px;
+  height: 480px;
+}
+
+#login-view {
+  width: 80%;
+}
+
+#search-area {
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+
+}
+
+#search-area > textarea {
+  width: 200px;
+}
+
+.hidden {
+  display: none;
+}
