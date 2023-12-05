@@ -15,19 +15,23 @@
 
   /** Initializes page by making feedback button work when loading in */
   function init() {
-    id('browse-btn').addEventListener('click', scrollToCategories);
+    id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
     id("login").addEventListener("click", handleLogin);
-    qs('.cancel').addEventListener('click', () => {
-      id('login-popup').classList.add('hidden');
+    qs(".cancel").addEventListener("click", () => {
+      id("login-popup").classList.add("hidden");
     });
-    id("shop").addEventListener("click", openAllItems);
+    id("shop").addEventListener("click", openShopItems);
+    id("plant-btn").addEventListener("click", openPlantItems);
+    id("water-btn").addEventListener("click", openWaterItems);
+    id("rock-btn").addEventListener("click", openRockItems);
+
   }
 
   /** scrolls webpage to show collections cards */
   function scrollToCategories() {
-    let target = document.getElementById('scroll-to-collections');
-    target.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+    let target = document.getElementById("scroll-to-collections");
+    target.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
   /**
@@ -52,11 +56,35 @@
    * Handles user login
    */
   function handleLogin() {
-    id("login-popup").classList.toggle('hidden');
+    id("login-popup").classList.toggle("hidden");
   }
 
-  function openAllItems() {
+  /** Changes view to see all products and closes all other views */
+  function openShopItems(category) {
+    id("login-popup").classList.add("hidden");
+    id("browse-container").classList.add("hidden");
+    id("main-view").classList.add("hidden");
+    id("product-view").classList.add("hidden");
+    id("cart").classList.add("hidden");
+    id("user-info").classList.add("hidden");
+    requestDatabaseInfo(category);
+  }
 
+  function requestDatabaseInfo(category) {
+    // if blank, filter for all data otherwise only get category data
+    // when creating each icon for item, make event listener
+  }
+
+  function openPlantItems() {
+    openShopItems("plant");
+  }
+
+  function openRockItems() {
+    openShopItems("rock");
+  }
+
+  function openWaterItems() {
+    openShopItems("water");
   }
 
   /**

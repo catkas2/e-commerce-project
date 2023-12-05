@@ -278,6 +278,7 @@ footer {
   background-color: white;
   border-radius: 3px;
   margin: 2.5%;
+  text-align: center;
 }
 
 #flex-all-products, #flex-product-view, #login-view, #cart, #user-info {
