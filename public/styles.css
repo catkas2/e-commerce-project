@@ -33,7 +33,6 @@ header {
   height: 15vh;
   background-color: black;
   width: 110%;
-  margin-bottom: 5px;
 }
 
 header img {
@@ -66,6 +65,35 @@ h3 {
 nav > h2 {
   font-size: 20px;
   color: white;
+}
+
+#browse-container {
+  display: flex;
+  background-image: url('img/background-home.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 110%;
+  height: 600px;
+  margin-bottom: 20px;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#transparent-btn {
+  cursor: pointer;
+  border: 1px solid white;
+  background-color: transparent;
+  width: 225px;
+  height: 65px;
+  color: white;
+  font-family: inherit;
+  font-size: 18px;
+}
+
+#transparent-btn:hover {
+  transform: scale(1.1);
 }
 
 #about-us-container {
