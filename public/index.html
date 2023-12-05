@@ -23,7 +23,7 @@
   </head>
   <body>
     <header>
-      <h1>Rocks and Nature</h1>
+      <h1>Aurea Vita</h1> <!--This means "golden life" in latin: thought it sounded fancy-->
       <div id="search-area">
         <textarea id="search"></textarea>
         <button id="search-btn">Search</button>
@@ -33,7 +33,7 @@
       <h2 id="all">All</h2>
       <h2 id="plants-rocks">Items</h2>
       <h2 id="experiences">Experiences</h2>
-      <h2 id="login">Login</h2>
+      <h2 id="login">Login</h2> <!--add event listener here-->
     </nav>
 
     <div id="main-view">
@@ -62,16 +62,17 @@
       </div>
       <h3>Product Selection</h3>
       <div id="product-category-cards">
+        <!--change img sources here-->
         <div id="plants">
-          <p>Plants</p>
+          <p>Flora</p>
           <img src="img/plant1.jpg" alt="an image of a plant">
         </div>
         <div id="rocks">
-          <p>Rocks</p>
+          <p>Terra</p>
           <img src="img/rock2.jpg" alt="an image of rocks">
         </div>
         <div id="hikes">
-          <p>Hikes</p>
+          <p>Aqua</p>
           <img src="img/nature3.jpg" alt="an image of rocks and a stream">
         </div>
         <div id="views">
@@ -106,13 +107,33 @@
         <button>Single Purchase</button>
       </section>
     </div>
-    <div id="login-view">
+    <!--
+      <div id="login-view">
       <h3>Login to Your Account</h3>
       <textarea id="user">Username</textarea>
       <textarea id="pass">Password</textarea>
       <button id="login-btn">Log In</button>
       <button id="create-user">Create User</button>
     </div>
+    -->
+
+    <!--alternative for login view-->
+    <div id="login-popup" class="hidden">
+      <form id="form-container">
+        <h3>Log In to Your Account</h3>
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="Enter Username" name="username">
+
+        <label for="psw">Password</label>
+        <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="submit" class="btn">Log in</button>
+        <button type="button" class="btn cancel">Close</button>
+        <p>Don't have an account with us? Create one <span id="create-account">here</span></p>
+      </form>
+    </div>
+
+
     <div id="cart">
       <div id="item">
         <img src="img/view1.jpg" alt="a view of buildings from high up">

@@ -16,6 +16,10 @@
   /** Initializes page by making feedback button work when loading in */
   function init() {
     id("feedback-btn").addEventListener("click", addFeedback);
+    id("login").addEventListener("click", handleLogin);
+    qs('.cancel').addEventListener('click', () => {
+      id('login-popup').classList.add('hidden');
+    });
   }
 
   /**
@@ -37,11 +41,46 @@
   }
 
   /**
+   * Handles user login
+   */
+  function handleLogin() {
+    id("login-popup").classList.remove('hidden');
+  }
+
+  /**
    * Returns the element that has the ID attribute with the specified value.
-   * @param {string} name - element ID.
+   * @param {string} id - element ID.
    * @returns {object} - DOM object associated with id.
    */
-  function id(name) {
-    return document.getElementById(name);
+  function id(id) {
+    return document.getElementById(id);
+  }
+
+  /**
+   * Returns first element matching selector.
+   * @param {string} selector - CSS query selector.
+   * @returns {object} - DOM object associated selector.
+   */
+  function qs(selector) {
+    return document.querySelector(selector);
+  }
+
+  /**
+   * Returns the array of elements that match the given CSS selector.
+   * @param {string} query - CSS query selector
+   * @returns {object[]} array of DOM objects matching the query.
+   */
+  function qsa(query) {
+    return document.querySelectorAll(query);
+  }
+
+  /**
+   * Generate an element with a specified tag name.
+   * @param {string} tag - The HTML tag name for the element to be created.
+   * @returns {HTMLElement} - The created HTML element.
+   */
+  function gen(tag) {
+    return document.createElement(tag);
+
   }
 })();
