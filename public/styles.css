@@ -97,9 +97,10 @@ nav > h2 {
   background-image: url('img/whoweare.jpg');
   background-size: cover;
   background-position: center;
-  width: 110%;
-  height: 400px;
+  width: 120%;
+  height: 500px;
   margin-bottom: 20px;
+  margin-top: 10px;
   color: white;
   font-weight: bolder;
   align-items: center;
@@ -135,10 +136,7 @@ nav > h2 {
   margin-left: 15px;
 }
 
-#main-view > div {
-  border-radius: 5px;
-}
-
+/* product collections cards */
 #product-category-cards {
   display: flex;
   flex-wrap: wrap;
@@ -226,11 +224,13 @@ nav > h2 {
   border-radius: 5px;
 }
 
+/* new arrivals containers and products within the div */
 #new-arrivals-items {
   width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
   background-color: #3A3B3C;
+  margin-bottom: 70px;
 }
 
 .product-container {

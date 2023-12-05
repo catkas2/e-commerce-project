@@ -28,48 +28,19 @@
         <h1>Aurea Vita</h1> <!--This means "golden life" in latin: thought it sounded fancy-->
       </div>
       <nav>
-        <h2 id="shop">Shop</h2>
-        <h2 id="our-story"> Our Story</h2>
+        <h2 id="shop">Shop All Items</h2>
         <h2 id="login">Login</h2>
       </nav>
     </header>
 
     <div id="browse-container">
       <h2>Flora. Aqua. Terra.</h2>
-      <button class="transparent-btn btn">Browse Our Collections</button>
+      <button id="browse-btn" class="transparent-btn btn">Browse Our Collections</button>
     </div>
 
-    <div id="about-us-pic">
-      <h2>Who We Are . . . </h2>
-    </div>
-    <div id="about-us-descrip">
-      <h3>Welcome to Aurea Vita. We're glad you're here.</h3>
-      <p>
-        We are
-        Catalina and Liana, dreamers and stewards of Earth's most mesmerizing treasures. Our journey
-        traverses the essence of Terra, the depth of Aqua, and the kaleidoscope of Flora: a
-        tapestry woven with passion and reverence for the planet's wonders.
-      </p>
-      <p>
-        Rooted in the enchanting embrace of the Pacific Northwest, our quest echoes the rhythmic
-        dance of global biodiversity, curating a symphony of life's most captivating pieces
-        exclusively for you. Each specimen, from the rare Siberian Fawn Lily to the ethereal
-        Bohemian Moldevite, whispers a story, painting vibrant narratives that echo the soul of
-        our Earth.
-      </p>
-      <p>
-        Join us on this voyage, as we invite you to infuse your space with the raw, untamed
-        elegance of nature. Embrace the Earth's energy, let the waters speak to your spirit,
-        and allow the lush greenery to weave its magic into the fabric of your home. Aurea
-        Vita is not just a collection; it's an ode to the harmony between humanity and the
-        natural world, beckoning you to create your own sanctuary of wonder and serenity.
-      </p>
-    </div>
+    <div id="main-view">
 
-    <div id="main-view" class="hidden">
       <h3>New Arrivals</h3>
-
-
       <div id="new-arrivals-items">
         <section class="product-container">
           <img src="img/plant8.jpg" alt="white flowers">
@@ -101,42 +72,70 @@
         </section>
       </div>
 
+      <div id="about-us-pic">
+        <h2>Who We Are . . . </h2>
+      </div>
+      <div id="about-us-descrip">
+        <h3>Welcome to Aurea Vita. We're glad you're here.</h3>
+        <p>
+          We are
+          Catalina and Liana, dreamers and stewards of Earth's most mesmerizing treasures. Our journey
+          traverses the essence of Terra, the depth of Aqua, and the kaleidoscope of Flora: a
+          tapestry woven with passion and reverence for the planet's wonders.
+        </p>
+        <p>
+          Rooted in the enchanting embrace of the Pacific Northwest, our quest echoes the rhythmic
+          dance of global biodiversity, curating a symphony of life's most captivating pieces
+          exclusively for you. Each specimen, from the rare Siberian Fawn Lily to the ethereal
+          Bohemian Moldevite, whispers a story, painting vibrant narratives that echo the soul of
+          our Earth.
+        </p>
+        <p>
+          Join us on this voyage, as we invite you to infuse your space with the raw, untamed
+          elegance of nature. Embrace the Earth's energy, let the waters speak to your spirit,
+          and allow the lush greenery to weave its magic into the fabric of your home. Aurea
+          Vita is not just a collection; it's an ode to the harmony between humanity and the
+          natural world, beckoning you to create your own sanctuary of wonder and serenity.
+        </p>
+      </div>
 
-      <h3>Collections</h3>
+      <h3 id="scroll-to-collections">Collections</h3>
       <div id="product-category-cards">
         <!--change img sources here-->
         <div id="plants">
           <h3>Flora</h3>
           <button class="transparent-btn btn">Smell the Flowers</button>
         </div>
-        <div id="rocks">
-          <h3>Terra</h3>
-          <button class="transparent-btn btn">Climb a Mountain</button>
-        </div>
         <div id="water">
           <h3>Aqua</h3>
           <button class="transparent-btn btn">Take a Dip</button>
         </div>
+        <div id="rocks">
+          <h3>Terra</h3>
+          <button class="transparent-btn btn">Climb a Mountain</button>
+        </div>
       </div>
-      <h3>Submit a Review!</h3>
-      <section id="good-reviews">
-        <textarea id="entry"></textarea>
-        <button id="feedback-btn">add review</button>
-        <article id="posts"></article>
-      </section>
     </div>
 
-    <div id="all-products">
+    <!--
+    h3>Submit a Review!</h3>
+    <section id="good-reviews" class="hidden">
+      <textarea id="entry"></textarea>
+      <button id="feedback-btn">add review</button>
+      <article id="posts"></article>
+    </section>
+    -->
+
+    <div id="all-products" class="hidden">
       <section></section>
       <section></section>
       <section></section>
       <section></section>
       <!-- Fill with database -->
     </div>
-    <div id="product-view">
+
+    <div id="product-view" class="hidden">
       <img src="img/rock1.jpg" alt="an image of a rock with holes">
-        <!--sample product page, actual poduct descriptions and images will probably
-        be pulled from an API-->
       <section id="product-info">
         <h3>Title</h3>
         <p>Cost</p>
@@ -147,6 +146,7 @@
       </section>
     </div>
 
+    <div><p>THIS IS A TEST</p></div>
     <!--alternative for login view-->
     <div id="login-popup" class="hidden">
       <form id="form-container">
@@ -164,7 +164,7 @@
     </div>
 
 
-    <div id="cart">
+    <div id="cart" class="hidden">
       <div id="item">
         <img src="img/view1.jpg" alt="a view of buildings from high up">
         <p>Item Name</p>
@@ -177,7 +177,7 @@
         </select>
       </div>
     </div>
-    <div id="user-info">
+    <div id="user-info" class="hidden">
       <p>ID Number</p>
       <p>Previous transaction: Name, Amount, Price</p>
     </div>
