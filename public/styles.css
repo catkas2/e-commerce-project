@@ -11,8 +11,6 @@
 body {
   display: flex;
   align-items: center;
-  border: 10vw;
-  margin: 5%;
   font-size: 20px;
   background-color: #3A3B3C;
   color: #3A3B3C;
@@ -20,40 +18,54 @@ body {
   font-family: 'Cormorant Garamond', serif;
 }
 
-header {
-  width: 100%;
-  margin-top: 0px;
-  border-top: 0px;
-  padding-top: 0px;
-  color: white;
+header, nav, header div {
   display: flex;
+  align-items: center;
+}
+
+header, nav {
+  justify-content: space-around;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  height: 15vh;
+  background-color: black;
+  width: 110%;
+  margin-bottom: 5px;
+}
+
+header img {
+  margin: 0px;
+  margin-right: 1.5vw;
+  height: 15vh;
+}
+
+nav h2 {
+  margin: 15px;
+  cursor: pointer;
+  text-align: center;
+}
+
+nav h2:hover {
+  font-weight: bolder;
+  text-decoration: underline;
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 50px;
   color: white;
-  padding: 0px;
-  width: 50%;
+  letter-spacing: 1.5vw;
 }
 
 h3 {
   font-size: 40px;
 }
 
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  width: 100%;
-  color: white;
-  text-decoration: underline;
-  background-color: rgb(5, 174, 174);
-  border-radius: 5px;
-  margin: 3%;
-}
-
 nav > h2 {
   font-size: 20px;
+  color: white;
 }
 
 #about-us-container {
