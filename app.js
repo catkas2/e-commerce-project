@@ -68,4 +68,3 @@ async function getDBConnection() {
 app.use(express.static('public'));
 const PORT = process.env.PORT || PORT_NUM;
 app.listen(PORT);
-

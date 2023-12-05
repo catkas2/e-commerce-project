@@ -16,7 +16,7 @@
   /** Initializes page by making feedback button work when loading in */
   function init() {
     id('browse-btn').addEventListener('click', scrollToCategories);
-    id("feedback-btn").addEventListener("click", addFeedback);
+    //id("feedback-btn").addEventListener("click", addFeedback);
     id("login").addEventListener("click", handleLogin);
     qs('.cancel').addEventListener('click', () => {
       id('login-popup').classList.add('hidden');
@@ -88,6 +88,5 @@
    */
   function gen(tag) {
     return document.createElement(tag);
-
   }
 })();
