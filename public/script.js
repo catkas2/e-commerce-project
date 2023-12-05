@@ -21,6 +21,7 @@
     qs('.cancel').addEventListener('click', () => {
       id('login-popup').classList.add('hidden');
     });
+    id("shop").addEventListener("click", openAllItems);
   }
 
   /** scrolls webpage to show collections cards */
@@ -51,7 +52,11 @@
    * Handles user login
    */
   function handleLogin() {
-    id("login-popup").classList.remove('hidden');
+    id("login-popup").classList.toggle('hidden');
+  }
+
+  function openAllItems() {
+
   }
 
   /**
