@@ -36,52 +36,86 @@
 
     <div id="browse-container">
       <h2>Flora. Aqua. Terra.</h2>
-      <button id="transparent-btn" class="btn">Browse Our Collections</button>
+      <button class="transparent-btn btn">Browse Our Collections</button>
     </div>
 
+    <div id="about-us-pic">
+      <h2>Who We Are . . . </h2>
+    </div>
+    <div id="about-us-descrip">
+      <h3>Welcome to Aurea Vita. We're glad you're here.</h3>
+      <p>
+        We are
+        Catalina and Liana, dreamers and stewards of Earth's most mesmerizing treasures. Our journey
+        traverses the essence of Terra, the depth of Aqua, and the kaleidoscope of Flora: a
+        tapestry woven with passion and reverence for the planet's wonders.
+      </p>
+      <p>
+        Rooted in the enchanting embrace of the Pacific Northwest, our quest echoes the rhythmic
+        dance of global biodiversity, curating a symphony of life's most captivating pieces
+        exclusively for you. Each specimen, from the rare Siberian Fawn Lily to the ethereal
+        Bohemian Moldevite, whispers a story, painting vibrant narratives that echo the soul of
+        our Earth.
+      </p>
+      <p>
+        Join us on this voyage, as we invite you to infuse your space with the raw, untamed
+        elegance of nature. Embrace the Earth's energy, let the waters speak to your spirit,
+        and allow the lush greenery to weave its magic into the fabric of your home. Aurea
+        Vita is not just a collection; it's an ode to the harmony between humanity and the
+        natural world, beckoning you to create your own sanctuary of wonder and serenity.
+      </p>
+    </div>
 
-    <div id="main-view">
-      <div id="about-us-container">
-        <img src="img/rock1.jpg" alt="an image of a rock with holes">
-        <div>
-          <p>Welcome!</p>
-          <p>
-            We are Catalina and Liana and we are excited to bring you our carefully cultivated
-            collection of natural artifacts. Inspired by [and based in] the natural beauty of the
-            Pacific Northwest, our goal is for life pieces from all around the world to reach
-            <span id="italics">you.</span> From the thousand stars caladium to the common vermont
-            pebble - we offer you the chance to display beautiful pieces of the world in your home.
-          </p>
-        </div>
-      </div>
+    <div id="main-view" class="hidden">
       <h3>New Arrivals</h3>
+
+
       <div id="new-arrivals-items">
-        <section></section>
-        <section></section>
-        <section></section>
-        <section></section>
-        <section></section>
-        <section></section>
-        <section></section>
+        <section class="product-container">
+          <img src="img/plant8.jpg" alt="white flowers">
+          <p>Sample White Flower</p>
+        </section>
+        <section class="product-container">
+          <img src="img/plant8.jpg" alt="white flowers">
+          <p>Sample White Flower</p>
+        </section>
+        <section class="product-container">
+          <img src="img/plant8.jpg" alt="white flowers">
+          <p>Sample White Flower</p>
+        </section>
+        <section class="product-container">
+          <img src="img/plant8.jpg" alt="white flowers">
+          <p>Sample White Flower</p>
+        </section>
+        <section class="product-container">
+          <img src="img/plant8.jpg" alt="white flowers">
+          <p>Sample White Flower</p>
+        </section>
+        <section class="product-container">
+          <img src="img/plant8.jpg" alt="white flowers">
+          <p>Sample White Flower</p>
+        </section>
+        <section class="product-container">
+          <img src="img/plant8.jpg" alt="white flowers">
+          <p>Sample White Flower</p>
+        </section>
       </div>
-      <h3>Product Selection</h3>
+
+
+      <h3>Collections</h3>
       <div id="product-category-cards">
         <!--change img sources here-->
         <div id="plants">
-          <p>Flora</p>
-          <img src="img/plant1.jpg" alt="an image of a plant">
+          <h3>Flora</h3>
+          <button class="transparent-btn btn">Smell the Flowers</button>
         </div>
         <div id="rocks">
-          <p>Terra</p>
-          <img src="img/rock2.jpg" alt="an image of rocks">
+          <h3>Terra</h3>
+          <button class="transparent-btn btn">Climb a Mountain</button>
         </div>
-        <div id="hikes">
-          <p>Aqua</p>
-          <img src="img/nature3.jpg" alt="an image of rocks and a stream">
-        </div>
-        <div id="views">
-          <p>Views</p>
-          <img src="img/view1.jpg" alt="a view of buildings from high up">
+        <div id="water">
+          <h3>Aqua</h3>
+          <button class="transparent-btn btn">Take a Dip</button>
         </div>
       </div>
       <h3>Submit a Review!</h3>
@@ -91,6 +125,7 @@
         <article id="posts"></article>
       </section>
     </div>
+
     <div id="all-products">
       <section></section>
       <section></section>
@@ -111,20 +146,11 @@
         <button>Single Purchase</button>
       </section>
     </div>
-    <!--
-      <div id="login-view">
-      <h3>Login to Your Account</h3>
-      <textarea id="user">Username</textarea>
-      <textarea id="pass">Password</textarea>
-      <button id="login-btn">Log In</button>
-      <button id="create-user">Create User</button>
-    </div>
-    -->
 
     <!--alternative for login view-->
     <div id="login-popup" class="hidden">
       <form id="form-container">
-        <h3>Log In to Your Account</h3>
+        <h3>Log In</h3>
         <label for="username">Username</label>
         <input id="username" type="text" placeholder="Enter Username" name="username">
 
@@ -133,7 +159,7 @@
 
         <button type="submit" class="btn">Log in</button>
         <button type="button" class="btn cancel">Close</button>
-        <p>Don't have an account with us? Create one <span id="create-account">here</span></p>
+        <p>Don't have an account with us? Create one <span id="create-account">here.</span></p>
       </form>
     </div>
 

@@ -73,7 +73,7 @@ nav > h2 {
   background-size: cover;
   background-position: center;
   width: 110%;
-  height: 600px;
+  height: 700px;
   margin-bottom: 20px;
   color: white;
   align-items: center;
@@ -81,7 +81,7 @@ nav > h2 {
   flex-direction: column;
 }
 
-#transparent-btn {
+.transparent-btn {
   cursor: pointer;
   border: 1px solid white;
   background-color: transparent;
@@ -92,7 +92,29 @@ nav > h2 {
   font-size: 18px;
 }
 
-#transparent-btn:hover {
+#about-us-pic {
+  display: flex;
+  background-image: url('img/whoweare.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 110%;
+  height: 400px;
+  margin-bottom: 20px;
+  color: white;
+  font-weight: bolder;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#about-us-descrip {
+  width: 70%;
+  color: white;
+  margin: 20px;
+  font-size: 28px;
+}
+
+.transparent-btn:hover {
   transform: scale(1.1);
 }
 
@@ -114,7 +136,6 @@ nav > h2 {
 }
 
 #main-view > div {
-  background-color: rgb(5, 174, 174);
   border-radius: 5px;
 }
 
@@ -122,12 +143,56 @@ nav > h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  width: 110%;
 }
 
-#product-category-cards > div > img {
-  height: 250px;
-  width: 250px;
+#product-category-cards > div {
+  height: 450px;
+  width: 350px;
   padding: 10px;
+  margin: 20px;
+}
+
+#plants {
+  display: flex;
+  background-image: url('img/plant1.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 500px;
+  height: 600px;
+  margin-bottom: 20px;
+  align-items: center;
+  font-weight: bolder;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#rocks {
+  display: flex;
+  background-image: url('img/rock2.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 500px;
+  height: 600px;
+  margin-bottom: 20px;
+  align-items: center;
+  font-weight: bolder;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#water {
+  display: flex;
+  background-image: url('img/aqua.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 500px;
+  height: 600px;
+  margin-bottom: 20px;
+  align-items: center;
+  font-weight: bolder;
+  justify-content: center;
+  flex-direction: column;
 }
 
 #main-view {
@@ -140,7 +205,7 @@ nav > h2 {
   color: white;
 }
 
-#all-products, #new-arrivals-items, #product-container {
+#all-products, #product-container {
   display: flex;
   flex-wrap: wrap;
   margin: 1%;
@@ -151,7 +216,7 @@ nav > h2 {
   border: 2vw;
 }
 
-#all-products > section, #new-arrivals-items > section {
+#all-products > section {
   margin: 10px;
   height: 300px;
   width: 200px;
@@ -159,6 +224,32 @@ nav > h2 {
   flex-direction: column;
   border: 10px;
   border-radius: 5px;
+}
+
+#new-arrivals-items {
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+  background-color: #3A3B3C;
+}
+
+.product-container {
+  display: inline-block;
+  width: 300px;
+  height: 400px;
+  margin: 20px;
+  text-align: center;
+  font-size: 25px;
+}
+
+.product-container img {
+  height: 400px;
+  width: 300px;
+}
+
+.product-container img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 #good-reviews {
@@ -223,19 +314,22 @@ footer {
   position: fixed;
   bottom: 0;
   right: 15px;
-  border: 4px solid #f1f1f1;
+  border: 2px solid white;
   z-index: 9;
+  margin: 5px;
 }
 
 #form-container {
+  margin: 2px;
   max-width: 300px;
   padding: 10px;
   background-color: white;
 }
 
-#username, #password {
-  width: 100%;
-  padding: 15px;
+#username, #psw {
+  width: 90%;
+  height: 30px;
+  padding: 15px 20px;
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
@@ -246,8 +340,19 @@ footer {
   outline: none;
 }
 
+#create-account {
+  color: black;
+  font-weight: bolder;
+}
+
+#create-account:hover {
+  font-size: 22px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #form-container .btn {
-  background-color: #04AA6D;
+  background-color: #3A3B3C;
   color: white;
   padding: 16px 20px;
   border: none;
@@ -258,7 +363,7 @@ footer {
 }
 
 #form-container .cancel {
-  background-color: red;
+  background-color: black;
 }
 
 #form-container .btn:hover {
