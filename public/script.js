@@ -12,13 +12,11 @@
   window.addEventListener("load", init);
   let numOfEntry = 0;
   const MAX_ENTRIES = 5;
+  const DATABASE_SIZE = 25;
 
-  // maybe initalize by getting database items all setup, then filtering based on button click
-  // instead of initalize by clicking buttons
-
-  /** Initializes page by making feedback button work when loading in */
+  /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
-    //requestDatabaseInfo();
+    requestInitializeItems();
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
     id("login").addEventListener("click", handleLogin);
@@ -70,49 +68,84 @@
   /** Changes view to see all products and closes all other views */
   function openShopItems(category) {
     id("login-popup").classList.add("hidden");
-    id("browse-container").classList.add("hidden");
     id("main-view").classList.add("hidden");
     id("product-view").classList.add("hidden");
     id("cart").classList.add("hidden");
     id("user-info").classList.add("hidden");
-    //requestDatabaseInfo(category);
+    id("all-products").classList.remove("hidden");
+    //requestFilteredDatabase(category);
   }
 
-  function requestDatabaseInfo(category) {
-    fetch('artifact/items?search=' + category)
+  /**
+   * Fetches information requested from search bar
+   * @param {String} category - type of item being searched for
+   */
+  function requestFilteredDatabase(category) {
+    fetch('artifact/items=?' + category)
+      .then(statusCheck)
+      .then(res => res.json())
+      .then(filterItems)
+      .catch(handleError);
+  }
+
+  /** Filters through items on website by type */
+  function filterItems(res) {
+    let filteredItems = [];
+    for (let i = 0; i < res.length; i++) {
+      filteredItems.push(res[i].item_name);
+    }
+    for (let i = 0; i < DATABASE_SIZE; i++) {
+      // go through all products, if the item is in the database add view
+      // otherwise remove from view
+      // !! Might need to make product container for recent
+      // items different from the container used to shop all items
+    }
+  }
+
+  /** Fetches all items */
+  function requestInitializeItems() {
+    fetch('artifact/items')
       .then(statusCheck)
       .then(res => res.json())
       .then(getItems)
       .catch(handleError);
-    // if blank, filter for all data otherwise only get category data
-    // when creating each icon for item, make event listener
   }
 
+  /**
+   * Uses all items obtained through database and adds them to website
+   * @param {JSON} res - represents all items being sold on website
+   */
   function getItems(res) {
-    for (let i = 0; i < res.id.length; i++) {
+    for (let i = 0; i < res.length; i++) {
       let item = gen('section');
       let itemImg = gen('img');
       let itemName = gen('p');
+      itemImg.src = "img/plant8.jpg";
       item.classList.add("product-container");
-      itemName.textContent = res.item_name;
+      itemName.textContent = res[i].item_name;
+      item.setAttribute("id",res[i].item_name);
       item.appendChild(itemImg);
       item.appendChild(itemName);
       id("all-products").appendChild(item);
     }
   }
 
+  /** Helper function to sort items by plant type */
   function openPlantItems() {
     openShopItems("plant");
   }
 
+    /** Helper function to sort items by rock type */
   function openRockItems() {
     openShopItems("rock");
   }
 
+  /** Helper function to sort items by water type */
   function openWaterItems() {
     openShopItems("water");
   }
 
+  /** Allows user to create an account */
   function createAccount() {
     id("create-text").classList.add("hidden");
     id("create-account-text").classList.remove("hidden");

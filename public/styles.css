@@ -202,7 +202,7 @@ nav > h2 {
   color: white;
 }
 
-#flex-all-products, #product-container {
+#all-products, #product-container {
   display: flex;
   flex-wrap: wrap;
   margin: 1%;
@@ -213,7 +213,7 @@ nav > h2 {
   border: 2vw;
 }
 
-#flex-all-products > section {
+#all-products > section {
   margin: 10px;
   height: 300px;
   width: 200px;
@@ -304,12 +304,12 @@ footer h4 {
   font-size: 12px;
 }
 
-#flex-all-products, #flex-product-view, #login-view, #cart, #user-info {
+#all-products, #product-view, #login-view, #cart, #user-info {
   background-color: white;
   margin: 2.5%;
 }
 
-#flex-product-view {
+#product-view {
   display: flex;
   margin: 2.5%;
   width: 100%;
@@ -322,7 +322,7 @@ footer h4 {
   padding: 2.5%;
 }
 
-#flex-product-view > img {
+#product-view > img {
   padding: 2.5%;
   width: 370px;
   height: 480px;
