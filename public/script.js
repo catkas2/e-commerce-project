@@ -13,8 +13,12 @@
   let numOfEntry = 0;
   const MAX_ENTRIES = 5;
 
+  // maybe initalize by getting database items all setup, then filtering based on button click
+  // instead of initalize by clicking buttons
+
   /** Initializes page by making feedback button work when loading in */
   function init() {
+    //requestDatabaseInfo();
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
     id("login").addEventListener("click", handleLogin);
@@ -71,12 +75,30 @@
     id("product-view").classList.add("hidden");
     id("cart").classList.add("hidden");
     id("user-info").classList.add("hidden");
-    requestDatabaseInfo(category);
+    //requestDatabaseInfo(category);
   }
 
   function requestDatabaseInfo(category) {
+    fetch('artifact/items?search=' + category)
+      .then(statusCheck)
+      .then(res => res.json())
+      .then(getItems)
+      .catch(handleError);
     // if blank, filter for all data otherwise only get category data
     // when creating each icon for item, make event listener
+  }
+
+  function getItems(res) {
+    for (let i = 0; i < res.id.length; i++) {
+      let item = gen('section');
+      let itemImg = gen('img');
+      let itemName = gen('p');
+      item.classList.add("product-container");
+      itemName.textContent = res.item_name;
+      item.appendChild(itemImg);
+      item.appendChild(itemName);
+      id("all-products").appendChild(item);
+    }
   }
 
   function openPlantItems() {
@@ -97,6 +119,25 @@
     id("login-text").textContent = "Create an Account";
     id("login-btn").textContent = "Create an Account";
     //everything reguarding creating an account must happen here
+  }
+
+    /** Disables functionality of page and displays error for user */
+    function handleError() {
+      //disable everything and provide error message for user
+    }
+
+/**
+  * Helper function to return the response's result text if successful, otherwise
+  * returns the rejected Promise result with an error status and corresponding text
+  * @param {object} res - response to check for success/error
+  * @return {object} - valid response if response was successful, otherwise rejected
+  *                    Promise result
+  */
+  async function statusCheck(res) {
+    if (!res.ok) {
+      throw new Error(await res.text());
+    }
+    return res;
   }
 
   /**

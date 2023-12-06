@@ -18,9 +18,9 @@ const SERVER_ERR_CODE = 500;
 // get either all items, or items that match a search query param
 app.get('/artifact/items', async (req, res) => {
   try {
-    let db = await getDBConnection();
     let query;
     let data;
+    let db = await getDBConnection();
     if (req.query.search) {
       let search = `%${req.query.search}%`;
       query = 'SELECT * FROM items WHERE item_name LIKE ? ORDER BY id';
@@ -29,6 +29,7 @@ app.get('/artifact/items', async (req, res) => {
       query = 'SELECT * FROM items';
       data = await db.all(query);
     }
+    await db.close();
     res.json(data);
   } catch (err) {
     res.status(SERVER_ERR_CODE)
@@ -40,10 +41,10 @@ app.get('/artifact/items', async (req, res) => {
 // get all items in a specified category
 app.get('/artifact/collection/:collection', async (req, res) => {
   try {
-    let db = await getDBConnection();
     let collection = req.params.collection;
     let query;
     let data;
+    let db = await getDBConnection();
     if (collection === 'recents') {
       query = 'SELECT * FROM items ORDER BY id DESC LIMIT 5';
       data = await db.all(query);
@@ -51,7 +52,39 @@ app.get('/artifact/collection/:collection', async (req, res) => {
       query = 'SELECT * FROM items WHERE category = ?';
       data = await db.all(query, collection);
     }
+    await db.close();
     res.json(data);
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('didnt work :<');
+  }
+});
+
+// add feedback to a specific item
+app.get('/artifact/feedback/:item', async (req, res) => {
+  try {
+    let item = req.params.item;
+    let query = 'SELECT * FROM feedback WHERE item_id=? ORDER BY DATETIME(date) DESC';
+    let db = await getDBConnection();
+    let data = await db.all(query, item);
+    await db.close();
+    res.json(data);
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('didnt work :<');
+  }
+});
+
+// get feedback from specific item
+app.get('/artifact/feedback', async (req, res) => {
+  try {
+    let query = 'INSERT INTO feedback(id, user_id, item_id, feedback, date) VAUES(?, ?, ?, ?, ?)';
+    let addedValues = [];
+    let db = await getDBConnection();
+    await db.run(query, addedValues);
+    await db.close();
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type('text')
