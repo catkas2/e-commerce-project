@@ -59,7 +59,7 @@ app.get('/artifact/collection/:collection', async (req, res) => {
  */
 async function getDBConnection() {
   const db = await sqlite.open({
-    filename: 'yipper.db',
+    filename: 'artifact.db',
     driver: sqlite3.Database
   });
   return db;

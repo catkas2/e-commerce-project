@@ -28,7 +28,6 @@
     id("plant-btn").addEventListener("click", openPlantItems);
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
-
   }
 
   /** scrolls webpage to show collections cards */
