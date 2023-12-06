@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-magic-numbers */
 /* eslint-disable no-console */
 /* eslint-disable max-lines-per-function */
 "use strict";
@@ -40,7 +42,7 @@ app.get('/artifact/items', async (req, res) => {
   }
 });
 
-// get all items in a specified category
+// get all items in a specified category OR get 5 most recently added items
 app.get('/artifact/collection/:collection', async (req, res) => {
   try {
     let collection = req.params.collection;
@@ -135,10 +137,10 @@ app.post('/artifact/login', async (req, res) => {
         console.log(password);
         if (correctPsw.password === password) {
           console.log('works');
-          // eslint-disable-next-line max-len
           await db.run('UPDATE credentials SET status = ? WHERE username = ?', ['active', username]);
-          // eslint-disable-next-line max-len
+          console.log('Status updated for user:', username);
           let response = await db.get('SELECT * FROM credentials WHERE username = ?', username);
+          db.close();
           res.json(response);
         } else {
           res.status(400)
@@ -154,7 +156,21 @@ app.post('/artifact/login', async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type('text')
-      .send('didnt work :<');
+      .send('Error logging in user. Please try again later.');
+  }
+});
+
+app.post('/artifact/logout', async (req, res) => {
+  try {
+    let db = await getDBConnection();
+    let username = req.body.username;
+    await db.run('UPDATE credentials SET status = ? WHERE username = ?', ['inactive', username]);
+    console.log('user successfully logged out');
+    res.type('text').send('Sucessfully logged out. Thank you for visiting.');
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('Error logging out. Please try again later');
   }
 });
 
