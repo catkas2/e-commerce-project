@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-lines-per-function */
 "use strict";
 
@@ -130,8 +131,21 @@ app.post('/artifact/login', async (req, res) => {
       } else {
         let pswQuery = 'SELECT password FROM credentials WHERE username LIKE ?';
         let correctPsw = await db.get(pswQuery, username);
-        console.log(correctPsw);
+        console.log(correctPsw.password);
         console.log(password);
+        if (correctPsw.password === password) {
+          console.log('works');
+          // eslint-disable-next-line max-len
+          await db.run('UPDATE credentials SET status = ? WHERE username = ?', ['active', username]);
+          // eslint-disable-next-line max-len
+          let response = await db.get('SELECT * FROM credentials WHERE username = ?', username);
+          res.json(response);
+        } else {
+          res.status(400)
+            .type('text')
+            .send('Incorrect password entered. Try again.');
+        }
+      }
     } else {
       res.status(400)
         .type('text')
