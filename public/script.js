@@ -20,6 +20,9 @@
     id("login").addEventListener("click", handleLogin);
     qs(".cancel").addEventListener("click", () => {
       id("login-popup").classList.add("hidden");
+    qs(".login").addEventListener("click", handleLogin);
+    qs('.cancel').addEventListener('click', () => {
+      id('login-popup').classList.add('hidden');
     });
     id("shop").addEventListener("click", openShopItems);
     id("plant-btn").addEventListener("click", openPlantItems);

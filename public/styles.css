@@ -199,7 +199,6 @@ nav > h2 {
   align-items: center;
   justify-content: center;
   width: 90%;
-  border-radius: 5px;
   color: white;
 }
 
@@ -273,12 +272,36 @@ nav > h2 {
 }
 
 footer {
-  width: 90%;
-  height: 100px;
-  background-color: white;
-  border-radius: 3px;
-  margin: 2.5%;
-  text-align: center;
+  width: 110%;
+  height: 250px;
+  background-color: #ced8c7;
+  color: #3A3B3C;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+footer, footer div {
+  justify-content: space-around;
+}
+
+footer div {
+  display: flex;
+  flex-direction: column;
+}
+
+footer h2 {
+  color: #3A3B3C;
+}
+
+footer h4 {
+  font-size: 28px;
+  margin: 0;
+}
+
+#creds {
+  color: black;
+  font-size: 12px;
 }
 
 #flex-all-products, #flex-product-view, #login-view, #cart, #user-info {
