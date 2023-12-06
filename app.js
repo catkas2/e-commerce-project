@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 "use strict";
 
 const express = require('express');
@@ -101,6 +102,35 @@ app.post('/artifact/newuser', async (req, res) => {
         let result = await db.run(query, [name, email, username, password, 'inactive']);
         let response = await db.get('SELECT * FROM credentials WHERE id = ?', result.lastID);
         res.json(response);
+      }
+    } else {
+      res.status(400)
+        .type('text')
+        .send('Missing one or more params');
+    }
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('didnt work :<');
+  }
+});
+
+app.post('/artifact/login', async (req, res) => {
+  try {
+    let db = await getDBConnection();
+    let username = req.body.username;
+    let password = req.body.password;
+    if (username && password) {
+      let userQuery = 'SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?';
+      let userExists = await db.get(userQuery, username);
+      if (userExists.count === 0) {
+        res.status(400)
+          .type('text')
+          .send('username does not exist. please create an account with us.');
+      } else {
+        let pswQuery = 'SELECT password FROM credentials WHERE username LIKE ?';
+        let correctPsw = await db.get(pswQuery, username);
+        res.json(correctPsw);
       }
     } else {
       res.status(400)
