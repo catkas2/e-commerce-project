@@ -18,16 +18,28 @@
   function init() {
     requestInitializeItems();
     id("browse-btn").addEventListener("click", scrollToCategories);
+
     //id("feedback-btn").addEventListener("click", addFeedback);
-    id("login").addEventListener("click", handleLogin);
+
+    qsa(".login").forEach(element => {
+      element.addEventListener("click", handleLogin);
+    });
     qs(".cancel").addEventListener("click", () => {
       id("login-popup").classList.add("hidden");
     });
-    id("shop").addEventListener("click", openShopItems);
+    qs(".shop").addEventListener("click", openShopItems);
     id("plant-btn").addEventListener("click", openPlantItems);
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
     id("create-account").addEventListener("click", createAccount);
+    id('login-btn').addEventListener("click", event => {
+      event.preventDefault();
+      try {
+        requestLogin();
+      } catch (err) {
+        console.log('login failed');
+      }
+    });
   }
 
   /** scrolls webpage to show collections cards */
@@ -63,6 +75,25 @@
     id("login-text").textContent = "Login";
     id("login-btn").textContent = "Login";
     id("login-popup").classList.toggle("hidden");
+  }
+
+  /**
+   * logs user in
+   */
+   async function requestLogin() {
+    let username = id('username').value;
+    let password = id('psw').value;
+    let params = new FormData();
+    params.append('username', username);
+    params.append('password', password);
+    try {
+      let response = await fetch ('/artifact/login', {method: 'POST', body: params});
+      await statusCheck(response);
+      response = await response.json();
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /** Changes view to see all products and closes all other views */
@@ -154,12 +185,15 @@
     //everything reguarding creating an account must happen here
   }
 
-    /** Disables functionality of page and displays error for user */
-    function handleError() {
-      //disable everything and provide error message for user
-    }
 
-/**
+
+
+  /** Disables functionality of page and displays error for user */
+  function handleError() {
+    //disable everything and provide error message for user
+  }
+
+ /**
   * Helper function to return the response's result text if successful, otherwise
   * returns the rejected Promise result with an error status and corresponding text
   * @param {object} res - response to check for success/error
