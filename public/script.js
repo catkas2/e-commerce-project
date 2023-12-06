@@ -20,15 +20,12 @@
     id("login").addEventListener("click", handleLogin);
     qs(".cancel").addEventListener("click", () => {
       id("login-popup").classList.add("hidden");
-    qs(".login").addEventListener("click", handleLogin);
-    qs('.cancel').addEventListener('click', () => {
-      id('login-popup').classList.add('hidden');
     });
     id("shop").addEventListener("click", openShopItems);
     id("plant-btn").addEventListener("click", openPlantItems);
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
-
+    id("create-account").addEventListener("click", createAccount);
   }
 
   /** scrolls webpage to show collections cards */
@@ -59,6 +56,10 @@
    * Handles user login
    */
   function handleLogin() {
+    id("create-text").classList.remove("hidden");
+    id("create-account-text").classList.add("hidden");
+    id("login-text").textContent = "Login";
+    id("login-btn").textContent = "Login";
     id("login-popup").classList.toggle("hidden");
   }
 
@@ -88,6 +89,14 @@
 
   function openWaterItems() {
     openShopItems("water");
+  }
+
+  function createAccount() {
+    id("create-text").classList.add("hidden");
+    id("create-account-text").classList.remove("hidden");
+    id("login-text").textContent = "Create an Account";
+    id("login-btn").textContent = "Create an Account";
+    //everything reguarding creating an account must happen here
   }
 
   /**

@@ -28,8 +28,8 @@
         <h1>Aurea Vita</h1> <!--This means "golden life" in latin: thought it sounded fancy-->
       </div>
       <nav>
-        <h2 class="shop">Shop All Items</h2>
-        <h2 class="login">Login</h2>
+        <h2 id="shop">Shop All Items</h2>
+        <h2 id="login">Login</h2>
       </nav>
     </header>
 
@@ -110,9 +110,9 @@
           <h3>Aqua</h3>
           <button id="water-btn" class="transparent-btn btn">Take a Dip</button>
         </div>
-        <div id="rocks">
+        <div id="rock">
           <h3>Terra</h3>
-          <button id="terra-btn" class="transparent-btn btn">Climb a Mountain</button>
+          <button id="rock-btn" class="transparent-btn btn">Climb a Mountain</button>
         </div>
       </div>
     </div>
@@ -153,16 +153,27 @@
     <!--alternative for login view-->
     <div id="login-popup" class="hidden">
       <form id="form-container">
-        <h3>Log In</h3>
+        <h3 id="login-text">Log In</h3>
+        <div id="create-account-text" class="hidden">
+          <label for="first-name">First Name</label>
+          <input id="first-name" type="text" placeholder="Enter First Name" name="first-name">
+
+          <label for="last-name">Last Name</label>
+          <input id="last-name" type="text" placeholder="Enter Last Name" name="last-name">
+
+          <label for="email">Email</label>
+          <input id="email" type="text" placeholder="Enter Email" name="email">
+        </div>
+
         <label for="username">Username</label>
         <input id="username" type="text" placeholder="Enter Username" name="username">
 
         <label for="psw">Password</label>
         <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
 
-        <button type="submit" class="btn">Log in</button>
+        <button id="login-btn" type="submit" class="btn">Log in</button>
         <button type="button" class="btn cancel">Close</button>
-        <p>Don't have an account with us? Create one <span id="create-account">here.</span></p>
+        <p id="create-text">Don't have an account with us? Create one <span id="create-account">here.</span></p>
       </form>
     </div>
 

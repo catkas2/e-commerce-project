@@ -165,7 +165,7 @@ nav > h2 {
   flex-direction: column;
 }
 
-#rocks {
+#rock {
   display: flex;
   background-image: url('img/rock2.jpg');
   background-size: cover;
@@ -350,7 +350,7 @@ footer h4 {
   background-color: white;
 }
 
-#username, #psw {
+#username, #psw, #first-name, #last-name, #email {
   width: 90%;
   height: 30px;
   padding: 15px 20px;
