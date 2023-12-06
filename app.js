@@ -77,6 +77,43 @@ app.get('/artifact/feedback/:item', async (req, res) => {
   }
 });
 
+// too many lines in this function --> will fix later, just trying to get it to work.
+app.post('/artifact/newuser', async (req, res) => {
+  try {
+    let db = await getDBConnection();
+    let name = req.body.name;
+    let email = req.body.email;
+    let username = req.body.username;
+    let password = req.body.password;
+    if (name && email && username && password) {
+      let emailQuery = 'SELECT COUNT(*) AS count FROM credentials WHERE email LIKE ?';
+      let emailExists = await db.get(emailQuery, email);
+      let usernameQuery = 'SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?';
+      let userExists = await db.get(usernameQuery, username);
+      if (emailExists.count > 0 || userExists.count > 0) {
+        res.status(400)
+          .type('text')
+          .send('email or username already registered with an account');
+      } else {
+        let query = `INSERT INTO credentials (name, email, username, password, status)
+        VALUES (?, ?, ?, ?, ?)
+        `;
+        let result = await db.run(query, [name, email, username, password, 'inactive']);
+        let response = await db.get('SELECT * FROM credentials WHERE id = ?', result.lastID);
+        res.json(response);
+      }
+    } else {
+      res.status(400)
+        .type('text')
+        .send('Missing one or more params');
+    }
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('didnt work :<');
+  }
+});
+
 // get feedback from specific item
 app.get('/artifact/feedback', async (req, res) => {
   try {
