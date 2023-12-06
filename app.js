@@ -42,8 +42,15 @@ app.get('/artifact/collection/:collection', async (req, res) => {
   try {
     let db = await getDBConnection();
     let collection = req.params.collection;
-    let query = 'SELECT * FROM items WHERE category = ?';
-    let data = await db.all(query, collection);
+    let query;
+    let data;
+    if (collection === 'recents') {
+      query = 'SELECT * FROM items ORDER BY id DESC LIMIT 5';
+      data = await db.all(query);
+    } else {
+      query = 'SELECT * FROM items WHERE category = ?';
+      data = await db.all(query, collection);
+    }
     res.json(data);
   } catch (err) {
     res.status(SERVER_ERR_CODE)
