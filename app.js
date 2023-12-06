@@ -130,8 +130,8 @@ app.post('/artifact/login', async (req, res) => {
       } else {
         let pswQuery = 'SELECT password FROM credentials WHERE username LIKE ?';
         let correctPsw = await db.get(pswQuery, username);
-        res.json(correctPsw);
-      }
+        console.log(correctPsw);
+        console.log(password);
     } else {
       res.status(400)
         .type('text')
