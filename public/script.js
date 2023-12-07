@@ -23,9 +23,7 @@
   function init() {
     requestInitializeItems();
     id("browse-btn").addEventListener("click", scrollToCategories);
-
     //id("feedback-btn").addEventListener("click", addFeedback);
-
     qsa(".login").forEach(element => {
       element.addEventListener("click", handleLogin);
     });
@@ -47,6 +45,16 @@
         console.log('login failed');
       }
     });
+    qs("header div img").addEventListener("click", goHome);
+  }
+
+  /** handles switching to home view  */
+  function goHome() {
+    id("all-products").classList.add("hidden");
+    id("product-view").classList.add("hidden");
+    id("cart").classList.add("hidden");
+    id("browse-container").classList.remove("hidden");
+    id("main-view").classList.remove("hidden");
   }
 
   /** scrolls webpage to show collections cards */
@@ -216,12 +224,22 @@
     for (let i = 0; i < res.length - 1; i++) {
       let item = gen('section');
       let itemImg = gen('img');
+      let itemPrice = gen('p');
       let itemName = gen('p');
       itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
       item.classList.add("product-container");
+      itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
       item.setAttribute("id", res[i].item_name);
+      itemImg.addEventListener('mouseenter', () => {
+        itemImg.src = hoverSrc;
+      });
+      itemImg.addEventListener('mouseleave', () => {
+        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      });
       item.appendChild(itemImg);
+      item.appendChild(itemPrice);
       item.appendChild(itemName);
       id("all-products").appendChild(item);
     }

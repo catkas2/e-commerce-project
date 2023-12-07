@@ -33,12 +33,17 @@ header {
   height: 15vh;
   background-color: black;
   width: 110%;
+  z-index: 10;
 }
 
 header img {
   margin: 0px;
   margin-right: 1.5vw;
   height: 15vh;
+}
+
+header img:hover {
+  cursor: pointer;
 }
 
 #cart-pic {
@@ -234,7 +239,7 @@ nav > h2 {
 
 #all-products > section {
   margin: 10px;
-  height: 500px;
+  height: 600px;
   width: 350px;
   flex-direction: column;
   border: 10px;
@@ -264,7 +269,7 @@ nav > h2 {
 
 .product-container img {
   height: 400px;
-  width: 300px;
+  width: 325px;
 }
 
 .product-container img:hover {
