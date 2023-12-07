@@ -32,7 +32,9 @@
     qs(".cancel").addEventListener("click", () => {
       id("login-popup").classList.add("hidden");
     });
-    qs(".shop").addEventListener("click", openShopItems);
+    qsa(".shop").forEach(element => {
+      element.addEventListener("click", openShopItems);
+    });
     id("plant-btn").addEventListener("click", openPlantItems);
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
@@ -159,7 +161,9 @@
   }
 
   /** Changes view to see all products and closes all other views */
-  function openShopItems(category) {
+  function openShopItems() {
+    console.log('inside open shop');
+    id('browse-container').classList.add('hidden');
     id("login-popup").classList.add("hidden");
     id("main-view").classList.add("hidden");
     id("product-view").classList.add("hidden");
