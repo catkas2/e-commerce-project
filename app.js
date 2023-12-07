@@ -50,7 +50,7 @@ app.get('/artifact/collection/:collection', async (req, res) => {
     let data;
     let db = await getDBConnection();
     if (collection === 'recents') {
-      query = 'SELECT * FROM items ORDER BY id DESC LIMIT 5';
+      query = 'SELECT * FROM items ORDER BY id DESC LIMIT 6';
       data = await db.all(query);
     } else {
       query = 'SELECT * FROM items WHERE category = ?';

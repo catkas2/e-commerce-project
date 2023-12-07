@@ -22,6 +22,7 @@
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
     requestInitializeItems();
+    getRecents();
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
     qsa(".login").forEach(element => {
@@ -102,7 +103,7 @@
     params.append('username', username);
     params.append('password', password);
     try {
-      let response = await fetch ('/artifact/login', {method: 'POST', body: params});
+      let response = await fetch('/artifact/login', {method: 'POST', body: params});
       await statusCheck(response);
       response = await response.json();
       displayLoginView(response);
@@ -221,7 +222,7 @@
    * @param {JSON} res - represents all items being sold on website
    */
   function getItems(res) {
-    for (let i = 0; i < res.length - 1; i++) {
+    for (let i = 1; i < res.length; i++) {
       let item = gen('section');
       let itemImg = gen('img');
       let itemPrice = gen('p');
@@ -242,6 +243,47 @@
       item.appendChild(itemPrice);
       item.appendChild(itemName);
       id("all-products").appendChild(item);
+    }
+  }
+
+  /** this function gets the 5 most recent items  */
+  async function getRecents() {
+    try {
+      let response = await fetch('artifact/collection/recents');
+      await statusCheck(response);
+      response = await response.json();
+      console.log(response);
+      displayRecents(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /** display recently added items --> extremely similar to getItems (FIGURE OUT
+   * A WAY TO REDUCE REDUNDANCY
+  */
+  function displayRecents(res) {
+    for (let i = 1; i < res.length; i++) {
+      let item = gen('section');
+      let itemImg = gen('img');
+      let itemPrice = gen('p');
+      let itemName = gen('p');
+      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
+      item.classList.add("product-container");
+      itemPrice.textContent = "$" + res[i].price;
+      itemName.textContent = res[i].item_name;
+      item.setAttribute("id", res[i].item_name);
+      itemImg.addEventListener('mouseenter', () => {
+        itemImg.src = hoverSrc;
+      });
+      itemImg.addEventListener('mouseleave', () => {
+        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      });
+      item.appendChild(itemImg);
+      item.appendChild(itemPrice);
+      item.appendChild(itemName);
+      id("new-arrivals-items").appendChild(item);
     }
   }
 
