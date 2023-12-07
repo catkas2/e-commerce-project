@@ -90,10 +90,16 @@
       let response = await fetch ('/artifact/login', {method: 'POST', body: params});
       await statusCheck(response);
       response = await response.json();
-      console.log(response);
+      displayLoginView();
     } catch (err) {
       console.log(err);
     }
+  }
+
+  /** updates the dom view to have user information */
+  function displayLoginView(res) {
+    console.log(response);
+    //
   }
 
   /** Changes view to see all products and closes all other views */

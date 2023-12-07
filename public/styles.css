@@ -41,6 +41,18 @@ header img {
   height: 15vh;
 }
 
+#cart-pic {
+  margin: 0px;
+  height: 6vh;
+}
+
+#cart-num {
+  background-color: black;
+  color: white;
+  font-family: inherit;
+  font-size: 24px;
+}
+
 nav h2 {
   margin: 15px;
   cursor: pointer;
@@ -50,6 +62,11 @@ nav h2 {
 nav h2:hover {
   font-weight: bolder;
   text-decoration: underline;
+}
+
+#cart-container {
+  display: flex;
+  justify-content: start;
 }
 
 h1 {
