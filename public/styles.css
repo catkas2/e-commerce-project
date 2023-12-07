@@ -46,10 +46,14 @@ header img {
   height: 6vh;
 }
 
+#cart-pic:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 #cart-num {
   background-color: black;
   color: white;
-  font-family: inherit;
   font-size: 24px;
 }
 
@@ -360,7 +364,7 @@ footer h4 {
   margin: 5px;
 }
 
-#form-container {
+.form-container {
   margin: 2px;
   max-width: 300px;
   padding: 10px;
@@ -392,7 +396,7 @@ footer h4 {
   cursor: pointer;
 }
 
-#form-container .btn {
+.form-container .btn {
   background-color: #3A3B3C;
   color: white;
   padding: 16px 20px;
@@ -403,11 +407,11 @@ footer h4 {
   opacity: 0.8;
 }
 
-#form-container .cancel {
+.form-container .cancel {
   background-color: black;
 }
 
-#form-container .btn:hover {
+.form-container .btn:hover {
   opacity: 1;
 }
 
@@ -437,5 +441,5 @@ footer h4 {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }

@@ -1,3 +1,5 @@
+/* eslint-disable valid-jsdoc */
+/* eslint-disable no-console */
 /*
  * Name: Catalina Kashiwa and Liana Rosado
  * Date: November 5th, 2023
@@ -13,6 +15,9 @@
   let numOfEntry = 0;
   const MAX_ENTRIES = 5;
   const DATABASE_SIZE = 25;
+  let NAME; // current name
+  let USERNAME; // current username
+  let CART; // an array of item ids
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
@@ -90,7 +95,7 @@
       let response = await fetch ('/artifact/login', {method: 'POST', body: params});
       await statusCheck(response);
       response = await response.json();
-      displayLoginView();
+      displayLoginView(response);
     } catch (err) {
       console.log(err);
     }
@@ -98,8 +103,59 @@
 
   /** updates the dom view to have user information */
   function displayLoginView(res) {
-    console.log(response);
-    //
+    console.log(res);
+
+    // set initial login conditions
+    NAME = res.name;
+    USERNAME = res.username;
+    CART = 0;
+
+    // update nav
+    qsa('.login').forEach(element => {
+      element.classList.add('hidden');
+    });
+    qsa('.logout').forEach(element => {
+      element.classList.remove('hidden');
+      element.addEventListener('click', handleLogout);
+    });
+    qsa('.purchases').forEach(element => {
+      element.classList.remove('hidden');
+    });
+    id('cart-container').classList.remove('hidden');
+
+    // clears input boxes and closes login form
+    id('username').value = '';
+    id('psw').value = '';
+    id('login-popup').classList.add('hidden');
+  }
+
+  /** makes request to logout endpoint */
+  async function handleLogout() {
+    let params = new FormData();
+    params.append('username', USERNAME);
+    try {
+      let response = await fetch('/artifact/logout', {method: 'POST', body: params});
+      await statusCheck(response);
+      response = await response.text();
+      logoutView(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /** updates nav for logout */
+  function logoutView(res) {
+    qsa('.login').forEach(element => {
+      element.classList.remove('hidden');
+    });
+    qsa('.logout').forEach(element => {
+      element.classList.add('hidden');
+    });
+    qsa('.purchases').forEach(element => {
+      element.classList.add('hidden');
+    });
+    id('cart-container').classList.add('hidden');
+    console.log(res);
   }
 
   /** Changes view to see all products and closes all other views */
@@ -188,7 +244,8 @@
     id("create-account-text").classList.remove("hidden");
     id("login-text").textContent = "Create an Account";
     id("login-btn").textContent = "Create an Account";
-    //everything reguarding creating an account must happen here
+
+    // everything reguarding creating an account must happen here --> make request to backend
   }
 
 
