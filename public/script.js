@@ -213,14 +213,14 @@
    * @param {JSON} res - represents all items being sold on website
    */
   function getItems(res) {
-    for (let i = 0; i < res.length; i++) {
+    for (let i = 0; i < res.length - 1; i++) {
       let item = gen('section');
       let itemImg = gen('img');
       let itemName = gen('p');
-      itemImg.src = "img/plant8.jpg";
+      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       item.classList.add("product-container");
       itemName.textContent = res[i].item_name;
-      item.setAttribute("id",res[i].item_name);
+      item.setAttribute("id", res[i].item_name);
       item.appendChild(itemImg);
       item.appendChild(itemName);
       id("all-products").appendChild(item);

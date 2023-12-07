@@ -229,19 +229,18 @@ nav > h2 {
   margin: 1%;
   padding: 1%;
   justify-content: space-evenly;
-  border-radius: 5px;
-  background-color: white;
   border: 2vw;
 }
 
 #all-products > section {
   margin: 10px;
-  height: 300px;
-  width: 200px;
-  background-color: purple;
+  height: 500px;
+  width: 350px;
   flex-direction: column;
   border: 10px;
   border-radius: 5px;
+  font-size: 30px;
+  color: white;
 }
 
 /* new arrivals containers and products within the div */
@@ -255,11 +254,12 @@ nav > h2 {
 
 .product-container {
   display: inline-block;
-  width: 300px;
-  height: 400px;
-  margin: 20px;
+  width: 450px;
+  height: 500px;
+  margin: 50px;
   text-align: center;
   font-size: 25px;
+  padding: 20px;
 }
 
 .product-container img {
@@ -268,7 +268,7 @@ nav > h2 {
 }
 
 .product-container img:hover {
-  transform: scale(1.1);
+  transform: scale(1, 1.05);
   cursor: pointer;
 }
 
@@ -325,7 +325,7 @@ footer h4 {
   font-size: 12px;
 }
 
-#all-products, #product-view, #login-view, #cart, #user-info {
+#product-view, #login-view, #cart, #user-info {
   background-color: white;
   margin: 2.5%;
 }
