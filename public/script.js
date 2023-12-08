@@ -57,6 +57,41 @@
     id("cost").querySelectorAll("input").forEach(element => {
       element.addEventListener("click", filterPrice);
     });
+    id("submit-search-btn").addEventListener("click", searchRequest)
+    id("search-bar").addEventListener("input", enableSearch);
+  }
+
+  function searchRequest() {
+    fetch("artifact/items?search=" + id("search-bar").value.trim())
+        .then(statusCheck)
+        .then(res => res.json())
+        .then(filterSearch)
+        .catch(handleError);
+  }
+
+  function filterSearch(res) {
+    id("search-bar").value = "";
+    let filteredItems = [];
+    let allItems = qsa(".product-container");
+    for (let i = 0; i < res.length; i++) {
+      filteredItems.push(res[i].id);
+    }
+    console.log(filteredItems);
+    for (let i = 0; i < DATABASE_SIZE; i++) {
+      if (filteredItems.includes(parseInt(allItems[i].id))) {
+        allItems[i].classList.remove("hidden");
+      } else {
+        allItems[i].classList.add("hidden");
+      }
+    }
+  }
+
+  function enableSearch(e) {
+    if (!e.target.value.trim()) {
+      id("submit-search-btn").disabled = true;
+    } else {
+      id("submit-search-btn").disabled = false;
+    }
   }
 
   function initalizeFilters() {
