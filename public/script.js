@@ -47,12 +47,68 @@
       }
     });
     qs("header div img").addEventListener("click", goHome);
+    id("layout").addEventListener("change", changeLayout);
+    id("filter-by-type").addEventListener("change", filterType);
+    id("filter-by-price").addEventListener("change", filterPrice);
+  }
+
+  /** Filter products by their price */
+  function filterPrice() {
+    let price = id("filter-by-price").value
+    requestFilteredPrice(price);
+  }
+
+  /**
+   * Fetches information requested from price point selected
+   * @param {String} price - price point of item being asked for
+   */
+    function requestFilteredPrice(price) {
+      fetch('artifact/items/' + price)
+        .then(statusCheck)
+        .then(res => res.json())
+        .then(filteredPrice)
+        .catch(handleError);
+    }
+
+    /** Filters through items on website by type */
+    function filteredPrice(res) {
+      let filteredItems = [];
+      let allItems = qsa(".product-container");
+      for (let i = 0; i < res.length; i++) {
+        filteredItems.push(res[i].id);
+      }
+      for (let i = 0; i < DATABASE_SIZE; i++) {
+        if (filteredItems.includes(parseInt(allItems[i].id)) || filteredItems.length === 0) {
+          allItems[i].classList.remove("hidden");
+        } else {
+          allItems[i].classList.add("hidden");
+        }
+      }
+    }
+
+  /** Filter products by their type once past the home page */
+  function filterType() {
+    let type = id("filter-by-type").value
+    requestFilteredDatabase(category);
+  }
+
+  /** Changes product layout from grid to list */
+  function changeLayout() {
+    console.log("test1")
+    if (id("layout").value === "grid") {
+      console.log("test2")
+      id("all-products").classList.remove(".list-view");
+    } else {
+      console.log("test3")
+      id("all-products").classList.add(".list-view");
+    }
   }
 
   /** handles switching to home view  */
   function goHome() {
     id("all-products").classList.add("hidden");
     id("product-view").classList.add("hidden");
+    id("search-filter-function").classList.add("hidden");
     id("cart").classList.add("hidden");
     id("browse-container").classList.remove("hidden");
     id("main-view").classList.remove("hidden");
@@ -182,6 +238,7 @@
     id("cart").classList.add("hidden");
     id("user-info").classList.add("hidden");
     id("browse-container").classList.add("hidden");
+    id("search-filter-function").classList.remove("hidden");
     id("all-products").classList.remove("hidden");
     requestFilteredDatabase(category);
   }

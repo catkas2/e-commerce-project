@@ -102,7 +102,27 @@
       <article id="posts"></article>
     </section>
     -->
-
+    <div id="search-filter-function" class="hidden">
+      <select id="filter-by-type">
+        <option selected>All</option>
+        <option value="flora">Flora</option>
+        <option value="aqua">Aqua</option>
+        <option value="terra">Terra</option>
+      </select>
+      <select id="filter-by-price">
+        <option selected>Any</option>
+        <option value="10">$10</option>
+        <option value="20">$20</option>
+        <option value="30">$30</option>
+        <option value="40">$40</option>
+      </select>
+      <select id="layout">
+        <option value="grid" selected>Grid</option>
+        <option value="list">List</option>
+      </select>
+      <input id="search-bar" type="text" placeholder="Search Items">
+      <button id="submit-search-btn">Search</button>
+    </div>
     <div id="all-products" class="hidden">
     </div>
 

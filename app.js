@@ -42,6 +42,24 @@ app.get('/artifact/items', async (req, res) => {
   }
 });
 
+// gets items with specific price points
+app.get('/artifact/items/:price', async (req, res) => {
+  try {
+    let price = req.params.price;
+    let query;
+    let data;
+    let db = await getDBConnection();
+    query = 'SELECT * FROM items WHERE price <= ?';
+    data = await db.all(query, price);
+    await db.close();
+    res.json(data);
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('didnt work :<');
+  }
+});
+
 // get all items in a specified category OR get 5 most recently added items
 app.get('/artifact/collection/:collection', async (req, res) => {
   try {

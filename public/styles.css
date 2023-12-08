@@ -231,6 +231,7 @@ nav > h2 {
 #all-products, #product-container {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   margin: 1%;
   padding: 1%;
   justify-content: space-evenly;
@@ -241,7 +242,6 @@ nav > h2 {
   margin: 10px;
   height: 600px;
   width: 350px;
-  flex-direction: column;
   border: 10px;
   border-radius: 5px;
   font-size: 30px;
@@ -448,4 +448,8 @@ footer h4 {
 .hidden {
   /* stylelint-disable-next-line declaration-no-important */
   display: none !important;
+}
+
+.list-view {
+  flex-direction: column !important; /*make into column*/
 }
