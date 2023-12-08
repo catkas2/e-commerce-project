@@ -23,6 +23,7 @@
   function init() {
     requestInitializeItems();
     getRecents();
+    // make sure to update filters when page reloads or reset filter
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
     qsa(".login").forEach(element => {
@@ -38,12 +39,12 @@
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
     id("create-account").addEventListener("click", createAccount);
-    id('login-btn').addEventListener("click", event => {
+    id("login-btn").addEventListener("click", event => {
       event.preventDefault();
       try {
         requestLogin();
       } catch (err) {
-        console.log('login failed');
+        console.log("login failed");
       }
     });
     qs("header div img").addEventListener("click", goHome);
@@ -63,7 +64,7 @@
    * @param {String} price - price point of item being asked for
    */
     function requestFilteredPrice(price) {
-      fetch('artifact/items/' + price)
+      fetch("artifact/items/" + price)
         .then(statusCheck)
         .then(res => res.json())
         .then(filteredPrice)
@@ -89,29 +90,30 @@
   /** Filter products by their type once past the home page */
   function filterType() {
     let type = id("filter-by-type").value
-    requestFilteredDatabase(category);
+    requestFilteredDatabase(type);
   }
 
   /** Changes product layout from grid to list */
   function changeLayout() {
-    console.log("test1")
     if (id("layout").value === "grid") {
-      console.log("test2")
-      id("all-products").classList.remove(".list-view");
+      id("all-products").classList.remove("list-view");
     } else {
-      console.log("test3")
-      id("all-products").classList.add(".list-view");
+      id("all-products").classList.add("list-view");
     }
   }
 
   /** handles switching to home view  */
   function goHome() {
     id("all-products").classList.add("hidden");
+    id("all-products").classList.remove("flex");
     id("product-view").classList.add("hidden");
+    id("product-view").classList.remove("flex");
     id("search-filter-function").classList.add("hidden");
     id("cart").classList.add("hidden");
     id("browse-container").classList.remove("hidden");
+    id("browse-container").classList.add("flex");
     id("main-view").classList.remove("hidden");
+    id("main-view").classList.add("flex");
   }
 
   /** scrolls webpage to show collections cards */
@@ -153,13 +155,13 @@
    * logs user in
    */
    async function requestLogin() {
-    let username = id('username').value;
-    let password = id('psw').value;
+    let username = id("username").value;
+    let password = id("psw").value;
     let params = new FormData();
-    params.append('username', username);
-    params.append('password', password);
+    params.append("username", username);
+    params.append("password", password);
     try {
-      let response = await fetch('/artifact/login', {method: 'POST', body: params});
+      let response = await fetch("/artifact/login", {method: "POST", body: params});
       await statusCheck(response);
       response = await response.json();
       displayLoginView(response);
@@ -178,22 +180,22 @@
     CART = 0;
 
     // update nav
-    qsa('.login').forEach(element => {
-      element.classList.add('hidden');
+    qsa(".login").forEach(element => {
+      element.classList.add("hidden");
     });
-    qsa('.logout').forEach(element => {
-      element.classList.remove('hidden');
-      element.addEventListener('click', handleLogout);
+    qsa(".logout").forEach(element => {
+      element.classList.remove("hidden");
+      element.addEventListener("click", handleLogout);
     });
-    qsa('.purchases').forEach(element => {
-      element.classList.remove('hidden');
+    qsa(".purchases").forEach(element => {
+      element.classList.remove("hidden");
     });
-    id('cart-container').classList.remove('hidden');
+    id("cart-container").classList.remove("hidden");
 
     // clears input boxes and closes login form
-    id('username').value = '';
-    id('psw').value = '';
-    id('login-popup').classList.add('hidden');
+    id("username").value = "";
+    id("psw").value = "";
+    id("login-popup").classList.add("hidden");
     id("buy-now").classList.remove("hidden");
     id("buy-now").addEventListener("click", displayBuyView);
     id("login-purchase").classList.add("hidden");
@@ -211,9 +213,9 @@
   /** makes request to logout endpoint */
   async function handleLogout() {
     let params = new FormData();
-    params.append('username', USERNAME);
+    params.append("username", USERNAME);
     try {
-      let response = await fetch('/artifact/logout', {method: 'POST', body: params});
+      let response = await fetch("/artifact/logout", {method: "POST", body: params});
       await statusCheck(response);
       response = await response.text();
       logoutView(response);
@@ -224,16 +226,16 @@
 
   /** updates nav for logout */
   function logoutView(res) {
-    qsa('.login').forEach(element => {
-      element.classList.remove('hidden');
+    qsa(".login").forEach(element => {
+      element.classList.remove("hidden");
     });
-    qsa('.logout').forEach(element => {
-      element.classList.add('hidden');
+    qsa(".logout").forEach(element => {
+      element.classList.add("hidden");
     });
-    qsa('.purchases').forEach(element => {
-      element.classList.add('hidden');
+    qsa(".purchases").forEach(element => {
+      element.classList.add("hidden");
     });
-    id('cart-container').classList.add('hidden');
+    id("cart-container").classList.add("hidden");
     id("buy-now").classList.add("hidden");
     id("login-purchase").classList.remove("hidden");
     console.log(res);
@@ -244,16 +246,20 @@
    * @param {String} category - type of item being searched for
    */
   function openShopItems(category) {
-    console.log('inside open shop');
-    id('browse-container').classList.add('hidden');
+    console.log("inside open shop");
+    id("browse-container").classList.remove("flex");
+    id("browse-container").classList.add("hidden");
     id("login-popup").classList.add("hidden");
+    id("main-view").classList.remove("flex");
     id("main-view").classList.add("hidden");
+    id("product-view").classList.remove("flex");
     id("product-view").classList.add("hidden");
     id("cart").classList.add("hidden");
     id("user-info").classList.add("hidden");
     id("browse-container").classList.add("hidden");
     id("search-filter-function").classList.remove("hidden");
     id("all-products").classList.remove("hidden");
+    id("all-products").classList.add("flex");
     requestFilteredDatabase(category);
   }
 
@@ -262,7 +268,7 @@
    * @param {String} category - type of item being searched for
    */
   function requestFilteredDatabase(category) {
-    fetch('artifact/collection/' + category)
+    fetch("artifact/collection/" + category)
       .then(statusCheck)
       .then(res => res.json())
       .then(filterItems)
@@ -287,7 +293,7 @@
 
   /** Fetches all items */
   function requestInitializeItems() {
-    fetch('artifact/items')
+    fetch("artifact/items")
       .then(statusCheck)
       .then(res => res.json())
       .then(getItems)
@@ -300,20 +306,20 @@
    */
   function getItems(res) {
     for (let i = 1; i < res.length; i++) {
-      let item = gen('section');
-      let itemImg = gen('img');
-      let itemPrice = gen('p');
-      let itemName = gen('p');
+      let item = gen("section");
+      let itemImg = gen("img");
+      let itemPrice = gen("p");
+      let itemName = gen("p");
       itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
       item.classList.add("product-container");
       itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
       item.setAttribute("id", res[i].id);
-      itemImg.addEventListener('mouseenter', () => {
+      itemImg.addEventListener("mouseenter", () => {
         itemImg.src = hoverSrc;
       });
-      itemImg.addEventListener('mouseleave', () => {
+      itemImg.addEventListener("mouseleave", () => {
         itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       });
       item.appendChild(itemImg);
@@ -327,7 +333,7 @@
   /** this function gets the 5 most recent items  */
   async function getRecents() {
     try {
-      let response = await fetch('artifact/collection/recents');
+      let response = await fetch("artifact/collection/recents");
       await statusCheck(response);
       response = await response.json();
       console.log(response);
@@ -342,20 +348,20 @@
   */
   function displayRecents(res) {
     for (let i = 1; i < res.length; i++) {
-      let item = gen('section');
-      let itemImg = gen('img');
-      let itemPrice = gen('p');
-      let itemName = gen('p');
+      let item = gen("section");
+      let itemImg = gen("img");
+      let itemPrice = gen("p");
+      let itemName = gen("p");
       itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
       item.classList.add("new-arrival-product-container");
       itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
       item.setAttribute("id", res[i].id);
-      itemImg.addEventListener('mouseenter', () => {
+      itemImg.addEventListener("mouseenter", () => {
         itemImg.src = hoverSrc;
       });
-      itemImg.addEventListener('mouseleave', () => {
+      itemImg.addEventListener("mouseleave", () => {
         itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       });
       item.appendChild(itemImg);
@@ -369,20 +375,23 @@
   /** displays detailed information about each item */
   function displayItemInfo(res) {
     console.log(res);
-    id("login-popup").classList.add('hidden');
+    id("login-popup").classList.add("hidden");
+    id("main-view").classList.remove("flex");
     id("main-view").classList.add("hidden");
     id("cart").classList.add("hidden");
     id("user-info").classList.add("hidden");
+    id("all-products").classList.remove("flex");
     id("all-products").classList.add("hidden");
     id("product-view").classList.remove("hidden");
+    id("product-view").classList.add("flex");
     id("item-name").textContent = res.item_name;
     id("item-cost").textContent = "$" + res.price;
     qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
     let hoverSrc = "img/" + res.shortname + "2.jpeg";
-    qs("#product-view img").addEventListener('mouseenter', () => {
+    qs("#product-view img").addEventListener("mouseenter", () => {
       qs("#product-view img").src = hoverSrc;
     });
-    qs("#product-view img").addEventListener('mouseleave', () => {
+    qs("#product-view img").addEventListener("mouseleave", () => {
       qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
     });
     id("item-description").textContent = res.description;
@@ -422,7 +431,7 @@
   }
 
  /**
-  * Helper function to return the response's result text if successful, otherwise
+  * Helper function to return the response"s result text if successful, otherwise
   * returns the rejected Promise result with an error status and corresponding text
   * @param {object} res - response to check for success/error
   * @return {object} - valid response if response was successful, otherwise rejected

@@ -15,7 +15,7 @@ body {
   background-color: #3A3B3C;
   color: #3A3B3C;
   flex-direction: column;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
 }
 
 header, nav, header div {
@@ -94,8 +94,7 @@ nav > h2 {
 }
 
 #browse-container {
-  display: flex;
-  background-image: url('img/background-home.jpg');
+  background-image: url("img/background-home.jpg");
   background-size: cover;
   background-position: center;
   width: 110%;
@@ -120,7 +119,7 @@ nav > h2 {
 
 #about-us-pic {
   display: flex;
-  background-image: url('img/whoweare.jpg');
+  background-image: url("img/whoweare.jpg");
   background-size: cover;
   background-position: center;
   width: 120%;
@@ -179,7 +178,7 @@ nav > h2 {
 
 #plants {
   display: flex;
-  background-image: url('img/plant1.jpg');
+  background-image: url("img/plant1.jpg");
   background-size: cover;
   background-position: center;
   width: 500px;
@@ -193,7 +192,7 @@ nav > h2 {
 
 #rock {
   display: flex;
-  background-image: url('img/rock2.jpg');
+  background-image: url("img/rock2.jpg");
   background-size: cover;
   background-position: center;
   width: 500px;
@@ -207,7 +206,7 @@ nav > h2 {
 
 #water {
   display: flex;
-  background-image: url('img/aqua.jpg');
+  background-image: url("img/aqua.jpg");
   background-size: cover;
   background-position: center;
   width: 500px;
@@ -221,7 +220,6 @@ nav > h2 {
 
 #main-view {
   flex-direction: column;
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 90%;
@@ -229,7 +227,6 @@ nav > h2 {
 }
 
 #all-products, #product-container {
-  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   margin: 1%;
@@ -336,7 +333,6 @@ footer h4 {
 }
 
 #product-view {
-  display: flex;
   margin: 2.5%;
   width: 100%;
   justify-content: left;
@@ -481,9 +477,13 @@ hr {
   width: 900px;
 }
 
+.flex {
+  display: flex;
+}
+
 .hidden {
   /* stylelint-disable-next-line declaration-no-important */
-  display: none !important;
+  display: none;
 }
 
 .list-view {
