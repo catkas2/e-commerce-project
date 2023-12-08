@@ -1,3 +1,5 @@
+/* eslint-disable valid-jsdoc */
+/* eslint-disable no-console */
 /*
  * Name: Catalina Kashiwa and Liana Rosado
  * Date: November 5th, 2023
@@ -13,21 +15,47 @@
   let numOfEntry = 0;
   const MAX_ENTRIES = 5;
   const DATABASE_SIZE = 25;
+  let NAME; // current name
+  let USERNAME; // current username
+  let CART; // an array of item ids
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
     requestInitializeItems();
+    getRecents();
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
-    id("login").addEventListener("click", handleLogin);
+    qsa(".login").forEach(element => {
+      element.addEventListener("click", handleLogin);
+    });
     qs(".cancel").addEventListener("click", () => {
       id("login-popup").classList.add("hidden");
     });
-    id("shop").addEventListener("click", openShopItems);
+    qsa(".shop").forEach(element => {
+      element.addEventListener("click", openShopItems);
+    });
     id("plant-btn").addEventListener("click", openPlantItems);
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
     id("create-account").addEventListener("click", createAccount);
+    id('login-btn').addEventListener("click", event => {
+      event.preventDefault();
+      try {
+        requestLogin();
+      } catch (err) {
+        console.log('login failed');
+      }
+    });
+    qs("header div img").addEventListener("click", goHome);
+  }
+
+  /** handles switching to home view  */
+  function goHome() {
+    id("all-products").classList.add("hidden");
+    id("product-view").classList.add("hidden");
+    id("cart").classList.add("hidden");
+    id("browse-container").classList.remove("hidden");
+    id("main-view").classList.remove("hidden");
   }
 
   /** scrolls webpage to show collections cards */
@@ -65,8 +93,86 @@
     id("login-popup").classList.toggle("hidden");
   }
 
+  /**
+   * logs user in
+   */
+   async function requestLogin() {
+    let username = id('username').value;
+    let password = id('psw').value;
+    let params = new FormData();
+    params.append('username', username);
+    params.append('password', password);
+    try {
+      let response = await fetch('/artifact/login', {method: 'POST', body: params});
+      await statusCheck(response);
+      response = await response.json();
+      displayLoginView(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /** updates the dom view to have user information */
+  function displayLoginView(res) {
+    console.log(res);
+
+    // set initial login conditions
+    NAME = res.name;
+    USERNAME = res.username;
+    CART = 0;
+
+    // update nav
+    qsa('.login').forEach(element => {
+      element.classList.add('hidden');
+    });
+    qsa('.logout').forEach(element => {
+      element.classList.remove('hidden');
+      element.addEventListener('click', handleLogout);
+    });
+    qsa('.purchases').forEach(element => {
+      element.classList.remove('hidden');
+    });
+    id('cart-container').classList.remove('hidden');
+
+    // clears input boxes and closes login form
+    id('username').value = '';
+    id('psw').value = '';
+    id('login-popup').classList.add('hidden');
+  }
+
+  /** makes request to logout endpoint */
+  async function handleLogout() {
+    let params = new FormData();
+    params.append('username', USERNAME);
+    try {
+      let response = await fetch('/artifact/logout', {method: 'POST', body: params});
+      await statusCheck(response);
+      response = await response.text();
+      logoutView(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /** updates nav for logout */
+  function logoutView(res) {
+    qsa('.login').forEach(element => {
+      element.classList.remove('hidden');
+    });
+    qsa('.logout').forEach(element => {
+      element.classList.add('hidden');
+    });
+    qsa('.purchases').forEach(element => {
+      element.classList.add('hidden');
+    });
+    id('cart-container').classList.add('hidden');
+    console.log(res);
+  }
+
   /** Changes view to see all products and closes all other views */
-  function openShopItems(category) {
+  function openShopItems() {
+    console.log('inside open shop');
+    id('browse-container').classList.add('hidden');
     id("login-popup").classList.add("hidden");
     id("main-view").classList.add("hidden");
     id("product-view").classList.add("hidden");
@@ -117,17 +223,68 @@
    * @param {JSON} res - represents all items being sold on website
    */
   function getItems(res) {
-    for (let i = 0; i < res.length; i++) {
+    for (let i = 1; i < res.length; i++) {
       let item = gen('section');
       let itemImg = gen('img');
+      let itemPrice = gen('p');
       let itemName = gen('p');
-      itemImg.src = "img/plant8.jpg";
+      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
       item.classList.add("product-container");
+      itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
-      item.setAttribute("id",res[i].item_name);
+      item.setAttribute("id", res[i].item_name);
+      itemImg.addEventListener('mouseenter', () => {
+        itemImg.src = hoverSrc;
+      });
+      itemImg.addEventListener('mouseleave', () => {
+        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      });
       item.appendChild(itemImg);
+      item.appendChild(itemPrice);
       item.appendChild(itemName);
       id("all-products").appendChild(item);
+    }
+  }
+
+  /** this function gets the 5 most recent items  */
+  async function getRecents() {
+    try {
+      let response = await fetch('artifact/collection/recents');
+      await statusCheck(response);
+      response = await response.json();
+      console.log(response);
+      displayRecents(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /** display recently added items --> extremely similar to getItems (FIGURE OUT
+   * A WAY TO REDUCE REDUNDANCY
+  */
+  function displayRecents(res) {
+    for (let i = 1; i < res.length; i++) {
+      let item = gen('section');
+      let itemImg = gen('img');
+      let itemPrice = gen('p');
+      let itemName = gen('p');
+      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
+      item.classList.add("product-container");
+      itemPrice.textContent = "$" + res[i].price;
+      itemName.textContent = res[i].item_name;
+      item.setAttribute("id", res[i].item_name);
+      itemImg.addEventListener('mouseenter', () => {
+        itemImg.src = hoverSrc;
+      });
+      itemImg.addEventListener('mouseleave', () => {
+        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      });
+      item.appendChild(itemImg);
+      item.appendChild(itemPrice);
+      item.appendChild(itemName);
+      id("new-arrivals-items").appendChild(item);
     }
   }
 
@@ -152,15 +309,19 @@
     id("create-account-text").classList.remove("hidden");
     id("login-text").textContent = "Create an Account";
     id("login-btn").textContent = "Create an Account";
-    //everything reguarding creating an account must happen here
+
+    // everything reguarding creating an account must happen here --> make request to backend
   }
 
-    /** Disables functionality of page and displays error for user */
-    function handleError() {
-      //disable everything and provide error message for user
-    }
 
-/**
+
+
+  /** Disables functionality of page and displays error for user */
+  function handleError() {
+    //disable everything and provide error message for user
+  }
+
+ /**
   * Helper function to return the response's result text if successful, otherwise
   * returns the rejected Promise result with an error status and corresponding text
   * @param {object} res - response to check for success/error

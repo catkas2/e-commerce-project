@@ -33,12 +33,33 @@ header {
   height: 15vh;
   background-color: black;
   width: 110%;
+  z-index: 10;
 }
 
 header img {
   margin: 0px;
   margin-right: 1.5vw;
   height: 15vh;
+}
+
+header img:hover {
+  cursor: pointer;
+}
+
+#cart-pic {
+  margin: 0px;
+  height: 6vh;
+}
+
+#cart-pic:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+#cart-num {
+  background-color: black;
+  color: white;
+  font-size: 24px;
 }
 
 nav h2 {
@@ -50,6 +71,11 @@ nav h2 {
 nav h2:hover {
   font-weight: bolder;
   text-decoration: underline;
+}
+
+#cart-container {
+  display: flex;
+  justify-content: start;
 }
 
 h1 {
@@ -208,19 +234,18 @@ nav > h2 {
   margin: 1%;
   padding: 1%;
   justify-content: space-evenly;
-  border-radius: 5px;
-  background-color: white;
   border: 2vw;
 }
 
 #all-products > section {
   margin: 10px;
-  height: 300px;
-  width: 200px;
-  background-color: purple;
+  height: 600px;
+  width: 350px;
   flex-direction: column;
   border: 10px;
   border-radius: 5px;
+  font-size: 30px;
+  color: white;
 }
 
 /* new arrivals containers and products within the div */
@@ -234,20 +259,21 @@ nav > h2 {
 
 .product-container, .new-arrival-product-container {
   display: inline-block;
-  width: 300px;
-  height: 400px;
-  margin: 20px;
+  width: 450px;
+  height: 500px;
+  margin: 50px;
   text-align: center;
   font-size: 25px;
+  padding: 20px;
 }
 
 .product-container img, .new-arrival-product-container img {
   height: 400px;
-  width: 300px;
+  width: 325px;
 }
 
-.product-container img:hover, .new-arrival-product-container img:hover {
-  transform: scale(1.1);
+.product-container img:hover {
+  transform: scale(1, 1.05);
   cursor: pointer;
 }
 
@@ -304,7 +330,7 @@ footer h4 {
   font-size: 12px;
 }
 
-#all-products, #product-view, #login-view, #cart, #user-info {
+#product-view, #login-view, #cart, #user-info {
   background-color: white;
   margin: 2.5%;
 }
@@ -343,7 +369,7 @@ footer h4 {
   margin: 5px;
 }
 
-#form-container {
+.form-container {
   margin: 2px;
   max-width: 300px;
   padding: 10px;
@@ -375,7 +401,7 @@ footer h4 {
   cursor: pointer;
 }
 
-#form-container .btn {
+.form-container .btn {
   background-color: #3A3B3C;
   color: white;
   padding: 16px 20px;
@@ -386,11 +412,11 @@ footer h4 {
   opacity: 0.8;
 }
 
-#form-container .cancel {
+.form-container .cancel {
   background-color: black;
 }
 
-#form-container .btn:hover {
+.form-container .btn:hover {
   opacity: 1;
 }
 
@@ -420,5 +446,6 @@ footer h4 {
 }
 
 .hidden {
+  /* stylelint-disable-next-line declaration-no-important */
   display: none !important;
 }

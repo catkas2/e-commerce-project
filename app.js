@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-magic-numbers */
+/* eslint-disable no-console */
 /* eslint-disable max-lines-per-function */
 "use strict";
 
@@ -39,7 +42,7 @@ app.get('/artifact/items', async (req, res) => {
   }
 });
 
-// get all items in a specified category
+// get all items in a specified category OR get 5 most recently added items
 app.get('/artifact/collection/:collection', async (req, res) => {
   try {
     let collection = req.params.collection;
@@ -47,7 +50,7 @@ app.get('/artifact/collection/:collection', async (req, res) => {
     let data;
     let db = await getDBConnection();
     if (collection === 'recents') {
-      query = 'SELECT * FROM items ORDER BY id DESC LIMIT 5';
+      query = 'SELECT * FROM items ORDER BY id DESC LIMIT 6';
       data = await db.all(query);
     } else {
       query = 'SELECT * FROM items WHERE category = ?';
@@ -130,7 +133,20 @@ app.post('/artifact/login', async (req, res) => {
       } else {
         let pswQuery = 'SELECT password FROM credentials WHERE username LIKE ?';
         let correctPsw = await db.get(pswQuery, username);
-        res.json(correctPsw);
+        console.log(correctPsw.password);
+        console.log(password);
+        if (correctPsw.password === password) {
+          console.log('works');
+          await db.run('UPDATE credentials SET status = ? WHERE username = ?', ['active', username]);
+          console.log('Status updated for user:', username);
+          let response = await db.get('SELECT * FROM credentials WHERE username = ?', username);
+          db.close();
+          res.json(response);
+        } else {
+          res.status(400)
+            .type('text')
+            .send('Incorrect password entered. Try again.');
+        }
       }
     } else {
       res.status(400)
@@ -140,7 +156,21 @@ app.post('/artifact/login', async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type('text')
-      .send('didnt work :<');
+      .send('Error logging in user. Please try again later.');
+  }
+});
+
+app.post('/artifact/logout', async (req, res) => {
+  try {
+    let db = await getDBConnection();
+    let username = req.body.username;
+    await db.run('UPDATE credentials SET status = ? WHERE username = ?', ['inactive', username]);
+    console.log('user successfully logged out');
+    res.type('text').send('Sucessfully logged out. Thank you for visiting.');
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('Error logging out. Please try again later');
   }
 });
 
