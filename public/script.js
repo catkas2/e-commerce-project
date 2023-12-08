@@ -72,6 +72,7 @@
     id("product-view").classList.add("hidden");
     id("cart").classList.add("hidden");
     id("user-info").classList.add("hidden");
+    id("browse-container").classList.add("hidden");
     id("all-products").classList.remove("hidden");
     //requestFilteredDatabase(category);
   }

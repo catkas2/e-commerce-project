@@ -232,7 +232,7 @@ nav > h2 {
   margin-bottom: 70px;
 }
 
-.product-container {
+.product-container, .new-arrival-product-container {
   display: inline-block;
   width: 300px;
   height: 400px;
@@ -241,12 +241,12 @@ nav > h2 {
   font-size: 25px;
 }
 
-.product-container img {
+.product-container img, .new-arrival-product-container img {
   height: 400px;
   width: 300px;
 }
 
-.product-container img:hover {
+.product-container img:hover, .new-arrival-product-container img:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
@@ -420,5 +420,5 @@ footer h4 {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
