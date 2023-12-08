@@ -169,8 +169,11 @@
     console.log(res);
   }
 
-  /** Changes view to see all products and closes all other views */
-  function openShopItems() {
+  /**
+   * Changes view to see all products and closes all other views
+   * @param {String} category - type of item being searched for
+   */
+  function openShopItems(category) {
     console.log('inside open shop');
     id('browse-container').classList.add('hidden');
     id("login-popup").classList.add("hidden");
@@ -180,7 +183,7 @@
     id("user-info").classList.add("hidden");
     id("browse-container").classList.add("hidden");
     id("all-products").classList.remove("hidden");
-    //requestFilteredDatabase(category);
+    requestFilteredDatabase(category);
   }
 
   /**
@@ -188,7 +191,7 @@
    * @param {String} category - type of item being searched for
    */
   function requestFilteredDatabase(category) {
-    fetch('artifact/items=?' + category)
+    fetch('artifact/collection/' + category)
       .then(statusCheck)
       .then(res => res.json())
       .then(filterItems)
@@ -198,14 +201,16 @@
   /** Filters through items on website by type */
   function filterItems(res) {
     let filteredItems = [];
+    let allItems = qsa(".product-container");
     for (let i = 0; i < res.length; i++) {
-      filteredItems.push(res[i].item_name);
+      filteredItems.push(res[i].id);
     }
     for (let i = 0; i < DATABASE_SIZE; i++) {
-      // go through all products, if the item is in the database add view
-      // otherwise remove from view
-      // !! Might need to make product container for recent
-      // items different from the container used to shop all items
+      if (filteredItems.includes(parseInt(allItems[i].id)) || filteredItems.length === 0) {
+        allItems[i].classList.remove("hidden");
+      } else {
+        allItems[i].classList.add("hidden");
+      }
     }
   }
 
@@ -233,7 +238,7 @@
       item.classList.add("product-container");
       itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
-      item.setAttribute("id", res[i].item_name);
+      item.setAttribute("id", res[i].id);
       itemImg.addEventListener('mouseenter', () => {
         itemImg.src = hoverSrc;
       });
@@ -271,10 +276,10 @@
       let itemName = gen('p');
       itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
-      item.classList.add("product-container");
+      item.classList.add("new-arrival-product-container");
       itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
-      item.setAttribute("id", res[i].item_name);
+      item.setAttribute("id", res[i].id);
       itemImg.addEventListener('mouseenter', () => {
         itemImg.src = hoverSrc;
       });
@@ -290,17 +295,17 @@
 
   /** Helper function to sort items by plant type */
   function openPlantItems() {
-    openShopItems("plant");
+    openShopItems("flora");
   }
 
     /** Helper function to sort items by rock type */
   function openRockItems() {
-    openShopItems("rock");
+    openShopItems("terra");
   }
 
   /** Helper function to sort items by water type */
   function openWaterItems() {
-    openShopItems("water");
+    openShopItems("aqua");
   }
 
   /** Allows user to create an account */

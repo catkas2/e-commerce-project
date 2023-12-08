@@ -272,7 +272,7 @@ nav > h2 {
   width: 325px;
 }
 
-.product-container img:hover {
+.product-container img:hover, .new-arrivals-product-container img:hover {
   transform: scale(1, 1.05);
   cursor: pointer;
 }
