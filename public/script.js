@@ -18,11 +18,13 @@
   let NAME; // current name
   let USERNAME; // current username
   let CART; // an array of item ids
+  let checked;
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
     requestInitializeItems();
     getRecents();
+    initalizeFilters();
     // make sure to update filters when page reloads or reset filter
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
@@ -49,14 +51,27 @@
     });
     qs("header div img").addEventListener("click", goHome);
     id("layout").addEventListener("change", changeLayout);
-    id("filter-by-type").addEventListener("change", filterType);
-    id("filter-by-price").addEventListener("change", filterPrice);
+    id("category").querySelectorAll("input").forEach(element => {
+      element.addEventListener("click", filterType);
+    });
+    id("cost").querySelectorAll("input").forEach(element => {
+      element.addEventListener("click", filterPrice);
+    });
+  }
+
+  function initalizeFilters() {
+    id("category").querySelectorAll("input").forEach(element => {
+      element.checked = true;
+    });
+    id("cost").querySelectorAll("input").forEach(element => {
+      element.checked = true;
+    });
   }
 
   /** Filter products by their price */
   function filterPrice() {
-    let price = id("filter-by-price").value
-    requestFilteredPrice(price);
+    requestFilteredPrice(this.value);
+    checked = this.checked;
   }
 
   /**
@@ -79,18 +94,22 @@
         filteredItems.push(res[i].id);
       }
       for (let i = 0; i < DATABASE_SIZE; i++) {
-        if (filteredItems.includes(parseInt(allItems[i].id)) || filteredItems.length === 0) {
-          allItems[i].classList.remove("hidden");
-        } else {
-          allItems[i].classList.add("hidden");
+        if (filteredItems.includes(parseInt(allItems[i].id))) {
+          if (checked) {
+            allItems[i].classList.remove("hidden");
+            console.log("unhide");
+          } else {
+            allItems[i].classList.add("hidden");
+            console.log("hide");
+          }
         }
       }
     }
 
   /** Filter products by their type once past the home page */
   function filterType() {
-    let type = id("filter-by-type").value
-    requestFilteredDatabase(type);
+    requestFilteredDatabase(this.value);
+    checked = this.checked;
   }
 
   /** Changes product layout from grid to list */
@@ -285,10 +304,12 @@
       filteredItems.push(res[i].id);
     }
     for (let i = 0; i < DATABASE_SIZE; i++) {
-      if (filteredItems.includes(parseInt(allItems[i].id)) || filteredItems.length === 0) {
-        allItems[i].classList.remove("hidden");
-      } else {
-        allItems[i].classList.add("hidden");
+      if (filteredItems.includes(parseInt(allItems[i].id))) {
+        if (checked) {
+          allItems[i].classList.remove("hidden");
+        } else {
+          allItems[i].classList.add("hidden");
+        }
       }
     }
   }

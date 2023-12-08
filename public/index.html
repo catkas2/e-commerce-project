@@ -103,18 +103,17 @@
     </section>
     -->
     <div id="search-filter-function" class="hidden">
-      <select id="filter-by-type">
-        <option selected>All</option>
-        <option value="flora">Flora</option>
-        <option value="aqua">Aqua</option>
-        <option value="terra">Terra</option>
-      </select>
-      <select id="filter-by-price">
-        <option selected>Any</option>
-        <option value="10">$10</option>
-        <option value="20">$20</option>
-        <option value="30">$30</option>
-        <option value="40">$40</option>
+      <div id="category">
+        <input type ="checkbox" value="flora">Flora</option>
+        <input type ="checkbox" value="aqua">Aqua</option>
+        <input type ="checkbox" value="terra">Terra</option>
+      </div>
+      <div id="cost">
+        <input type ="checkbox" value="10">Between $0 - $10</option>
+        <input type ="checkbox" value="20">Between $10 - $20</option>
+        <input type ="checkbox" value="30">Between $20 - $30</option>
+        <input type ="checkbox" value="40">Between $30 - $40</option>
+      </div>
       </select>
       <select id="layout">
         <option value="grid" selected>Grid</option>

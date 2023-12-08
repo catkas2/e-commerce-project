@@ -49,8 +49,8 @@ app.get("/artifact/items/:price", async (req, res) => {
     let query;
     let data;
     let db = await getDBConnection();
-    query = "SELECT * FROM items WHERE price <= ?";
-    data = await db.all(query, price);
+    query = "SELECT * FROM items WHERE price BETWEEN ? and ?";
+    data = await db.all(query, price - 10, price);
     await db.close();
     res.json(data);
   } catch (err) {
