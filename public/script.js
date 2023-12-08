@@ -97,8 +97,10 @@
   function changeLayout() {
     if (id("layout").value === "grid") {
       id("all-products").classList.remove("list-view");
+      id("all-products").classList.add("grid-view");
     } else {
       id("all-products").classList.add("list-view");
+      id("all-products").classList.remove("grid-view");
     }
   }
 

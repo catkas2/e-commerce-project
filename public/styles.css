@@ -228,7 +228,6 @@ nav > h2 {
 
 #all-products, #product-container {
   flex-wrap: wrap;
-  flex-direction: row;
   margin: 1%;
   padding: 1%;
   justify-content: space-evenly;
@@ -487,5 +486,9 @@ hr {
 }
 
 .list-view {
-  flex-direction: column !important; /*make into column*/
+  flex-direction: column;
+}
+
+.grid-view {
+  flex-direction: row;
 }
