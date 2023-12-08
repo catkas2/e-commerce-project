@@ -127,7 +127,7 @@ app.post('/artifact/login', async (req, res) => {
       let userQuery = 'SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?';
       let userExists = await db.get(userQuery, username);
       if (userExists.count === 0) {
-        res.status(400)
+        res.status(404)
           .type('text')
           .send('username does not exist. please create an account with us.');
       } else {

@@ -138,6 +138,18 @@
     id('username').value = '';
     id('psw').value = '';
     id('login-popup').classList.add('hidden');
+    id("buy-now").classList.remove("hidden");
+    id("buy-now").addEventListener("click", displayBuyView);
+    id("login-purchase").classList.add("hidden");
+  }
+
+  /** handles displaying the purchase view for a given product */
+  function displayBuyView() {
+    id("purchase-view").classList.remove("hidden");
+    id("buy-now").classList.add("hidden");
+    id("name").textContent = NAME;
+    id("user-username").textContent = "@" + USERNAME;
+
   }
 
   /** makes request to logout endpoint */
@@ -166,6 +178,8 @@
       element.classList.add('hidden');
     });
     id('cart-container').classList.add('hidden');
+    id("buy-now").classList.add("hidden");
+    id("login-purchase").classList.remove("hidden");
     console.log(res);
   }
 
@@ -249,6 +263,7 @@
       item.appendChild(itemPrice);
       item.appendChild(itemName);
       id("all-products").appendChild(item);
+      item.addEventListener("click", () => displayItemInfo(res[i]));
     }
   }
 
@@ -290,7 +305,30 @@
       item.appendChild(itemPrice);
       item.appendChild(itemName);
       id("new-arrivals-items").appendChild(item);
+      item.addEventListener("click", () => displayItemInfo(res[i]));
     }
+  }
+
+  /** displays detailed information about each item */
+  function displayItemInfo(res) {
+    console.log(res);
+    id("login-popup").classList.add('hidden');
+    id("main-view").classList.add("hidden");
+    id("cart").classList.add("hidden");
+    id("user-info").classList.add("hidden");
+    id("all-products").classList.add("hidden");
+    id("product-view").classList.remove("hidden");
+    id("item-name").textContent = res.item_name;
+    id("item-cost").textContent = "$" + res.price;
+    qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
+    let hoverSrc = "img/" + res.shortname + "2.jpeg";
+    qs("#product-view img").addEventListener('mouseenter', () => {
+      qs("#product-view img").src = hoverSrc;
+    });
+    qs("#product-view img").addEventListener('mouseleave', () => {
+      qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
+    });
+    id("item-description").textContent = res.description;
   }
 
   /** Helper function to sort items by plant type */
@@ -298,7 +336,7 @@
     openShopItems("flora");
   }
 
-    /** Helper function to sort items by rock type */
+  /** Helper function to sort items by rock type */
   function openRockItems() {
     openShopItems("terra");
   }

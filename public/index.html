@@ -109,14 +109,25 @@
     <div id="product-view" class="hidden">
       <img src="img/rock1.jpg" alt="an image of a rock with holes">
         <section id="product-info">
-        <h3>Title</h3>
-        <p>Cost</p>
-        <p>product description</p>
-        <p>Options:</p>
-        <button>Add to Cart</button>
-        <button>Single Purchase</button>
+        <h3 id="item-name">Title</h3>
+        <p id="item-cost">Cost</p>
+        <p id="item-description">product description</p>
+        <p id="login-purchase">Log in to purchase.</p>
+        <button id="buy-now" class="transparent-btn hidden">Buy Now</button>
+        <div id="purchase-view" class="hidden">
+          <hr>
+          <h4>Purchase Item</h4>
+          <p id="name">Name</p>
+          <p id="user-username">username</p>
+          <form>
+            <label for="card-number">Card Number</label>
+            <input id="card-number" type="text" placeholder="Enter card number.">
+          </form>
+          <button id="next" class="transparent-btn">Next</button>
+        </div>
       </section>
     </div>
+
 
     <!--alternative for login view-->
     <div id="login-popup" class="hidden">
