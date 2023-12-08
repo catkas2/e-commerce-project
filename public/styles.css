@@ -330,7 +330,7 @@ footer h4 {
   font-size: 12px;
 }
 
-#product-view, #login-view, #cart, #user-info {
+#login-view, #cart, #user-info {
   background-color: white;
   margin: 2.5%;
 }
@@ -340,6 +340,15 @@ footer h4 {
   margin: 2.5%;
   width: 100%;
   justify-content: left;
+  color: white;
+}
+
+#product-view h3 {
+  font-size: 30px;
+}
+
+#product-view #item-cost {
+  font-size: 26px;
 }
 
 #product-info {
@@ -376,7 +385,7 @@ footer h4 {
   background-color: white;
 }
 
-#username, #psw, #first-name, #last-name, #email {
+#username, #psw, #first-name, #last-name, #email, #card-number {
   width: 90%;
   height: 30px;
   padding: 15px 20px;
@@ -385,7 +394,7 @@ footer h4 {
   background: #f1f1f1;
 }
 
-#username:focus, #password:focus {
+#username:focus, #password:focus, #card-number:focus {
   background-color: #ddd;
   outline: none;
 }
@@ -443,6 +452,33 @@ footer h4 {
 #cart > div > img {
   width: 200px;
   height: 200px;
+}
+
+#purchase-view {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-around;
+  margin-bottom: 50px;
+  padding-left: 40px;
+}
+
+#purchase-view h4 {
+  font-size: 30px;
+  margin-bottom: 0px;
+}
+
+#purchase-view p {
+  margin-bottom: 0px;
+}
+
+#purchase-view form {
+  margin-top: 30px;
+}
+
+hr {
+  width: 900px;
 }
 
 .hidden {
