@@ -17,7 +17,7 @@
   const DATABASE_SIZE = 25;
   let NAME; // current name
   let USERNAME; // current username
-  let CART; // an array of item ids
+  let ITEM_ID;
   let checked;
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
@@ -263,7 +263,42 @@
     id("buy-now").classList.add("hidden");
     id("name").textContent = NAME;
     id("user-username").textContent = "@" + USERNAME;
+    id('next').classList.remove('hidden');
+    id("next").addEventListener("click", confirmPurchase);
+  }
 
+  /** handles confirming a purchase for the user */
+  function confirmPurchase() {
+    console.log('inside confirm purchase');
+    let cardNum = id("card-number").value;
+    let regex = /^\d{13,18}$/;
+    if (regex.test(cardNum)) {
+      console.log('passed test');
+      id("card-number").classList.add("hidden");
+      let cardP = gen('p');
+      cardP.textContent = 'Card Number: ' + cardNum;
+      id('purchase-view').appendChild(cardP);
+      id('confirm-purchase').classList.remove('hidden');
+
+      // ADD EVT LISTENER TO CONFIRM BTN --> in function, CALL generateSequence() and display the sequence to the USER
+      // ex. confirmation number: [sequence] has been sent to [user email]
+      // ADD TO TRANSACTION DATABASE (post request, send ITEM_ID, user id (foreign key), date, etc. -->
+
+      id('cancel-purchase').classList.remove('hidden');
+
+      // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW
+
+      id('next').classList.add('hidden');
+      let sequence = generateSequence();
+      console.log(sequence);
+    } else {
+      // display to user somehow
+      console.log('invalid card number. input must be between 13 and 18 digits, with no spaces');
+    }
+
+    //get input from form --> use reg ex to check if valid input
+    // must be numbers, no spaces, must be at least 13 characters but no more than 19
+    // "card number must be between 13 and 18 digits"
   }
 
   /** makes request to logout endpoint */
@@ -433,6 +468,7 @@
   /** displays detailed information about each item */
   function displayItemInfo(res) {
     console.log(res);
+    ITEM_ID = res.id;
     id("login-popup").classList.add("hidden");
     id("main-view").classList.remove("flex");
     id("main-view").classList.add("hidden");
@@ -455,7 +491,25 @@
     id("item-description").textContent = res.description;
   }
 
-  /** Helper function to sort items by plant type */
+  /** th */
+  function generateSequence() {
+    let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let numbers = '0123456789';
+
+    let randomSequence = '';
+    for (let i = 0; i < 2; i++) {
+      let randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
+      randomSequence += randomLetter;
+    }
+    for (let i = 0; i < 2; i++) {
+      let randomNumber = numbers.charAt(Math.floor(Math.random() * numbers.length));
+      randomSequence += randomNumber;
+    }
+    randomSequence = randomSequence.split('').sort(() => Math.random() - 0.5)
+      .join('');
+    return randomSequence;
+  }
+
   function openPlantItems() {
     openShopItems("flora");
   }

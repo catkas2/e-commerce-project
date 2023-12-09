@@ -496,3 +496,7 @@ hr {
 .grid-view {
   flex-direction: row;
 }
+
+#cancel-purchase {
+  background-color: black;
+}
