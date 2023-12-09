@@ -83,7 +83,7 @@ app.get("/artifact/collection/:collection", async (req, res) => {
   }
 });
 
-// add feedback to a specific item
+// get feedback from a specific item
 app.get("/artifact/feedback/:item", async (req, res) => {
   try {
     let item = req.params.item;
@@ -192,7 +192,7 @@ app.post("/artifact/logout", async (req, res) => {
   }
 });
 
-// get feedback from specific item
+// add feedback to specific item
 app.get("/artifact/feedback", async (req, res) => {
   try {
     let query = "INSERT INTO feedback(id, user_id, item_id, feedback, date) VAUES(?, ?, ?, ?, ?)";
