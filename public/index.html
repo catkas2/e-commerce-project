@@ -139,12 +139,14 @@
           <p id="name">Name</p>
           <p id="user-username">username</p>
           <form>
-            <label for="card-number">Card Number</label>
+            <label id='card-num-label' for="card-number">Card Number</label>
             <input id="card-number" type="text" placeholder="Enter card number.">
           </form>
           <button id="next" class="transparent-btn">Next</button>
-          <button id="confirm-purchase" class="transparent-btn hidden">Confirm Purchase</button>
-          <button id="cancel-purchase" class="transparent-btn hidden">Cancel Purchase</button>
+          <div>
+            <button id="confirm-purchase" class="transparent-btn hidden">Confirm Purchase</button>
+            <button id="cancel-purchase" class="transparent-btn hidden">Cancel Purchase</button>
+          </div>
         </div>
       </section>
     </div>

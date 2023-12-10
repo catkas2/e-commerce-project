@@ -500,3 +500,13 @@ hr {
 #cancel-purchase {
   background-color: black;
 }
+
+#purchase-view div {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#purchase-view div button {
+  margin-left: 10px;
+  margin-right: 10px;
+}

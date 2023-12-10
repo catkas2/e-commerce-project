@@ -19,6 +19,8 @@
   let USERNAME; // current username
   let ITEM_ID;
   let checked;
+  // ADD --> WHEN USER LOGS OUT, GO BACK TO HOME SCREEN& HIDE ALL OTHER VIEWS
+  // ADD --> NEW USER POST REQUEST
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
@@ -233,7 +235,6 @@
     // set initial login conditions
     NAME = res.name;
     USERNAME = res.username;
-    CART = 0;
 
     // update nav
     qsa(".login").forEach(element => {
@@ -277,28 +278,40 @@
       id("card-number").classList.add("hidden");
       let cardP = gen('p');
       cardP.textContent = 'Card Number: ' + cardNum;
-      id('purchase-view').appendChild(cardP);
+      id('user-username').insertAdjacentElement('afterend', cardP);
+      id('card-num-label').classList.add('hidden');
       id('confirm-purchase').classList.remove('hidden');
-
-      // ADD EVT LISTENER TO CONFIRM BTN --> in function, CALL generateSequence() and display the sequence to the USER
-      // ex. confirmation number: [sequence] has been sent to [user email]
-      // ADD TO TRANSACTION DATABASE (post request, send ITEM_ID, user id (foreign key), date, etc. -->
-
       id('cancel-purchase').classList.remove('hidden');
-
-      // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW
-
       id('next').classList.add('hidden');
-      let sequence = generateSequence();
-      console.log(sequence);
+
+      // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW IF CANCELED
+
+      id('confirm-purchase').addEventListener('click', addTransaction);
+      //let sequence = generateSequence();
+      //console.log(sequence);
     } else {
       // display to user somehow
       console.log('invalid card number. input must be between 13 and 18 digits, with no spaces');
     }
+  }
 
-    //get input from form --> use reg ex to check if valid input
-    // must be numbers, no spaces, must be at least 13 characters but no more than 19
-    // "card number must be between 13 and 18 digits"
+  /** request to add transaction to database  */
+  function addTransaction() {
+    let params = new FormData();
+    params.append('')
+    //in function, CALL generateSequence() and display the sequence to the USER
+    // ex. confirmation number: [sequence] has been sent to [user email]
+    // ADD TO TRANSACTION DATABASE (post request, send ITEM_ID, user id (foreign key), date, etc. -->
+    try {
+      let response
+    }
+    let sequence = generateSequence();
+    console.log(sequence);
+    let confirmationMessage = gen('p');
+    confirmationMessage.textContent = 'Purchase succesful! This confirmation number has been sent to your email: ' + sequence;
+    id('confirm-purchase').classList.add('hidden');
+    id('cancel-purchase').classList.add('hidden');
+    id('purchase-view').appendChild(confirmationMessage);
   }
 
   /** makes request to logout endpoint */

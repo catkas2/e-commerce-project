@@ -207,6 +207,52 @@ app.get("/artifact/feedback", async (req, res) => {
   }
 });
 
+// POST endpoint to add a transaction to the database
+app.post("/artifact/addtransaction", async (req, res) => {
+  try {
+    let db = await getDBConnection();
+    let user = req.body.userId;
+    let confirmation = req.body.confirmationNum;
+    let item = req.body.itemId;
+    let confirmationQuery = "SELECT COUNT(*) AS count FROM transactions WHERE confirmation_code LIKE ?";
+    let confirmationExists = await db.get(confirmationQuery, confirmation);
+
+    // check if the generated confirmation number exists already
+    if (confirmationExists.count > 0) {
+      res.status(409)
+        .type("text")
+        .send("This confirmation number already exists in our database. Please try the purchase again.");
+
+    } else {
+      // check if the current inventory of the item is 0
+      let result = await db.get("SELECT inventory FROM items WHERE id = ?", item);
+      if (result.inventory === 0) {
+        res.status(404)
+          .type('text')
+          .send('Sorry, this item is currently out of stock. Please try again at a later date');
+
+      } else {
+        // update inventory in database if not out of stock
+        let update = result.inventory - 1;
+        await db.run("UPDATE items SET inventory = ? WHERE id = ?", [update, item]);
+        // insert transaction into database
+        let query = `INSERT INTO transactions (user_id, confirmation_code, item_id, date)
+        VALUES (?, ?, ?, datetime())
+        `;
+        await db.run(query, [user, confirmation, item]);
+        db.close();
+        res.type('text').send('Purchase succesful! This confirmation number has been sent to your email: ' + confirmation);
+      }
+    }
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send('Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to restore the harmonious flow of Aurea Vita. Stay zen!');
+  }
+});
+
+
+
 /**
  * Establishes a database connection to the database and returns the database object.
  * Any errors that occur should be caught in the function that calls this one.
