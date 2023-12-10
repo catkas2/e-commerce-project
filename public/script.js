@@ -17,10 +17,13 @@
   const DATABASE_SIZE = 25;
   let NAME; // current name
   let USERNAME; // current username
+  let USER_ID;
   let ITEM_ID;
   let checked;
-  // ADD --> WHEN USER LOGS OUT, GO BACK TO HOME SCREEN& HIDE ALL OTHER VIEWS
-  // ADD --> NEW USER POST REQUEST
+  /*
+   * ADD --> WHEN USER LOGS OUT, GO BACK TO HOME SCREEN& HIDE ALL OTHER VIEWS
+   * ADD --> NEW USER POST REQUEST
+   */
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
@@ -212,7 +215,7 @@
   /**
    * logs user in
    */
-   async function requestLogin() {
+  async function requestLogin() {
     let username = id("username").value;
     let password = id("psw").value;
     let params = new FormData();
@@ -235,6 +238,7 @@
     // set initial login conditions
     NAME = res.name;
     USERNAME = res.username;
+    USER_ID = res.id;
 
     // update nav
     qsa(".login").forEach(element => {
@@ -277,6 +281,7 @@
       console.log('passed test');
       id("card-number").classList.add("hidden");
       let cardP = gen('p');
+      cardP.id = 'card-p';
       cardP.textContent = 'Card Number: ' + cardNum;
       id('user-username').insertAdjacentElement('afterend', cardP);
       id('card-num-label').classList.add('hidden');
@@ -287,8 +292,10 @@
       // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW IF CANCELED
 
       id('confirm-purchase').addEventListener('click', addTransaction);
-      //let sequence = generateSequence();
-      //console.log(sequence);
+      /*
+       * let sequence = generateSequence();
+       * console.log(sequence);
+       */
     } else {
       // display to user somehow
       console.log('invalid card number. input must be between 13 and 18 digits, with no spaces');
@@ -296,22 +303,34 @@
   }
 
   /** request to add transaction to database  */
-  function addTransaction() {
-    let params = new FormData();
-    params.append('')
-    //in function, CALL generateSequence() and display the sequence to the USER
-    // ex. confirmation number: [sequence] has been sent to [user email]
-    // ADD TO TRANSACTION DATABASE (post request, send ITEM_ID, user id (foreign key), date, etc. -->
-    try {
-      let response
-    }
+  async function addTransaction() {
     let sequence = generateSequence();
-    console.log(sequence);
-    let confirmationMessage = gen('p');
-    confirmationMessage.textContent = 'Purchase succesful! This confirmation number has been sent to your email: ' + sequence;
-    id('confirm-purchase').classList.add('hidden');
-    id('cancel-purchase').classList.add('hidden');
-    id('purchase-view').appendChild(confirmationMessage);
+    let params = new FormData();
+    params.append('userId', USER_ID);
+    params.append('confirmationNum', sequence);
+    params.append('itemId', ITEM_ID);
+    try {
+      let response = await fetch('/artifact/addtransaction', {method: "POST", body: params});
+      await statusCheck(response);
+      response = await response.text();
+      let purchaseResponse = gen('p');
+      purchaseResponse.textContent = response;
+      id('confirm-purchase').classList.add('hidden');
+      id('cancel-purchase').classList.add('hidden');
+      id('purchase-view').appendChild(purchaseResponse);
+      setTimeout(() => {
+        id('purchase-view').removeChild(purchaseResponse);
+        id('card-p').textContent = "";
+        id('purchase-view').removeChild(id('card-p'));
+        id('purchase-view').classList.add('hidden');
+        id('card-num-label').classList.remove('hidden');
+        id('card-number').classList.remove('hidden');
+        id('buy-now').classList.remove('hidden');
+        id('card-number').value = "";
+      }, 3000);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /** makes request to logout endpoint */
@@ -449,9 +468,10 @@
     }
   }
 
-  /** display recently added items --> extremely similar to getItems (FIGURE OUT
+  /**
+   * display recently added items --> extremely similar to getItems (FIGURE OUT
    * A WAY TO REDUCE REDUNDANCY
-  */
+   */
   function displayRecents(res) {
     for (let i = 1; i < res.length; i++) {
       let item = gen("section");

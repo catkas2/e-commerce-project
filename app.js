@@ -252,6 +252,7 @@ app.post("/artifact/addtransaction", async (req, res) => {
   }
 });
 
+// fetches the transactions for a given user
 app.post("/artifact/gettransactions", async (req, res) => {
   try {
     let db = await getDBConnection();
@@ -260,6 +261,7 @@ app.post("/artifact/gettransactions", async (req, res) => {
       transactions.user_id,
       transactions.date,
       transactions.item_id,
+      transactions.confirmation_code,
       items.item_name,
       items.price
       FROM transactions
