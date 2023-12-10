@@ -250,6 +250,7 @@
     });
     qsa(".purchases").forEach(element => {
       element.classList.remove("hidden");
+      element.addEventListener('click', displayPurchases);
     });
     id("cart-container").classList.remove("hidden");
 
@@ -328,6 +329,20 @@
         id('buy-now').classList.remove('hidden');
         id('card-number').value = "";
       }, 3000);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /** handles displaying purchases */
+  async function displayPurchases() {
+    let params = new FormData();
+    params.append('userId', USER_ID);
+    try {
+      let response = await fetch('/artifact/gettransactions', {method: 'POST', body: params});
+      await statusCheck(response);
+      response = await response.json();
+      console.log(response);
     } catch (err) {
       console.log(err);
     }
