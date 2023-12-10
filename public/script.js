@@ -30,7 +30,6 @@
     requestInitializeItems();
     getRecents();
     initalizeFilters();
-    // make sure to update filters when page reloads or reset filter
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
     qsa(".login").forEach(element => {
@@ -64,6 +63,9 @@
     });
     id("submit-search-btn").addEventListener("click", searchRequest)
     id("search-bar").addEventListener("input", enableSearch);
+    qsa(".logout").forEach(element => {
+      element.addEventListener("click", requestLogout);
+    });
   }
 
   function searchRequest() {
@@ -581,12 +583,26 @@
     // everything reguarding creating an account must happen here --> make request to backend
   }
 
-
-
-
   /** Disables functionality of page and displays error for user */
   function handleError() {
-    //disable everything and provide error message for user
+    if(err === 500) {
+      document.getElementsByTagName("button").forEach(button => {
+        element.disable = true;
+      });
+      let errorMsg = gen("p");
+      errorMsg.textContent = "An error has occured, please try again later"
+      id("error").appendChild(errorMsg);
+      id("error").classList.remove("hidden");
+    } else {
+      let errorMsg = gen("p");
+      // insert error message here
+      id("error").appendChild(errorMsg);
+      id("error").classList.remove("hidden");
+      setTimeout(() => {
+        id("error").classList.add("hidden");
+        id("error").removeChild(errorMsg);
+      }, "5000");
+    }
   }
 
  /**
