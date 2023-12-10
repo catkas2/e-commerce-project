@@ -247,11 +247,34 @@ app.post("/artifact/addtransaction", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type('text')
-      .send('Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to restore the harmonious flow of Aurea Vita. Stay zen!');
+      .send(`Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to restore
+        the harmonious flow of Aurea Vita. Stay zen!`);
   }
 });
 
-
+app.post("/artifact/gettransactions", async (req, res) => {
+  try {
+    let db = await getDBConnection();
+    let user = req.body.userId;
+    let query = `SELECT
+      transactions.user_id,
+      transactions.date,
+      transactions.item_id,
+      items.item_name,
+      items.price
+      FROM transactions
+      INNER JOIN items ON  transactions.item_id = items.id
+      WHERE transactions.user_id = ?
+      `;
+    let result = await db.all(query, user);
+    res.json(result);
+  } catch (err) {
+    res.status(SERVER_ERR_CODE)
+      .type('text')
+      .send(`Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to restore
+        the harmonious flow of Aurea Vita. Stay zen!`);
+  }
+});
 
 /**
  * Establishes a database connection to the database and returns the database object.
