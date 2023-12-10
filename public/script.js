@@ -81,7 +81,6 @@
     for (let i = 0; i < res.length; i++) {
       filteredItems.push(res[i].id);
     }
-    console.log(filteredItems);
     for (let i = 0; i < DATABASE_SIZE; i++) {
       if (filteredItems.includes(parseInt(allItems[i].id))) {
         allItems[i].classList.remove("hidden");

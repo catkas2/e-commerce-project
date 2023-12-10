@@ -27,8 +27,8 @@ app.get("/artifact/items", async (req, res) => {
     let db = await getDBConnection();
     if (req.query.search) {
       let search = `%${req.query.search}%`;
-      query = "SELECT * FROM items WHERE item_name LIKE ? ORDER BY id";
-      data = await db.all(query, search);
+      query = "SELECT * FROM items WHERE item_name LIKE ? OR description LIKE ? ORDER BY id";
+      data = await db.all(query, search, search);
     } else {
       query = "SELECT * FROM items";
       data = await db.all(query);
