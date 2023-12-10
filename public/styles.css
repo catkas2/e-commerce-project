@@ -510,6 +510,52 @@ hr {
   margin-right: 10px;
 }
 
-#error {
-  color: red;
+#entry-container, .history-info-container, .history-info, .date-confirm-container {
+  display: flex;
+}
+
+#entry-container {
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.purchase-history {
+  margin-bottom: 70px;
+  margin-top: 70px;
+  color: white;
+  width: 100%;
+}
+
+.history-info {
+  font-size: 28px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  color: white;
+  flex-direction: column;
+}
+
+.history-img {
+  width: 125px;
+  height: 175px;
+  padding: 10px;
+  border: 1px solid white;
+  margin: 20px;
+}
+
+.history-price {
+  font-size: 24px;
+  margin-top: 0px;
+}
+
+#history-heading {
+  color: white;
+}
+
+.history-name {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.datetime {
+  font-size: 24px;
 }

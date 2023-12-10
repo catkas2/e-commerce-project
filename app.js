@@ -273,7 +273,8 @@ app.post("/artifact/gettransactions", async (req, res) => {
       transactions.item_id,
       transactions.confirmation_code,
       items.item_name,
-      items.price
+      items.price,
+      items.shortname
       FROM transactions
       INNER JOIN items ON  transactions.item_id = items.id
       WHERE transactions.user_id = ?

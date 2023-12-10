@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable valid-jsdoc */
 /* eslint-disable no-console */
 /*
@@ -345,7 +346,43 @@
       let response = await fetch('/artifact/gettransactions', {method: 'POST', body: params});
       await statusCheck(response);
       response = await response.json();
-      console.log(response);
+      // hide all views
+      for (let i = 0; i < response.length; i++) {
+        console.log(response[i]);
+        id("history-heading").textContent = NAME + "'s Transaction History";
+        let infoContainer = gen("div");
+        infoContainer.classList.add("history-info-container");
+
+        let itemImg = gen("img");
+        itemImg.src = "img/" + response[i].shortname + "1.jpeg";
+        itemImg.classList.add("history-img");
+        infoContainer.appendChild(itemImg);
+
+        let historyInfo = gen('div');
+        historyInfo.classList.add("history-info");
+        let datetime = gen("p");
+        datetime.classList.add("datetime");
+        datetime.textContent = response[i].date;
+        historyInfo.appendChild(datetime);
+
+        let historyName = gen("h4");
+        historyName.classList.add("history-name");
+        historyName.textContent = response[i].item_name;
+        historyInfo.appendChild(historyName);
+
+        let price = gen("p");
+        price.classList.add("history-price");
+        price.textContent = "$" + response[i].price;
+        historyInfo.appendChild(price);
+
+        let confirmation = gen("p");
+        confirmation.classList.add("confirmation");
+        confirmation.textContent = response[i].confirmation_code;
+        historyInfo.appendChild(confirmation);
+
+        infoContainer.appendChild(historyInfo);
+        id("entry-container").appendChild(infoContainer);
+      }
     } catch (err) {
       console.log(err);
     }
