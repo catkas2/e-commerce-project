@@ -2,11 +2,13 @@
 /* eslint-disable no-console */
 /*
  * Name: Catalina Kashiwa and Liana Rosado
- * Date: November 5th, 2023
+ * Date: December 10th, 2023
  * Section: CSE 154 AB/AE
  *
- * This is the JS to implement the feedback option of our final project. This gives
- * the user the ability to add feedback with later implementation of a rating system as well.
+ * This is the JS used for client-side interactions. It allows users to browse through
+ * our available items, filtering based on catergory, price, and has search functionality.
+ * Users are able to login and out as well as create an acocunt. If a user is logged in,
+ * they may view their previous transactions, make new transactions, and add feedback to items.
  */
 "use strict";
 
@@ -70,10 +72,10 @@
 
   function searchRequest() {
     fetch("artifact/items?search=" + id("search-bar").value.trim())
-        .then(statusCheck)
-        .then(res => res.json())
-        .then(filterSearch)
-        .catch(handleError);
+      .then(statusCheck)
+      .then(res => res.json())
+      .then(filterSearch)
+      .catch(handleError);
   }
 
   function filterSearch(res) {

@@ -3,10 +3,10 @@
   Date: November 5th, 2023
   Section: CSE 154 AB/AE
 
-  This is the styles.css for the final project. We wanted it to follow an earthy
-  and nature tone while using flex boxes to display our products. At the moment
-  it is bare bones with later appropriate implementation of product images and
-  formatting in their flex boxes.
+  This is the styles.css for our final project. We choose various earth tones
+  for our color scheme to match the products that we sell (nature products). We
+  added mouse hover functions, so it's clear what item a user is hovering over.
+  We also implemented various images to help our website be more visually appealing.
 */
 body {
   display: flex;
