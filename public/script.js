@@ -650,7 +650,6 @@
     ITEM_ID = res.id;
     id("item-name").textContent = res.item_name;
     id("item-cost").textContent = "$" + res.price;
-    id("item-rating").textContent = res.rating + "/5";
     qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
     let hoverSrc = "img/" + res.shortname + "2.jpeg";
     qs("#product-view img").addEventListener("mouseenter", () => {
@@ -675,6 +674,7 @@
 
   /** Displays feedback on website */
   function displayFeedback() {
+    calculateAverageFeedback(res);
     for (let i = 0; i < res.length; i++) {
       let user = gen("p");
       let feedback = gen("p");
@@ -687,6 +687,23 @@
       feedbackContainer.appendChild(feedback);
       id("all-reviews").appendChild(feedbackContainer);
     }
+  }
+
+  /**
+   * Using the information from previous feedback data, determine the average rating
+   * @param {JSON} res - data represeting all the previous feedbacks
+   */
+  function calculateAverageFeedback(res) {
+    console.log("help");
+    let totalRating;
+    let allFeedbackRatings = [];
+    let avgFeedback = totalRating/res.length;
+    for (let i = 0; i < res.length; i++) {
+      allFeedbackRatings.push(res[i].rating);
+      totalRating += res[i].rating;
+    }
+    id("item-rating").textContent = avgFeedback + "/5";
+    console.log(avgFeedback + "/5");
   }
 
   /** Hides all other views except that for a specific item */
