@@ -58,9 +58,6 @@
     });
     qs("header div img").addEventListener("click", goHome);
     id("layout").addEventListener("change", changeLayout);
-    id("category").querySelectorAll("input").forEach(element => {
-      element.addEventListener("click", filterType);
-    });
     id("cost").querySelectorAll("input").forEach(element => {
       element.addEventListener("click", filterPrice);
     });
@@ -146,12 +143,6 @@
         }
       }
     }
-
-  /** Filter products by their type once past the home page */
-  function filterType() {
-    requestFilteredDatabase(this.value);
-    checked = this.checked;
-  }
 
   /** Changes product layout from grid to list */
   function changeLayout() {
@@ -420,8 +411,21 @@
    * Changes view to see all products and closes all other views
    * @param {String} category - type of item being searched for
    */
-  function openShopItems(category) {
+  function openShopItems() {
     console.log("inside open shop");
+    shopView();
+    viewAllItems();
+  }
+
+  function viewAllItems() {
+    let allItems = qsa(".product-container");
+    for (let i = 0; i < allItems.length; i++) {
+      allItems[i].classList.remove("hidden");
+    }
+  }
+
+  function shopView() {
+    initalizeFilters();
     id("browse-container").classList.remove("flex");
     id("browse-container").classList.add("hidden");
     id("login-popup").classList.add("hidden");
@@ -435,7 +439,6 @@
     id("search-filter-function").classList.remove("hidden");
     id("all-products").classList.remove("hidden");
     id("all-products").classList.add("flex");
-    requestFilteredDatabase(category);
   }
 
   /**
@@ -459,11 +462,9 @@
     }
     for (let i = 0; i < DATABASE_SIZE; i++) {
       if (filteredItems.includes(parseInt(allItems[i].id))) {
-        if (checked) {
-          allItems[i].classList.remove("hidden");
-        } else {
-          allItems[i].classList.add("hidden");
-        }
+        allItems[i].classList.remove("hidden");
+      } else {
+        allItems[i].classList.add("hidden");
       }
     }
   }
@@ -498,7 +499,6 @@
     }
   }
 
-
   /**
    * Displays first few items from the database on the website
    * @param {JSON} res - represents recent items being sold on website
@@ -508,7 +508,7 @@
   }
 
   function createItems(res, className, idName) {
-    for (let i = 1; i < res.length; i++) {
+    for (let i = 0; i < res.length; i++) {
       let item = gen("section");
       let itemImg = gen("img");
       let itemPrice = gen("p");
@@ -579,17 +579,20 @@
   }
 
   function openPlantItems() {
-    openShopItems("flora");
+    shopView();
+    requestFilteredDatabase("flora");
   }
 
   /** Helper function to sort items by rock type */
   function openRockItems() {
-    openShopItems("terra");
+    shopView();
+    requestFilteredDatabase("terra");
   }
 
   /** Helper function to sort items by water type */
   function openWaterItems() {
-    openShopItems("aqua");
+    shopView();
+    requestFilteredDatabase("aqua");
   }
 
   /** Allows user to create an account */
@@ -620,7 +623,7 @@
       id("error").classList.remove("hidden");
       setTimeout(() => {
         id("error").classList.add("hidden");
-        id("error").removeChild(errorMsg);
+        id("error").removeChid(errorMsg);
       }, "5000");
     }
     */
