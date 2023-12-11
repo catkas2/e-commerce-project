@@ -423,6 +423,7 @@
     id("cart-container").classList.add("hidden");
     id("buy-now").classList.add("hidden");
     id("login-purchase").classList.remove("hidden");
+    goHome();
     console.log(res);
   }
 
