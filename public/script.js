@@ -1,15 +1,12 @@
-/* eslint-disable max-lines-per-function */
 /* eslint-disable valid-jsdoc */
 /* eslint-disable no-console */
 /*
  * Name: Catalina Kashiwa and Liana Rosado
- * Date: December 10th, 2023
+ * Date: November 5th, 2023
  * Section: CSE 154 AB/AE
  *
- * This is the JS used for client-side interactions. It allows users to browse through
- * our available items, filtering based on catergory, price, and has search functionality.
- * Users are able to login and out as well as create an acocunt. If a user is logged in,
- * they may view their previous transactions, make new transactions, and add feedback to items.
+ * This is the JS to implement the feedback option of our final project. This gives
+ * the user the ability to add feedback with later implementation of a rating system as well.
  */
 "use strict";
 
@@ -20,19 +17,15 @@
   const DATABASE_SIZE = 25;
   let NAME; // current name
   let USERNAME; // current username
-  let USER_ID;
-  let ITEM_ID;
+  let CART; // an array of item ids
   let checked;
-  /*
-   * ADD --> WHEN USER LOGS OUT, GO BACK TO HOME SCREEN& HIDE ALL OTHER VIEWS
-   * ADD --> NEW USER POST REQUEST
-   */
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
     requestInitializeItems();
     getRecents();
     initalizeFilters();
+    // make sure to update filters when page reloads or reset filter
     id("browse-btn").addEventListener("click", scrollToCategories);
     //id("feedback-btn").addEventListener("click", addFeedback);
     qsa(".login").forEach(element => {
@@ -66,17 +59,14 @@
     });
     id("submit-search-btn").addEventListener("click", searchRequest)
     id("search-bar").addEventListener("input", enableSearch);
-    qsa(".logout").forEach(element => {
-      element.addEventListener("click", handleLogout);
-    });
   }
 
   function searchRequest() {
     fetch("artifact/items?search=" + id("search-bar").value.trim())
-      .then(statusCheck)
-      .then(res => res.json())
-      .then(filterSearch)
-      .catch(handleError);
+        .then(statusCheck)
+        .then(res => res.json())
+        .then(filterSearch)
+        .catch(handleError);
   }
 
   function filterSearch(res) {
@@ -86,6 +76,7 @@
     for (let i = 0; i < res.length; i++) {
       filteredItems.push(res[i].id);
     }
+    console.log(filteredItems);
     for (let i = 0; i < DATABASE_SIZE; i++) {
       if (filteredItems.includes(parseInt(allItems[i].id))) {
         allItems[i].classList.remove("hidden");
@@ -104,7 +95,10 @@
   }
 
   function initalizeFilters() {
-    qsa("input[type='checkbox']").forEach(element => {
+    id("category").querySelectorAll("input").forEach(element => {
+      element.checked = true;
+    });
+    id("cost").querySelectorAll("input").forEach(element => {
       element.checked = true;
     });
   }
@@ -216,7 +210,7 @@
   /**
    * logs user in
    */
-  async function requestLogin() {
+   async function requestLogin() {
     let username = id("username").value;
     let password = id("psw").value;
     let params = new FormData();
@@ -239,7 +233,7 @@
     // set initial login conditions
     NAME = res.name;
     USERNAME = res.username;
-    USER_ID = res.id;
+    CART = 0;
 
     // update nav
     qsa(".login").forEach(element => {
@@ -251,7 +245,6 @@
     });
     qsa(".purchases").forEach(element => {
       element.classList.remove("hidden");
-      element.addEventListener('click', displayPurchases);
     });
     id("cart-container").classList.remove("hidden");
 
@@ -270,119 +263,7 @@
     id("buy-now").classList.add("hidden");
     id("name").textContent = NAME;
     id("user-username").textContent = "@" + USERNAME;
-    id('next').classList.remove('hidden');
-    id("next").addEventListener("click", confirmPurchase);
-  }
 
-  /** handles confirming a purchase for the user */
-  function confirmPurchase() {
-    console.log('inside confirm purchase');
-    let cardNum = id("card-number").value;
-    let regex = /^\d{13,18}$/;
-    if (regex.test(cardNum)) {
-      console.log('passed test');
-      id("card-number").classList.add("hidden");
-      let cardP = gen('p');
-      cardP.id = 'card-p';
-      cardP.textContent = 'Card Number: ' + cardNum;
-      id('user-username').insertAdjacentElement('afterend', cardP);
-      id('card-num-label').classList.add('hidden');
-      id('confirm-purchase').classList.remove('hidden');
-      id('cancel-purchase').classList.remove('hidden');
-      id('next').classList.add('hidden');
-
-      // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW IF CANCELED
-
-      id('confirm-purchase').addEventListener('click', addTransaction);
-      /*
-       * let sequence = generateSequence();
-       * console.log(sequence);
-       */
-    } else {
-      // display to user somehow
-      console.log('invalid card number. input must be between 13 and 18 digits, with no spaces');
-    }
-  }
-
-  /** request to add transaction to database  */
-  async function addTransaction() {
-    let sequence = generateSequence();
-    let params = new FormData();
-    params.append('userId', USER_ID);
-    params.append('confirmationNum', sequence);
-    params.append('itemId', ITEM_ID);
-    try {
-      let response = await fetch('/artifact/addtransaction', {method: "POST", body: params});
-      await statusCheck(response);
-      response = await response.text();
-      let purchaseResponse = gen('p');
-      purchaseResponse.textContent = response;
-      id('confirm-purchase').classList.add('hidden');
-      id('cancel-purchase').classList.add('hidden');
-      id('purchase-view').appendChild(purchaseResponse);
-      setTimeout(() => {
-        id('purchase-view').removeChild(purchaseResponse);
-        id('card-p').textContent = "";
-        id('purchase-view').removeChild(id('card-p'));
-        id('purchase-view').classList.add('hidden');
-        id('card-num-label').classList.remove('hidden');
-        id('card-number').classList.remove('hidden');
-        id('buy-now').classList.remove('hidden');
-        id('card-number').value = "";
-      }, 3000);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  /** handles displaying purchases */
-  async function displayPurchases() {
-    let params = new FormData();
-    params.append('userId', USER_ID);
-    try {
-      let response = await fetch('/artifact/gettransactions', {method: 'POST', body: params});
-      await statusCheck(response);
-      response = await response.json();
-      // hide all views
-      for (let i = 0; i < response.length; i++) {
-        console.log(response[i]);
-        id("history-heading").textContent = NAME + "'s Transaction History";
-        let infoContainer = gen("div");
-        infoContainer.classList.add("history-info-container");
-
-        let itemImg = gen("img");
-        itemImg.src = "img/" + response[i].shortname + "1.jpeg";
-        itemImg.classList.add("history-img");
-        infoContainer.appendChild(itemImg);
-
-        let historyInfo = gen('div');
-        historyInfo.classList.add("history-info");
-        let datetime = gen("p");
-        datetime.classList.add("datetime");
-        datetime.textContent = response[i].date;
-        historyInfo.appendChild(datetime);
-
-        let historyName = gen("h4");
-        historyName.classList.add("history-name");
-        historyName.textContent = response[i].item_name;
-        historyInfo.appendChild(historyName);
-
-        let price = gen("p");
-        price.classList.add("history-price");
-        price.textContent = "$" + response[i].price;
-        historyInfo.appendChild(price);
-
-        let confirmation = gen("p");
-        confirmation.classList.add("confirmation");
-        confirmation.textContent = response[i].confirmation_code;
-        historyInfo.appendChild(confirmation);
-
-        infoContainer.appendChild(historyInfo);
-        id("entry-container").appendChild(infoContainer);
-      }
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   /** makes request to logout endpoint */
@@ -482,7 +363,29 @@
    * @param {JSON} res - represents all items being sold on website
    */
   function getItems(res) {
-    createItems(res, "product-container", "all-products");
+    for (let i = 1; i < res.length; i++) {
+      let item = gen("section");
+      let itemImg = gen("img");
+      let itemPrice = gen("p");
+      let itemName = gen("p");
+      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
+      item.classList.add("product-container");
+      itemPrice.textContent = "$" + res[i].price;
+      itemName.textContent = res[i].item_name;
+      item.setAttribute("id", res[i].id);
+      itemImg.addEventListener("mouseenter", () => {
+        itemImg.src = hoverSrc;
+      });
+      itemImg.addEventListener("mouseleave", () => {
+        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      });
+      item.appendChild(itemImg);
+      item.appendChild(itemPrice);
+      item.appendChild(itemName);
+      id("all-products").appendChild(item);
+      item.addEventListener("click", () => displayItemInfo(res[i]));
+    }
   }
 
   /** this function gets the 5 most recent items  */
@@ -498,16 +401,10 @@
     }
   }
 
-
-  /**
-   * Displays first few items from the database on the website
-   * @param {JSON} res - represents recent items being sold on website
-   */
+  /** display recently added items --> extremely similar to getItems (FIGURE OUT
+   * A WAY TO REDUCE REDUNDANCY
+  */
   function displayRecents(res) {
-    createItems(res, "new-arrival-product-container", "new-arrivals-items");
-  }
-
-  function createItems(res, className, idName) {
     for (let i = 1; i < res.length; i++) {
       let item = gen("section");
       let itemImg = gen("img");
@@ -515,7 +412,7 @@
       let itemName = gen("p");
       itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
-      item.classList.add(className);
+      item.classList.add("new-arrival-product-container");
       itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
       item.setAttribute("id", res[i].id);
@@ -528,7 +425,7 @@
       item.appendChild(itemImg);
       item.appendChild(itemPrice);
       item.appendChild(itemName);
-      id(idName).appendChild(item);
+      id("new-arrivals-items").appendChild(item);
       item.addEventListener("click", () => displayItemInfo(res[i]));
     }
   }
@@ -536,7 +433,6 @@
   /** displays detailed information about each item */
   function displayItemInfo(res) {
     console.log(res);
-    ITEM_ID = res.id;
     id("login-popup").classList.add("hidden");
     id("main-view").classList.remove("flex");
     id("main-view").classList.add("hidden");
@@ -559,25 +455,7 @@
     id("item-description").textContent = res.description;
   }
 
-  /** th */
-  function generateSequence() {
-    let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let numbers = '0123456789';
-
-    let randomSequence = '';
-    for (let i = 0; i < 2; i++) {
-      let randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
-      randomSequence += randomLetter;
-    }
-    for (let i = 0; i < 2; i++) {
-      let randomNumber = numbers.charAt(Math.floor(Math.random() * numbers.length));
-      randomSequence += randomNumber;
-    }
-    randomSequence = randomSequence.split('').sort(() => Math.random() - 0.5)
-      .join('');
-    return randomSequence;
-  }
-
+  /** Helper function to sort items by plant type */
   function openPlantItems() {
     openShopItems("flora");
   }
@@ -602,26 +480,12 @@
     // everything reguarding creating an account must happen here --> make request to backend
   }
 
+
+
+
   /** Disables functionality of page and displays error for user */
   function handleError() {
-    if(err === 500) {
-      document.getElementsByTagName("button").forEach(button => {
-        element.disable = true;
-      });
-      let errorMsg = gen("p");
-      errorMsg.textContent = "An error has occured, please try again later"
-      id("error").appendChild(errorMsg);
-      id("error").classList.remove("hidden");
-    } else {
-      let errorMsg = gen("p");
-      // insert error message here
-      id("error").appendChild(errorMsg);
-      id("error").classList.remove("hidden");
-      setTimeout(() => {
-        id("error").classList.add("hidden");
-        id("error").removeChild(errorMsg);
-      }, "5000");
-    }
+    //disable everything and provide error message for user
   }
 
  /**
