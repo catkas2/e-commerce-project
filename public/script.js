@@ -158,12 +158,12 @@
 
   /** handles switching to home view  */
   function goHome() {
+    id("purchase-history").classList.add("hidden");
     id("all-products").classList.add("hidden");
     id("all-products").classList.remove("flex");
     id("product-view").classList.add("hidden");
     id("product-view").classList.remove("flex");
     id("search-filter-function").classList.add("hidden");
-    id("cart").classList.add("hidden");
     id("browse-container").classList.remove("hidden");
     id("browse-container").classList.add("flex");
     id("main-view").classList.remove("hidden");
@@ -246,7 +246,6 @@
       element.classList.remove("hidden");
       element.addEventListener('click', displayPurchases);
     });
-    id("cart-container").classList.remove("hidden");
 
     // clears input boxes and closes login form
     id("username").value = "";
@@ -336,7 +335,7 @@
       let response = await fetch('/artifact/gettransactions', {method: 'POST', body: params});
       await statusCheck(response);
       response = await response.json();
-      // hide all views
+      unhidePurchases();
       for (let i = 0; i < response.length; i++) {
         console.log(response[i]);
         id("history-heading").textContent = NAME + "'s Transaction History";
@@ -378,6 +377,12 @@
     }
   }
 
+  function unhidePurchases() {
+    id("purchase-history").classList.remove("hidden");
+    id("main-view").classList.add("hidden");
+    id("browse-container").classList.add("hidden");
+  }
+
   /** makes request to logout endpoint */
   async function handleLogout() {
     let params = new FormData();
@@ -403,7 +408,6 @@
     qsa(".purchases").forEach(element => {
       element.classList.add("hidden");
     });
-    id("cart-container").classList.add("hidden");
     id("buy-now").classList.add("hidden");
     id("login-purchase").classList.remove("hidden");
     console.log(res);
@@ -435,8 +439,6 @@
     id("main-view").classList.add("hidden");
     id("product-view").classList.remove("flex");
     id("product-view").classList.add("hidden");
-    id("cart").classList.add("hidden");
-    id("user-info").classList.add("hidden");
     id("browse-container").classList.add("hidden");
     id("search-filter-function").classList.remove("hidden");
     id("all-products").classList.remove("hidden");
@@ -567,8 +569,6 @@
     id("login-popup").classList.add("hidden");
     id("main-view").classList.remove("flex");
     id("main-view").classList.add("hidden");
-    id("cart").classList.add("hidden");
-    id("user-info").classList.add("hidden");
     id("all-products").classList.remove("flex");
     id("all-products").classList.add("hidden");
     id("product-view").classList.remove("hidden");
