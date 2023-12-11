@@ -670,24 +670,14 @@
       await statusCheck(response);
       response = await response.json();
       console.log(response);
-      let box = gen("div");
-      box.classList.add("review-box");
+      displayFeedback(response);
     } catch (err) {
-      console.log(err);
+      handleError();
     }
-
-
-
-
-    fetch("artifact/feedback/" + ITEM_ID)
-      .then(statusCheck)
-      .then(res => res.json())
-      .then(displayFeedback)
-      .catch(handleError);
   }
 
   /** Displays feedback on website */
-  function displayFeedback() {
+  function displayFeedback(res) {
     calculateAverageFeedback(res);
     for (let i = 0; i < res.length; i++) {
       let user = gen("p");
