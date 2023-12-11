@@ -485,7 +485,32 @@
    * @param {JSON} res - represents all items being sold on website
    */
   function getItems(res) {
-    createItems(res, "product-container", "all-products");
+    for (let i = 1; i < res.length; i++) {
+      let item = gen("section");
+      let itemImg = gen("img");
+      let itemPrice = gen("p");
+      let itemName = gen("p");
+      let itemRating = gen("p");
+      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
+      item.classList.add("product-container");
+      itemPrice.textContent = "$" + res[i].price;
+      itemName.textContent = res[i].item_name;
+      itemRating.textContent = res[i].rating + "/5";
+      item.setAttribute("id", res[i].id);
+      itemImg.addEventListener("mouseenter", () => {
+        itemImg.src = hoverSrc;
+      });
+      itemImg.addEventListener("mouseleave", () => {
+        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      });
+      item.appendChild(itemImg);
+      item.appendChild(itemPrice);
+      item.appendChild(itemName);
+      item.appendChild(itemRating);
+      id("all-products").appendChild(item);
+      item.addEventListener("click", () => displayItemInfo(res[i]));
+    }
   }
 
   /** this function gets the 5 most recent items  */
