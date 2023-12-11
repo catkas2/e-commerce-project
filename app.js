@@ -211,17 +211,22 @@ app.post("/artifact/logout", async (req, res) => {
 });
 
 // add feedback to specific item
-app.get("/artifact/feedback", async (req, res) => {
+app.post("/artifact/feedback", async (req, res) => {
   try {
-    let query = "INSERT INTO feedback(id, user_id, item_id, feedback, date) VAUES(?, ?, ?, ?, ?)";
-    let addedValues = [];
+    let user = req.body.userId;
+    let item = req.body.itemId;
+    let rating = req.body.rating;
+    let feedback = req.body.feedback;
+    let query = "INSERT INTO feedback (user_id, item_id, rating, feedback, date) VALUES(?, ?, ?, ?, datetime())";
     let db = await getDBConnection();
-    await db.run(query, addedValues);
+    await db.run(query, [user, item, rating, feedback]);
     await db.close();
+    res.type('text').send('Thank you for reviewing this product! We take your feedback to heart at Aurea Vita : )');
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("didnt work :<");
+      .send(`Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to restore
+        the harmonious flow of Aurea Vita. Stay zen!`);
   }
 });
 
