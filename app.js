@@ -97,7 +97,15 @@ app.get("/artifact/collection/:collection", async (req, res) => {
 app.get("/artifact/feedback/:item", async (req, res) => {
   try {
     let item = req.params.item;
-    let query = "SELECT * FROM feedback WHERE item_id=? ORDER BY DATETIME(date) DESC";
+    let query = `SELECT
+    feedback.rating,
+    feedback.date,
+    feedback.feedback,
+    credentials.username
+    FROM feedback
+    INNER JOIN credentials ON feedback.user_id = credentials.id
+    WHERE feedback.item_id = ?
+    `;
     let db = await getDBConnection();
     let data = await db.all(query, item);
     await db.close();
