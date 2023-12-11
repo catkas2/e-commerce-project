@@ -388,14 +388,14 @@
 
         infoContainer.appendChild(historyInfo);
         id("entry-container").appendChild(infoContainer);
-        userFeedbackArea(infoContainer);
+        userFeedbackArea(infoContainer, response[i].item_id);
       }
     } catch (err) {
       console.log(err);
     }
   }
 
-  function userFeedbackArea(infoContainer) {
+  function userFeedbackArea(infoContainer, productID) {
     let feedbackDiv = gen("div");
     feedbackDiv.classList.add("feedback-div")
     let feedbackInfo = gen("p");
@@ -404,8 +404,8 @@
     let submitReviewBtn = gen("button");
     submitReviewBtn.textContent = "Submit Review";
     submitReviewBtn.classList.add(".submit-btn")
-    feedbackArea.setAttribute("id", "user-feedback");
-    reviewNumber.setAttribute("id", "user-rating")
+    feedbackArea.setAttribute("id", productID + "feedback");
+    reviewNumber.setAttribute("id", productID + "rating");
     for (let i = 1; i < 6; i++) {
       let selectNum = gen("option");
       selectNum.setAttribute("value", i);
@@ -421,15 +421,27 @@
     infoContainer.appendChild(feedbackDiv);
     submitReviewBtn.addEventListener("click", () => {
       submitReviewBtn.disabled = true;
-      saveFeedback();
+      saveFeedback(productID);
     });
   }
 
-  function saveFeedback() {
-    let rating = id("user-rating").value;
-    let feedback = id("user-feedback").value;
-    console.log(rating);
-    console.log(id("user-feedback"));
+  async function saveFeedback(productID) {
+    let params = new FormData();
+    let rating = id(productID + "rating").value;
+    let feedback = id(productID + "feedback").value;
+    params.append("itemId", productID);
+    params.append("userId", USER_ID);
+    params.append("feedback", feedback);
+    params.append("rating", rating);
+
+    try {
+      let response = await fetch("/artifact/feedback", {method: "POST", body: params});
+      await statusCheck(response);
+      response = await response.text();
+      updateRating();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function unhidePurchases() {
