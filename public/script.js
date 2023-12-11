@@ -664,7 +664,21 @@
   }
 
   /** Requests all feedback for an item from database */
-  function requestItemFeedback() {
+  async function requestItemFeedback() {
+    try {
+      let response = await fetch("/artifact/feedback/" + ITEM_ID);
+      await statusCheck(response);
+      response = await response.json();
+      console.log(response);
+      let box = gen("div");
+      box.classList.add("review-box");
+    } catch (err) {
+      console.log(err);
+    }
+
+
+
+
     fetch("artifact/feedback/" + ITEM_ID)
       .then(statusCheck)
       .then(res => res.json())

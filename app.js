@@ -215,7 +215,7 @@ app.post("/artifact/logout", async (req, res) => {
   }
 });
 
-// add feedback to specific item
+
 app.post("/artifact/feedback", async (req, res) => {
   try {
     let user = req.body.userId;
