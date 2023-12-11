@@ -52,7 +52,7 @@ app.get("/artifact/items", async (req, res) => {
   }
 });
 
-// gets items with specific price points
+// gets items with specific price points and in specific category
 app.get("/artifact/items/:price", async (req, res) => {
   try {
     let price = req.params.price;

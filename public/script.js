@@ -67,7 +67,7 @@
     id("submit-search-btn").addEventListener("click", searchRequest)
     id("search-bar").addEventListener("input", enableSearch);
     qsa(".logout").forEach(element => {
-      element.addEventListener("click", requestLogout);
+      element.addEventListener("click", handleLogout);
     });
   }
 
@@ -104,10 +104,7 @@
   }
 
   function initalizeFilters() {
-    id("category").querySelectorAll("input").forEach(element => {
-      element.checked = true;
-    });
-    id("cost").querySelectorAll("input").forEach(element => {
+    qsa("input[type='checkbox']").forEach(element => {
       element.checked = true;
     });
   }
@@ -485,29 +482,7 @@
    * @param {JSON} res - represents all items being sold on website
    */
   function getItems(res) {
-    for (let i = 1; i < res.length; i++) {
-      let item = gen("section");
-      let itemImg = gen("img");
-      let itemPrice = gen("p");
-      let itemName = gen("p");
-      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
-      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
-      item.classList.add("product-container");
-      itemPrice.textContent = "$" + res[i].price;
-      itemName.textContent = res[i].item_name;
-      item.setAttribute("id", res[i].id);
-      itemImg.addEventListener("mouseenter", () => {
-        itemImg.src = hoverSrc;
-      });
-      itemImg.addEventListener("mouseleave", () => {
-        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
-      });
-      item.appendChild(itemImg);
-      item.appendChild(itemPrice);
-      item.appendChild(itemName);
-      id("all-products").appendChild(item);
-      item.addEventListener("click", () => displayItemInfo(res[i]));
-    }
+    createItems(res, "product-container", "all-products");
   }
 
   /** this function gets the 5 most recent items  */
@@ -523,11 +498,16 @@
     }
   }
 
+
   /**
-   * display recently added items --> extremely similar to getItems (FIGURE OUT
-   * A WAY TO REDUCE REDUNDANCY
+   * Displays first few items from the database on the website
+   * @param {JSON} res - represents recent items being sold on website
    */
   function displayRecents(res) {
+    createItems(res, "new-arrival-product-container", "new-arrivals-items");
+  }
+
+  function createItems(res, className, idName) {
     for (let i = 1; i < res.length; i++) {
       let item = gen("section");
       let itemImg = gen("img");
@@ -535,7 +515,7 @@
       let itemName = gen("p");
       itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
-      item.classList.add("new-arrival-product-container");
+      item.classList.add(className);
       itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
       item.setAttribute("id", res[i].id);
@@ -548,7 +528,7 @@
       item.appendChild(itemImg);
       item.appendChild(itemPrice);
       item.appendChild(itemName);
-      id("new-arrivals-items").appendChild(item);
+      id(idName).appendChild(item);
       item.addEventListener("click", () => displayItemInfo(res[i]));
     }
   }

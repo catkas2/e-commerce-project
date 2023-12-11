@@ -559,3 +559,7 @@ hr {
 .datetime {
   font-size: 24px;
 }
+
+#error {
+  color: red;
+}
