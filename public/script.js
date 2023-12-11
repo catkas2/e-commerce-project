@@ -172,12 +172,12 @@
 
   /** handles switching to home view  */
   function goHome() {
+    id("purchase-history").classList.add("hidden");
     id("all-products").classList.add("hidden");
     id("all-products").classList.remove("flex");
     id("product-view").classList.add("hidden");
     id("product-view").classList.remove("flex");
     id("search-filter-function").classList.add("hidden");
-    id("cart").classList.add("hidden");
     id("browse-container").classList.remove("hidden");
     id("browse-container").classList.add("flex");
     id("main-view").classList.remove("hidden");
@@ -259,7 +259,6 @@
       element.classList.remove("hidden");
       element.addEventListener('click', displayPurchases);
     });
-    id("cart-container").classList.remove("hidden");
 
     // clears input boxes and closes login form
     id("username").value = "";
@@ -349,7 +348,7 @@
       let response = await fetch('/artifact/gettransactions', {method: 'POST', body: params});
       await statusCheck(response);
       response = await response.json();
-      // hide all views
+      unhidePurchases();
       for (let i = 0; i < response.length; i++) {
         console.log(response[i]);
         id("history-heading").textContent = NAME + "'s Transaction History";
@@ -391,6 +390,12 @@
     }
   }
 
+  function unhidePurchases() {
+    id("purchase-history").classList.remove("hidden");
+    id("main-view").classList.add("hidden");
+    id("browse-container").classList.add("hidden");
+  }
+
   /** makes request to logout endpoint */
   async function handleLogout() {
     let params = new FormData();
@@ -420,7 +425,6 @@
     qsa(".purchases").forEach(element => {
       element.classList.add("hidden");
     });
-    id("cart-container").classList.add("hidden");
     id("buy-now").classList.add("hidden");
     id("login-purchase").classList.remove("hidden");
     goHome();
@@ -454,8 +458,6 @@
     id("main-view").classList.add("hidden");
     id("product-view").classList.remove("flex");
     id("product-view").classList.add("hidden");
-    id("cart").classList.add("hidden");
-    id("user-info").classList.add("hidden");
     id("browse-container").classList.add("hidden");
     id("search-filter-function").classList.remove("hidden");
     id("all-products").classList.remove("hidden");
@@ -507,7 +509,32 @@
    * @param {JSON} res - represents all items being sold on website
    */
   function getItems(res) {
-    createItems(res, "product-container", "all-products");
+    for (let i = 1; i < res.length; i++) {
+      let item = gen("section");
+      let itemImg = gen("img");
+      let itemPrice = gen("p");
+      let itemName = gen("p");
+      let itemRating = gen("p");
+      itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
+      item.classList.add("product-container");
+      itemPrice.textContent = "$" + res[i].price;
+      itemName.textContent = res[i].item_name;
+      itemRating.textContent = res[i].rating + "/5";
+      item.setAttribute("id", res[i].id);
+      itemImg.addEventListener("mouseenter", () => {
+        itemImg.src = hoverSrc;
+      });
+      itemImg.addEventListener("mouseleave", () => {
+        itemImg.src = "img/" + res[i].shortname + "1.jpeg";
+      });
+      item.appendChild(itemImg);
+      item.appendChild(itemPrice);
+      item.appendChild(itemName);
+      item.appendChild(itemRating);
+      id("all-products").appendChild(item);
+      item.addEventListener("click", () => displayItemInfo(res[i]));
+    }
   }
 
   /** this function gets the 5 most recent items  */
