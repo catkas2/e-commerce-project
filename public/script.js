@@ -384,10 +384,48 @@
 
         infoContainer.appendChild(historyInfo);
         id("entry-container").appendChild(infoContainer);
+        userFeedbackArea(infoContainer);
       }
     } catch (err) {
       console.log(err);
     }
+  }
+
+  function userFeedbackArea(infoContainer) {
+    let feedbackDiv = gen("div");
+    feedbackDiv.classList.add("feedback-div")
+    let feedbackInfo = gen("p");
+    let feedbackArea = gen("textarea");
+    let reviewNumber = gen("select");
+    let submitReviewBtn = gen("button");
+    submitReviewBtn.textContent = "Submit Review";
+    submitReviewBtn.classList.add(".submit-btn")
+    feedbackArea.setAttribute("id", "user-feedback");
+    reviewNumber.setAttribute("id", "user-rating")
+    for (let i = 1; i < 6; i++) {
+      let selectNum = gen("option");
+      selectNum.setAttribute("value", i);
+      selectNum.textContent = i;
+      reviewNumber.appendChild(selectNum);
+    }
+
+    feedbackInfo.textContent = "Leave a review here!"
+    feedbackDiv.appendChild(feedbackInfo);
+    feedbackDiv.appendChild(feedbackArea);
+    feedbackDiv.appendChild(reviewNumber);
+    feedbackDiv.appendChild(submitReviewBtn);
+    infoContainer.appendChild(feedbackDiv);
+    submitReviewBtn.addEventListener("click", () => {
+      submitReviewBtn.disabled = true;
+      saveFeedback();
+    });
+  }
+
+  function saveFeedback() {
+    let rating = id("user-rating").value;
+    let feedback = id("user-feedback").value;
+    console.log(rating);
+    console.log(id("user-feedback"));
   }
 
   function unhidePurchases() {
@@ -412,7 +450,7 @@
 
   /**
    * Displays page for users not logged in, removing the function to purchase,
-   * have a cart, and view transaction histroy
+   * and view transaction histroy
    * @param {JSON} res - The data of the logged out user
    */
   function logoutView(res) {
@@ -642,8 +680,7 @@
     id("login-popup").classList.add("hidden");
     id("main-view").classList.remove("flex");
     id("main-view").classList.add("hidden");
-    id("cart").classList.add("hidden");
-    id("user-info").classList.add("hidden");
+    id("purchase-view").classList.add("hidden");
     id("all-products").classList.remove("flex");
     id("all-products").classList.add("hidden");
     id("product-view").classList.remove("hidden");

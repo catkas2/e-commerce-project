@@ -48,7 +48,8 @@ app.get("/artifact/items", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("didnt work :<");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
@@ -66,7 +67,8 @@ app.get("/artifact/items/:price", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("didnt work :<");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
@@ -89,7 +91,8 @@ app.get("/artifact/collection/:collection", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("didnt work :<");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
@@ -105,7 +108,8 @@ app.get("/artifact/feedback/:item", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("didnt work :<");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
@@ -142,7 +146,8 @@ app.post("/artifact/newuser", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("didnt work :<");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
@@ -203,9 +208,13 @@ app.post("/artifact/logout", async (req, res) => {
 });
 
 // add feedback to specific item
-app.get("/artifact/feedback", async (req, res) => {
+app.post("/artifact/feedback", async (req, res) => {
   try {
-    let query = "INSERT INTO feedback(id, user_id, item_id, feedback, date) VAUES(?, ?, ?, ?, ?)";
+    let user = req.body.user;
+    let item = req.body.itemID;
+    let rating = req.body.rating;
+    let feedback = req.body.feedback;
+    let query = "INSERT INTO feedback(id, user_id, item_id, rating, feedback, date) VAUES(?, ?, ?, ?, ?, datetime())";
     let addedValues = [];
     let db = await getDBConnection();
     await db.run(query, addedValues);
@@ -213,34 +222,35 @@ app.get("/artifact/feedback", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("didnt work :<");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
 // POST endpoint to add a transaction to the database
 app.post("/artifact/addtransaction", async (req, res) => {
   try {
-    let db = await getDBConnection();
     let user = req.body.userId;
     let confirmation = req.body.confirmationNum;
     let item = req.body.itemId;
     let confirmationQuery = "SELECT COUNT(*) AS count FROM transactions WHERE confirmation_code LIKE ?";
+    let db = await getDBConnection();
     let confirmationExists = await db.get(confirmationQuery, confirmation);
 
     // check if the generated confirmation number exists already
     if (confirmationExists.count > 0) {
+      db.close();
       res.status(409)
         .type("text")
         .send("This confirmation number already exists in our database. Please try the purchase again.");
-
     } else {
       // check if the current inventory of the item is 0
       let result = await db.get("SELECT inventory FROM items WHERE id = ?", item);
       if (result.inventory === 0) {
+        db.close();
         res.status(404)
-          .type('text')
-          .send('Sorry, this item is currently out of stock. Please try again at a later date');
-
+          .type("text")
+          .send("Sorry, this item is currently out of stock. Please try again at a later date");
       } else {
         // update inventory in database if not out of stock
         let update = result.inventory - 1;
@@ -251,21 +261,20 @@ app.post("/artifact/addtransaction", async (req, res) => {
         `;
         await db.run(query, [user, confirmation, item]);
         db.close();
-        res.type('text').send('Purchase succesful! This confirmation number has been sent to your email: ' + confirmation);
+        res.type("text").send("Purchase succesful! This confirmation number has been sent to your email: " + confirmation);
       }
     }
   } catch (err) {
     res.status(SERVER_ERR_CODE)
-      .type('text')
-      .send(`Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to restore
-        the harmonious flow of Aurea Vita. Stay zen!`);
+      .type("text")
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
 // fetches the transactions for a given user
 app.post("/artifact/gettransactions", async (req, res) => {
   try {
-    let db = await getDBConnection();
     let user = req.body.userId;
     let query = `SELECT
       transactions.user_id,
@@ -279,13 +288,15 @@ app.post("/artifact/gettransactions", async (req, res) => {
       INNER JOIN items ON  transactions.item_id = items.id
       WHERE transactions.user_id = ?
       `;
+    let db = await getDBConnection();
     let result = await db.all(query, user);
+    db.close();
     res.json(result);
   } catch (err) {
     res.status(SERVER_ERR_CODE)
-      .type('text')
-      .send(`Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to restore
-        the harmonious flow of Aurea Vita. Stay zen!`);
+      .type("text")
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 

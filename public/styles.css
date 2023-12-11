@@ -582,3 +582,8 @@ hr {
   margin-right: 10px;
   display: inline-block;
 }
+
+.feedback-div {
+  color:#ddd;
+  margin-left: auto;
+}
