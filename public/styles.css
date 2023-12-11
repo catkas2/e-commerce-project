@@ -563,3 +563,22 @@ hr {
 #error {
   color: red;
 }
+
+#all-reviews {
+  border-radius: 5px;
+  margin: 2.5%;
+  padding: 10px;
+  width: 80%;
+  color:#3A3B3C;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.review-box {
+  width: 40%;
+  background-color:#ced8c7;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline-block;
+}

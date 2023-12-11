@@ -26,6 +26,7 @@
   /*
    * ADD --> WHEN USER LOGS OUT, GO BACK TO HOME SCREEN& HIDE ALL OTHER VIEWS
    * ADD --> NEW USER POST REQUEST
+   * ADD --> RATING SYSTEM TO FEEDBACK
    */
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
@@ -69,6 +70,7 @@
     id("create-btn").addEventListener("click", createNewUser);
   }
 
+  /** Requests the data regarding the search term entered in the search bar */
   function searchRequest() {
     fetch("artifact/items?search=" + id("search-bar").value.trim())
       .then(statusCheck)
@@ -77,6 +79,10 @@
       .catch(handleError);
   }
 
+  /**
+   * Filters through items on website by search term
+   * @param {JSON} res - The data of the filtered products
+   */
   function filterSearch(res) {
     id("search-bar").value = "";
     let filteredItems = [];
@@ -93,6 +99,10 @@
     }
   }
 
+  /**
+   * Allows search button to be clicked when a valid search term is put in the search bar
+   * @param {String} e - The value put into the search bar
+   */
   function enableSearch(e) {
     if (!e.target.value.trim()) {
       id("submit-search-btn").disabled = true;
@@ -101,6 +111,7 @@
     }
   }
 
+  /** Makes all toggle-able filters on so all products are visible on screen */
   function initalizeFilters() {
     qsa("input[type='checkbox']").forEach(element => {
       element.checked = true;
@@ -125,7 +136,10 @@
         .catch(handleError);
     }
 
-    /** Filters through items on website by type */
+    /**
+     * Filters through items on website by type
+     * @param {JSON} res - The data of the filtered products
+     */
     function filteredPrice(res) {
       let filteredItems = [];
       let allItems = qsa(".product-container");
@@ -177,7 +191,7 @@
   }
 
   /**
-   * Gives the user the ability to write feedback and submit it.
+   * DELETE LATER Gives the user the ability to write feedback and submit it.
    * Limited to the first 5 entries due to space.
    */
   function addFeedback() {
@@ -194,9 +208,7 @@
     }
   }
 
-  /**
-   * Handles user login
-   */
+  /** Handles user login */
   function handleLogin() {
     id("create-text").classList.remove("hidden");
     id("create-account-text").classList.add("hidden");
@@ -206,9 +218,7 @@
     id("login-popup").classList.toggle("hidden");
   }
 
-  /**
-   * logs user in
-   */
+  /** logs user in */
   async function requestLogin() {
     let username = id("username").value;
     let password = id("psw").value;
@@ -225,7 +235,10 @@
     }
   }
 
-  /** updates the dom view to have user information */
+  /**
+   * Updates information on page to reflect that of the current user logged in
+   * @param {JSON} res - The data of the user logged in
+   */
   function displayLoginView(res) {
     console.log(res);
 
@@ -392,7 +405,11 @@
     }
   }
 
-  /** updates nav for logout */
+  /**
+   * Displays page for users not logged in, removing the function to purchase,
+   * have a cart, and view transaction histroy
+   * @param {JSON} res - The data of the logged out user
+   */
   function logoutView(res) {
     qsa(".login").forEach(element => {
       element.classList.remove("hidden");
@@ -411,7 +428,6 @@
 
   /**
    * Changes view to see all products and closes all other views
-   * @param {String} category - type of item being searched for
    */
   function openShopItems() {
     console.log("inside open shop");
@@ -419,6 +435,7 @@
     viewAllItems();
   }
 
+  /** Removes all filters effects allowing all products to be visible */
   function viewAllItems() {
     let allItems = qsa(".product-container");
     for (let i = 0; i < allItems.length; i++) {
@@ -426,6 +443,7 @@
     }
   }
 
+  /** Makes it so only the products are visible */
   function shopView() {
     initalizeFilters();
     id("browse-container").classList.remove("flex");
@@ -455,7 +473,10 @@
       .catch(handleError);
   }
 
-  /** Filters through items on website by type */
+  /**
+   * Filters through items on website by type
+   * @param {JSON} res - The data of the filtered products
+   */
   function filterItems(res) {
     let filteredItems = [];
     let allItems = qsa(".product-container");
@@ -509,6 +530,12 @@
     createItems(res, "new-arrival-product-container", "new-arrivals-items");
   }
 
+  /**
+   * Helper function to creating all items on webpage
+   * @param {JSON} res - represents the data of all items available on website
+   * @param {String} className - Configures layout based on if item is a recent arrival
+   * @param {String} idName - Configures location based on if item is a recent arrival
+   */
   function createItems(res, className, idName) {
     for (let i = 0; i < res.length; i++) {
       let item = gen("section");
@@ -535,19 +562,13 @@
     }
   }
 
-  /** displays detailed information about each item */
+  /** displays detailed information about each item
+   * @param {JSON} res - represents the data of the item selected
+   */
   function displayItemInfo(res) {
     console.log(res);
+    hideViewForItem();
     ITEM_ID = res.id;
-    id("login-popup").classList.add("hidden");
-    id("main-view").classList.remove("flex");
-    id("main-view").classList.add("hidden");
-    id("cart").classList.add("hidden");
-    id("user-info").classList.add("hidden");
-    id("all-products").classList.remove("flex");
-    id("all-products").classList.add("hidden");
-    id("product-view").classList.remove("hidden");
-    id("product-view").classList.add("flex");
     id("item-name").textContent = res.item_name;
     id("item-cost").textContent = "$" + res.price;
     qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
@@ -559,9 +580,49 @@
       qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
     });
     id("item-description").textContent = res.description;
+    requestItemFeedback();
+    id("all-reviews").classList.remove("hidden");
   }
 
-  /** th */
+  /** Requests all feedback for an item from database */
+  function requestItemFeedback() {
+    fetch("artifact/feedback/" + ITEM_ID)
+      .then(statusCheck)
+      .then(res => res.json())
+      .then(displayFeedback)
+      .catch(handleError);
+  }
+
+  /** Displays feedback on website */
+  function displayFeedback() {
+    for (let i = 0; i < res.length; i++) {
+      let user = gen("p");
+      let feedback = gen("p");
+      let feedbackContainer = gen("div");
+      user = res[i].user_id;
+      feedback = res[i].feedback;
+      feedbackContainer.classList.add("review-box");
+
+      feedbackContainer.appendChild(user);
+      feedbackContainer.appendChild(feedback);
+      id("all-reviews").appendChild(feedbackContainer);
+    }
+  }
+
+  /** Hides all other views except that for a specific item */
+  function hideViewForItem() {
+    id("login-popup").classList.add("hidden");
+    id("main-view").classList.remove("flex");
+    id("main-view").classList.add("hidden");
+    id("cart").classList.add("hidden");
+    id("user-info").classList.add("hidden");
+    id("all-products").classList.remove("flex");
+    id("all-products").classList.add("hidden");
+    id("product-view").classList.remove("hidden");
+    id("product-view").classList.add("flex");
+  }
+
+  /** Generates a random mix of 2 numbers and 2 letters */
   function generateSequence() {
     let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let numbers = '0123456789';
@@ -580,6 +641,7 @@
     return randomSequence;
   }
 
+  /** Helper function to sort items by flower type */
   function openPlantItems() {
     shopView();
     requestFilteredDatabase("flora");
@@ -608,6 +670,7 @@
 
   }
 
+  /** Creates a new user given the data filled out on the website */
   async function createNewUser() {
     let data = new FormData();
     data.append("username", id("username").value);
@@ -619,7 +682,7 @@
       let response = await fetch("/artifact/newuser", {method: "POST", body: data});
       await statusCheck(response);
       response = await response.json();
-      displayLoginView(response);
+      //displayLoginView(response);
     } catch (err) {
       console.log(err);
     }
