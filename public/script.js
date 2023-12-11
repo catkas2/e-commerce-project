@@ -67,7 +67,10 @@
     qsa(".logout").forEach(element => {
       element.addEventListener("click", handleLogout);
     });
-    id("create-btn").addEventListener("click", createNewUser);
+    id("create-btn").addEventListener("click", event => {
+      event.preventDefault();
+      createNewUser();
+    });
   }
 
   /** Requests the data regarding the search term entered in the search bar */
@@ -552,13 +555,11 @@
       let itemImg = gen("img");
       let itemPrice = gen("p");
       let itemName = gen("p");
-      let itemRating = gen("p");
       itemImg.src = "img/" + res[i].shortname + "1.jpeg";
       let hoverSrc = "img/" + res[i].shortname + "2.jpeg";
       item.classList.add("product-container");
       itemPrice.textContent = "$" + res[i].price;
       itemName.textContent = res[i].item_name;
-      itemRating.textContent = res[i].rating + "/5";
       item.setAttribute("id", res[i].id);
       itemImg.addEventListener("mouseenter", () => {
         itemImg.src = hoverSrc;
@@ -569,7 +570,6 @@
       item.appendChild(itemImg);
       item.appendChild(itemPrice);
       item.appendChild(itemName);
-      item.appendChild(itemRating);
       id("all-products").appendChild(item);
       item.addEventListener("click", () => displayItemInfo(res[i]));
     }
@@ -637,6 +637,7 @@
     ITEM_ID = res.id;
     id("item-name").textContent = res.item_name;
     id("item-cost").textContent = "$" + res.price;
+    id("item-rating").textContent = res.rating + "/5";
     qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
     let hoverSrc = "img/" + res.shortname + "2.jpeg";
     qs("#product-view img").addEventListener("mouseenter", () => {
@@ -737,17 +738,22 @@
 
   /** Creates a new user given the data filled out on the website */
   async function createNewUser() {
+    console.log('inside create new user');
     let data = new FormData();
     data.append("username", id("username").value);
     data.append("password", id("psw").value);
     data.append("name", id("first-name").value);
     data.append("email", id("email").value);
-    console.log(data);
     try {
       let response = await fetch("/artifact/newuser", {method: "POST", body: data});
       await statusCheck(response);
       response = await response.json();
-      //displayLoginView(response);
+      console.log(response);
+      id("username").value = "";
+      id("psw").value = "";
+      id("first-name").value = "";
+      id("email").value = "";
+      displayLoginView(response);
     } catch (err) {
       console.log(err);
     }

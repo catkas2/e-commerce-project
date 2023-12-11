@@ -100,7 +100,15 @@ app.get("/artifact/collection/:collection", async (req, res) => {
 app.get("/artifact/feedback/:item", async (req, res) => {
   try {
     let item = req.params.item;
-    let query = "SELECT * FROM feedback WHERE item_id=? ORDER BY DATETIME(date) DESC";
+    let query = `SELECT
+    feedback.rating,
+    feedback.date,
+    feedback.feedback,
+    credentials.username
+    FROM feedback
+    INNER JOIN credentials ON feedback.user_id = credentials.id
+    WHERE feedback.item_id = ?
+    `;
     let db = await getDBConnection();
     let data = await db.all(query, item);
     await db.close();
@@ -210,15 +218,15 @@ app.post("/artifact/logout", async (req, res) => {
 // add feedback to specific item
 app.post("/artifact/feedback", async (req, res) => {
   try {
-    let user = req.body.user;
-    let item = req.body.itemID;
+    let user = req.body.userId;
+    let item = req.body.itemId;
     let rating = req.body.rating;
     let feedback = req.body.feedback;
-    let query = "INSERT INTO feedback(id, user_id, item_id, rating, feedback, date) VAUES(?, ?, ?, ?, ?, datetime())";
-    let addedValues = [];
+    let query = "INSERT INTO feedback (user_id, item_id, rating, feedback, date) VALUES(?, ?, ?, ?, datetime())";
     let db = await getDBConnection();
-    await db.run(query, addedValues);
+    await db.run(query, [user, item, rating, feedback]);
     await db.close();
+    res.type('text').send('Thank you for reviewing this product! We take your feedback to heart at Aurea Vita : )');
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
