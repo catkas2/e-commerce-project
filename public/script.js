@@ -508,7 +508,7 @@
   }
 
   function createItems(res, className, idName) {
-    for (let i = 0; i < res.length; i++) {
+    for (let i = 0; i < res.length + 1; i++) {
       let item = gen("section");
       let itemImg = gen("img");
       let itemPrice = gen("p");
