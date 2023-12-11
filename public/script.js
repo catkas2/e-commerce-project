@@ -508,7 +508,7 @@
   }
 
   function createItems(res, className, idName) {
-    for (let i = 0; i < res.length + 1; i++) {
+    for (let i = 0; i < res.length; i++) {
       let item = gen("section");
       let itemImg = gen("img");
       let itemPrice = gen("p");
@@ -602,7 +602,13 @@
     id("login-text").textContent = "Create an Account";
     id("login-btn").textContent = "Create an Account";
 
+    let data = new FormData();
+    data.append("username", id("user").value);
+    data.append("password", id("psw").value);
+    data.append("name", id("first-name").value + " " + id("last-name").value);
+    data.append("email", id("email").value);
     // everything reguarding creating an account must happen here --> make request to backend
+
   }
 
   /** Disables functionality of page and displays error for user */
