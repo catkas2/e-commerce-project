@@ -66,6 +66,7 @@
     qsa(".logout").forEach(element => {
       element.addEventListener("click", handleLogout);
     });
+    id("create-btn").addEventListener("click", createNewUser);
   }
 
   function searchRequest() {
@@ -200,7 +201,8 @@
     id("create-text").classList.remove("hidden");
     id("create-account-text").classList.add("hidden");
     id("login-text").textContent = "Login";
-    id("login-btn").textContent = "Login";
+    id("login-btn").classList.remove("hidden");
+    id("create-btn").classList.add("hidden");
     id("login-popup").classList.toggle("hidden");
   }
 
@@ -600,15 +602,27 @@
     id("create-text").classList.add("hidden");
     id("create-account-text").classList.remove("hidden");
     id("login-text").textContent = "Create an Account";
-    id("login-btn").textContent = "Create an Account";
-
-    let data = new FormData();
-    data.append("username", id("user").value);
-    data.append("password", id("psw").value);
-    data.append("name", id("first-name").value + " " + id("last-name").value);
-    data.append("email", id("email").value);
+    id("create-btn").classList.remove("hidden");
+    id("login-btn").classList.add("hidden");
     // everything reguarding creating an account must happen here --> make request to backend
 
+  }
+
+  async function createNewUser() {
+    let data = new FormData();
+    data.append("username", id("username").value);
+    data.append("password", id("psw").value);
+    data.append("name", id("first-name").value);
+    data.append("email", id("email").value);
+    console.log(data);
+    try {
+      let response = await fetch("/artifact/newuser", {method: "POST", body: data});
+      await statusCheck(response);
+      response = await response.json();
+      displayLoginView(response);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /** Disables functionality of page and displays error for user */
