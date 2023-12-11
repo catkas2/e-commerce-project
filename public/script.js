@@ -23,6 +23,7 @@
   let USER_ID;
   let ITEM_ID;
   let checked;
+
   /*
    * ADD --> WHEN USER LOGS OUT, GO BACK TO HOME SCREEN& HIDE ALL OTHER VIEWS
    * ADD --> NEW USER POST REQUEST
