@@ -16,19 +16,12 @@
 (function() {
   window.addEventListener("load", init);
   let numOfEntry = 0;
-  const MAX_ENTRIES = 5;
   const DATABASE_SIZE = 25;
   let NAME; // current name
   let USERNAME; // current username
   let USER_ID;
   let ITEM_ID;
   let checked;
-
-  /*
-   * ADD --> WHEN USER LOGS OUT, GO BACK TO HOME SCREEN& HIDE ALL OTHER VIEWS
-   * ADD --> NEW USER POST REQUEST
-   * ADD --> RATING SYSTEM TO FEEDBACK
-   */
 
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
@@ -55,7 +48,7 @@
       try {
         requestLogin();
       } catch (err) {
-        console.log("login failed");
+        handleError(err);
       }
     });
     qs("header div img").addEventListener("click", goHome);
@@ -154,10 +147,8 @@
         if (filteredItems.includes(parseInt(allItems[i].id))) {
           if (checked) {
             allItems[i].classList.remove("hidden");
-            console.log("unhide");
           } else {
             allItems[i].classList.add("hidden");
-            console.log("hide");
           }
         }
       }
@@ -235,7 +226,7 @@
       response = await response.json();
       displayLoginView(response);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   }
 
@@ -245,7 +236,6 @@
    */
   function displayLoginView(res) {
     console.log(res);
-
     // set initial login conditions
     NAME = res.name;
     USERNAME = res.username;
@@ -340,7 +330,7 @@
         id('card-number').value = "";
       }, 3000);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   }
 
@@ -391,7 +381,7 @@
         userFeedbackArea(infoContainer, response[i].item_id);
       }
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   }
 
@@ -440,7 +430,7 @@
       response = await response.text();
       updateRating();
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   }
 
@@ -460,7 +450,7 @@
       response = await response.text();
       logoutView(response);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   }
 
@@ -482,7 +472,6 @@
     id("buy-now").classList.add("hidden");
     id("login-purchase").classList.remove("hidden");
     goHome();
-    console.log(res);
   }
 
   /**
@@ -597,7 +586,7 @@
       console.log(response);
       displayRecents(response);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   }
 
@@ -687,7 +676,7 @@
       feedback = res[i].feedback;
       feedbackContainer.classList.add("review-box");
 
-      if(avgFeedback === 0) {
+      if(avgFeedback) {
         id("item-rating").textContent = "No rating yet";
       } else {
         id("item-rating").textContent = avgFeedback + "/5";
@@ -794,32 +783,20 @@
       id("email").value = "";
       displayLoginView(response);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   }
 
   /** Disables functionality of page and displays error for user */
-  function handleError() {
-    /*
-    if(err === 500) {
-      document.getElementsByTagName("button").forEach(button => {
-        element.disable = true;
-      });
-      let errorMsg = gen("p");
-      errorMsg.textContent = "An error has occured, please try again later"
-      id("error").appendChild(errorMsg);
-      id("error").classList.remove("hidden");
-    } else {
-      let errorMsg = gen("p");
-      // insert error message here
-      id("error").appendChild(errorMsg);
-      id("error").classList.remove("hidden");
-      setTimeout(() => {
-        id("error").classList.add("hidden");
-        id("error").removeChid(errorMsg);
-      }, "5000");
-    }
-    */
+  function handleError(err) {
+    let errorMsg = gen("p");
+    errorMsg.textContent = err;
+    id("error").appendChild(errorMsg);
+    id("error").classList.remove("hidden");
+    setTimeout(() => {
+      id("error").classList.add("hidden");
+      id("error").removeChild(errorMsg);
+    }, 5000);
   }
 
  /**
