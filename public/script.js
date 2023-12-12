@@ -487,6 +487,7 @@
   /** Makes it so only the products are visible */
   function shopView() {
     initalizeFilters();
+    id("purchase-history").classList.add("hidden");
     id("browse-container").classList.remove("flex");
     id("browse-container").classList.add("hidden");
     id("login-popup").classList.add("hidden");
@@ -644,13 +645,15 @@
     id("all-reviews").classList.remove("hidden");
   }
 
-  /** Requests all feedback for an item from database */
+  /**
+   * Requests all feedback for an item from database
+   * @param {JSON} id - represents the id of the item being rated.
+   */
   async function requestItemFeedback(id) {
     try {
       let res = await fetch("/artifact/feedback/" + id);
       await statusCheck(res);
       res = await res.json();
-      console.log(res);
       displayFeedback(res);
     } catch (err) {
       handleError();
@@ -662,7 +665,6 @@
    * @param {JSON} res - List of feedback for item
    */
   function displayFeedback(res) {
-    console.log('length' + res.length);
     if (res.length === 0) {
       id("item-rating").textContent = "No rating yet";
     } else {
