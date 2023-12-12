@@ -281,10 +281,11 @@
       id('cancel-purchase').addEventListener('click', () => {
         id('confirm-purchase').classList.add("hidden");
         id('cancel-purchase').classList.add('hidden');
-        id('next').classList.remove('hidden');
+        id('buy-now').classList.remove('hidden');
         id('card-number').classList.remove('hidden');
         id('card-num-label').classList.remove('hidden');
         id('purchase-view').removeChild(cardP);
+        id('purchase-view').classList.add('hidden');
       });
 
     } else {
