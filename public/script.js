@@ -347,6 +347,13 @@
     }
   }
 
+  /**
+   * Helper function to generate items visible on the website
+   * @param {String} elementType - The visible element is being added
+   * @param {String} className - The attributes will be added to change the way its displayed
+   * @param {String} text - The text is being added
+   * @param {String} parentElement - The item it's being added to
+   */
   function elementGenerator(elementType, className, text, parentElement) {
     let element = gen(elementType);
     element.classList.add(className);
@@ -377,7 +384,7 @@
       reviewNumber.appendChild(selectNum);
     }
 
-    feedbackInfo.textContent = "Leave a review here!"
+    feedbackInfo.textContent = "Leave a review here!";
     feedbackDiv.appendChild(feedbackInfo);
     feedbackDiv.appendChild(feedbackArea);
     feedbackDiv.appendChild(reviewNumber);
@@ -453,7 +460,6 @@
 
   /** Changes view to see all products and closes all other views */
   function openShopItems() {
-    console.log("inside open shop");
     shopView();
     viewAllItems();
   }
@@ -558,7 +564,6 @@
       let response = await fetch("artifact/collection/recents");
       await statusCheck(response);
       response = await response.json();
-      console.log(response);
       displayRecents(response);
     } catch (err) {
       handleError(err);
@@ -609,7 +614,6 @@
    * @param {JSON} res - represents the data of the item selected
    */
   function displayItemInfo(res) {
-    console.log(res);
     hideViewForItem();
     ITEM_ID = res.id;
     id("item-name").textContent = res.item_name;
@@ -671,11 +675,9 @@
     let allFeedbackRatings = [];
     for (let i = 0; i < res.length; i++) {
       allFeedbackRatings.push(res[i].rating);
-      console.log(res[i].rating);
       totalRating += res[i].rating;
     }
     let avgFeedback = totalRating / res.length;
-    console.log(avgFeedback);
     return avgFeedback;
   }
 
@@ -741,7 +743,6 @@
 
   /** Creates a new user given the data filled out on the website */
   async function createNewUser() {
-    console.log('inside create new user');
     let data = new FormData();
     data.append("username", id("username").value);
     data.append("password", id("psw").value);
@@ -751,7 +752,6 @@
       let response = await fetch("/artifact/newuser", {method: "POST", body: data});
       await statusCheck(response);
       response = await response.json();
-      console.log(response);
       id("username").value = "";
       id("psw").value = "";
       id("first-name").value = "";
