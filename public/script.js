@@ -636,8 +636,8 @@
     try {
       let response = await fetch("/artifact/feedback/" + ITEM_ID);
       await statusCheck(response);
-      response = await response.json();
-      console.log(response);
+      response = await response.text();
+      handleError(response);
       displayFeedback(response);
     } catch (err) {
       handleError();
