@@ -651,7 +651,6 @@
       await statusCheck(res);
       res = await res.json();
       console.log(res);
-      //handleError(res);
       displayFeedback(res);
     } catch (err) {
       handleError();
@@ -674,12 +673,10 @@
         let feedbackContainer = gen("div");
         user.textContent = "@" + res[i].username;
         feedback.textContent = res[i].feedback;
-        console.log(res);
         user.textContent = res[i].username;
         feedback.textContent = res[i].feedback;
         feedbackContainer.classList.add("review-box");
         id("item-rating").textContent = avgFeedback + "/5";
-        console.log(user.textContent);
         feedbackContainer.appendChild(user);
         feedbackContainer.appendChild(feedback);
         id("all-reviews").appendChild(feedbackContainer);

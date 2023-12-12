@@ -33,7 +33,7 @@ const CONFLICT_ERR = 409;
 const NOT_FOUND_ERR = 404;
 const PRICE_RANGE = 10;
 
-// get either all items, or items that match a search query param
+// GET endpoint that gets either all items, or items that match a search query param
 app.get("/artifact/items", async (req, res) => {
   try {
     let query;
@@ -57,7 +57,7 @@ app.get("/artifact/items", async (req, res) => {
   }
 });
 
-// gets items with specific price points and in specific category
+// GET endpoint that gets items with specific price points and in specific category
 app.get("/artifact/items/:price", async (req, res) => {
   try {
     let price = req.params.price;
@@ -76,7 +76,7 @@ app.get("/artifact/items/:price", async (req, res) => {
   }
 });
 
-// get all items in a specified category OR get 5 most recently added items
+// GET endpoint that gets all items in a specified category OR get 5 most recently added items
 app.get("/artifact/collection/:collection", async (req, res) => {
   try {
     let collection = req.params.collection;
@@ -100,7 +100,7 @@ app.get("/artifact/collection/:collection", async (req, res) => {
   }
 });
 
-// get feedback from a specific item
+// GET endpoint that grabs feedback from a specific item
 app.get("/artifact/feedback/:item", async (req, res) => {
   try {
     let item = req.params.item;
@@ -125,7 +125,7 @@ app.get("/artifact/feedback/:item", async (req, res) => {
   }
 });
 
-// too many lines in this function --> will fix later, just trying to get it to work.
+// POST endpoint that creates a new user with credentials and logs them in.
 app.post("/artifact/newuser", async (req, res) => {
   try {
     let name = req.body.name;
@@ -163,6 +163,7 @@ app.post("/artifact/newuser", async (req, res) => {
   }
 });
 
+// POST endpoint that logs a user in and changes their status from inactive to active.
 app.post("/artifact/login", async (req, res) => {
   try {
     let db = await getDBConnection();
@@ -202,6 +203,7 @@ app.post("/artifact/login", async (req, res) => {
   }
 });
 
+// POST endpoint that logs a user out and changes their status from active to inactive.
 app.post("/artifact/logout", async (req, res) => {
   try {
     let db = await getDBConnection();
@@ -216,6 +218,7 @@ app.post("/artifact/logout", async (req, res) => {
   }
 });
 
+// POST endpoint that adds new feedback into the database.
 app.post("/artifact/feedback", async (req, res) => {
   try {
     let user = req.body.userId;
@@ -281,7 +284,7 @@ app.post("/artifact/addtransaction", async (req, res) => {
   }
 });
 
-// fetches the transactions for a given user
+// POST endpoint that fetches the transactions for a given user.
 app.post("/artifact/gettransactions", async (req, res) => {
   try {
     let user = req.body.userId;
