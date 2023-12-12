@@ -485,7 +485,7 @@ hr {
 }
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 .list-view {
@@ -569,7 +569,7 @@ hr {
   margin: 2.5%;
   padding: 10px;
   width: 80%;
-  color:#3A3B3C;
+  color: #3A3B3C;
   overflow-x: scroll;
   white-space: nowrap;
 }
@@ -584,6 +584,6 @@ hr {
 }
 
 .feedback-div {
-  color:#ddd;
+  color: #ddd;
   margin-left: auto;
 }
