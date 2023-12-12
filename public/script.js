@@ -408,7 +408,6 @@
       let response = await fetch("/artifact/feedback", {method: "POST", body: params});
       await statusCheck(response);
       response = await response.text();
-      updateRating();
     } catch (err) {
       handleError(err);
     }
