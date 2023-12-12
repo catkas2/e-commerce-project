@@ -141,7 +141,7 @@ app.post("/artifact/newuser", async (req, res) => {
       if (emailExists.count > 0 || userExists.count > 0) {
         res.status(PARAM_ERR)
           .type("text")
-          .send("email or username already registered with an account");
+          .send("Email or username already registered with an account");
       } else {
         let query = `INSERT INTO credentials (name, email, username, password, status)
         VALUES (?, ?, ?, ?, ?)
