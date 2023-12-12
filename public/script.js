@@ -678,7 +678,7 @@
 
   /** Displays feedback on website */
   function displayFeedback(res) {
-    calculateAverageFeedback(res);
+    let avgFeedback = calculateAverageFeedback(res);
     for (let i = 0; i < res.length; i++) {
       let user = gen("p");
       let feedback = gen("p");
@@ -699,15 +699,18 @@
    */
   function calculateAverageFeedback(res) {
     console.log("help");
-    let totalRating;
+    let totalRating = 0;
     let allFeedbackRatings = [];
-    let avgFeedback = totalRating/res.length;
     for (let i = 0; i < res.length; i++) {
       allFeedbackRatings.push(res[i].rating);
+      console.log(res[i].rating);
       totalRating += res[i].rating;
     }
-    id("item-rating").textContent = avgFeedback + "/5";
-    console.log(avgFeedback + "/5");
+    let avgFeedback = totalRating / res.length;
+    console.log(avgFeedback);
+    return avgFeedback;
+    //id("item-rating").textContent = avgFeedback + "/5";
+    //console.log(avgFeedback + "/5");
   }
 
   /** Hides all other views except that for a specific item */
