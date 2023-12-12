@@ -28,10 +28,10 @@ app.use(multer().none());
 
 const PORT_NUM = 8000;
 const SERVER_ERR_CODE = 500;
-const PARAM_ERR = 400;
+const CLIENT_ERR = 400;
+const CONFLICT_ERR = 409;
+const NOT_FOUND_ERR = 404;
 const PRICE_RANGE = 10;
-const OUT_STOCK_ERR = 409;
-const ERR = 404;
 
 // get either all items, or items that match a search query param
 app.get("/artifact/items", async (req, res) => {
@@ -139,7 +139,7 @@ app.post("/artifact/newuser", async (req, res) => {
       let usernameQuery = "SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?";
       let userExists = await db.get(usernameQuery, username);
       if (emailExists.count > 0 || userExists.count > 0) {
-        res.status(PARAM_ERR)
+        res.status(CLIENT_ERR)
           .type("text")
           .send("Email or username already registered with an account");
       } else {
@@ -151,7 +151,7 @@ app.post("/artifact/newuser", async (req, res) => {
         res.json(response);
       }
     } else {
-      res.status(PARAM_ERR)
+      res.status(CLIENT_ERR)
         .type("text")
         .send("Missing one or more pieces of information");
     }
@@ -172,7 +172,7 @@ app.post("/artifact/login", async (req, res) => {
       let userQuery = "SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?";
       let userExists = await db.get(userQuery, username);
       if (userExists.count === 0) {
-        res.status(ERR)
+        res.status(NOT_FOUND_ERR)
           .type("text")
           .send("username does not exist. please create an account with us.");
       } else {
@@ -184,20 +184,21 @@ app.post("/artifact/login", async (req, res) => {
           db.close();
           res.json(response);
         } else {
-          res.status(PARAM_ERR)
+          res.status(CLIENT_ERR)
             .type("text")
             .send("Incorrect password entered. Try again.");
         }
       }
     } else {
-      res.status(PARAM_ERR)
+      res.status(CLIENT_ERR)
         .type("text")
         .send("Missing username or password");
     }
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("Error logging in user. Please try again later.");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
@@ -210,7 +211,8 @@ app.post("/artifact/logout", async (req, res) => {
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
-      .send("Error logging out. Please try again later");
+      .send("Oops! It seems our cosmic vibes got tangled. Our team is aligning the stars to" +
+      "restore the harmonious flow of Aurea Vita. Stay zen!");
   }
 });
 
@@ -248,7 +250,7 @@ app.post("/artifact/addtransaction", async (req, res) => {
 
     if (confirmationExists.count > 0) {
       db.close();
-      res.status(OUT_STOCK_ERR)
+      res.status(CONFLICT_ERR)
         .type("text")
         .send("This confirmation number already exists in our database. Please try the" +
           "purchase again.");
@@ -256,7 +258,7 @@ app.post("/artifact/addtransaction", async (req, res) => {
       let result = await db.get("SELECT inventory FROM items WHERE id = ?", item);
       if (result.inventory === 0) {
         db.close();
-        res.status(ERR)
+        res.status(NOT_FOUND_ERR)
           .type("text")
           .send("Sorry, this item is currently out of stock. Please try again at a later date");
       } else {
