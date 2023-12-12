@@ -140,7 +140,8 @@ app.post("/artifact/newuser", async (req, res) => {
       let userExists = await db.get(usernameQuery, username);
       if (emailExists.count > 0 || userExists.count > 0) {
         res.status(PARAM_ERR)
-          .type("text").send("email or username already registered with an account");
+          .type("text")
+          .send("email or username already registered with an account");
       } else {
         let query = `INSERT INTO credentials (name, email, username, password, status)
         VALUES (?, ?, ?, ?, ?)
@@ -151,7 +152,8 @@ app.post("/artifact/newuser", async (req, res) => {
       }
     } else {
       res.status(PARAM_ERR)
-        .type("text").send("Missing one or more pieces of information");
+        .type("text")
+        .send("Missing one or more pieces of information");
     }
   } catch (err) {
     res.status(SERVER_ERR_CODE)

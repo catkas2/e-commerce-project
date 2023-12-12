@@ -24,10 +24,9 @@
   /** Initializes page by making buttons work when loading in and adding all items to website */
   function init() {
     requestInitializeItems();
+    initializeButtons();
     getRecents();
     initalizeFilters();
-    id("browse-btn").addEventListener("click", scrollToCategories);
-    //id("feedback-btn").addEventListener("click", addFeedback);
     qsa(".login").forEach(element => {
       element.addEventListener("click", handleLogin);
     });
@@ -37,10 +36,28 @@
     qsa(".shop").forEach(element => {
       element.addEventListener("click", openShopItems);
     });
+    id("create-account").addEventListener("click", createAccount);
+    qs("header div img").addEventListener("click", goHome);
+    id("layout").addEventListener("change", changeLayout);
+    id("cost").querySelectorAll("input").forEach(element => {
+      element.addEventListener("click", filterPrice);
+    });
+    id("search-bar").addEventListener("input", enableSearch);
+  }
+
+  function initializeButtons() {
+    id("browse-btn").addEventListener("click", scrollToCategories);
     id("plant-btn").addEventListener("click", openPlantItems);
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
-    id("create-account").addEventListener("click", createAccount);
+    id("submit-search-btn").addEventListener("click", searchRequest)
+    qsa(".logout").forEach(element => {
+      element.addEventListener("click", handleLogout);
+    });
+    id("create-btn").addEventListener("click", event => {
+      event.preventDefault();
+      createNewUser();
+    });
     id("login-btn").addEventListener("click", event => {
       event.preventDefault();
       try {
@@ -48,20 +65,6 @@
       } catch (err) {
         handleError(err);
       }
-    });
-    qs("header div img").addEventListener("click", goHome);
-    id("layout").addEventListener("change", changeLayout);
-    id("cost").querySelectorAll("input").forEach(element => {
-      element.addEventListener("click", filterPrice);
-    });
-    id("submit-search-btn").addEventListener("click", searchRequest)
-    id("search-bar").addEventListener("input", enableSearch);
-    qsa(".logout").forEach(element => {
-      element.addEventListener("click", handleLogout);
-    });
-    id("create-btn").addEventListener("click", event => {
-      event.preventDefault();
-      createNewUser();
     });
   }
 
@@ -96,10 +99,10 @@
 
   /**
    * Allows search button to be clicked when a valid search term is put in the search bar
-   * @param {String} e - The value put into the search bar
+   * @param {Event} event - When a user types in the search bar
    */
-  function enableSearch(e) {
-    if (!e.target.value.trim()) {
+  function enableSearch(event) {
+    if (!event.target.value.trim()) {
       id("submit-search-btn").disabled = true;
     } else {
       id("submit-search-btn").disabled = false;
@@ -215,13 +218,9 @@
    * @param {JSON} res - The data of the user logged in
    */
   function displayLoginView(res) {
-    console.log(res);
-    // set initial login conditions
     NAME = res.name;
     USERNAME = res.username;
     USER_ID = res.id;
-
-    // update nav
     qsa(".login").forEach(element => {
       element.classList.add("hidden");
     });
@@ -234,7 +233,6 @@
       element.addEventListener('click', displayPurchases);
     });
 
-    // clears input boxes and closes login form
     id("username").value = "";
     id("psw").value = "";
     id("login-popup").classList.add("hidden");
@@ -271,7 +269,6 @@
       id('next').classList.add('hidden');
 
       // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW IF CANCELED
-
       id('confirm-purchase').addEventListener('click', addTransaction);
       /*
        * let sequence = generateSequence();
@@ -453,9 +450,7 @@
     goHome();
   }
 
-  /**
-   * Changes view to see all products and closes all other views
-   */
+  /** Changes view to see all products and closes all other views */
   function openShopItems() {
     console.log("inside open shop");
     shopView();
