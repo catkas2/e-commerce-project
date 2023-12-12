@@ -149,7 +149,7 @@ app.post("/artifact/newuser", async (req, res) => {
     } else {
       res.status(400)
         .type("text")
-        .send("Missing one or more params");
+        .send("Missing one or more pieces of information");
     }
   } catch (err) {
     res.status(SERVER_ERR_CODE)
@@ -179,7 +179,6 @@ app.post("/artifact/login", async (req, res) => {
         if (correctPsw.password === password) {
           console.log("works");
           await db.run("UPDATE credentials SET status = ? WHERE username = ?", ["active", username]);
-          console.log("Status updated for user:", username);
           let response = await db.get("SELECT * FROM credentials WHERE username = ?", username);
           db.close();
           res.json(response);
@@ -192,7 +191,7 @@ app.post("/artifact/login", async (req, res) => {
     } else {
       res.status(400)
         .type("text")
-        .send("Missing one or more params");
+        .send("Missing username or password");
     }
   } catch (err) {
     res.status(SERVER_ERR_CODE)
@@ -214,7 +213,6 @@ app.post("/artifact/logout", async (req, res) => {
       .send("Error logging out. Please try again later");
   }
 });
-
 
 app.post("/artifact/feedback", async (req, res) => {
   try {
