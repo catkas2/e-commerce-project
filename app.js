@@ -128,20 +128,19 @@ app.get("/artifact/feedback/:item", async (req, res) => {
 // too many lines in this function --> will fix later, just trying to get it to work.
 app.post("/artifact/newuser", async (req, res) => {
   try {
-    let db = await getDBConnection();
     let name = req.body.name;
     let email = req.body.email;
     let username = req.body.username;
     let password = req.body.password;
     if (name && email && username && password) {
       let emailQuery = "SELECT COUNT(*) AS count FROM credentials WHERE email LIKE ?";
+      let db = await getDBConnection();
       let emailExists = await db.get(emailQuery, email);
       let usernameQuery = "SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?";
       let userExists = await db.get(usernameQuery, username);
       if (emailExists.count > 0 || userExists.count > 0) {
         res.status(PARAM_ERR)
-          .type("text")
-          .send("email or username already registered with an account");
+          .type("text").send("email or username already registered with an account");
       } else {
         let query = `INSERT INTO credentials (name, email, username, password, status)
         VALUES (?, ?, ?, ?, ?)
@@ -152,8 +151,7 @@ app.post("/artifact/newuser", async (req, res) => {
       }
     } else {
       res.status(PARAM_ERR)
-        .type("text")
-        .send("Missing one or more pieces of information");
+        .type("text").send("Missing one or more pieces of information");
     }
   } catch (err) {
     res.status(SERVER_ERR_CODE)
@@ -241,8 +239,8 @@ app.post("/artifact/addtransaction", async (req, res) => {
     let user = req.body.userId;
     let confirmation = req.body.confirmationNum;
     let item = req.body.itemId;
-    let confirmationQuery = "SELECT COUNT(*) AS count FROM transactions WHERE"
-      + "confirmation_code LIKE ?";
+    let confirmationQuery = "SELECT COUNT(*) AS count FROM transactions WHERE" +
+      "confirmation_code LIKE ?";
     let db = await getDBConnection();
     let confirmationExists = await db.get(confirmationQuery, confirmation);
 
@@ -267,8 +265,8 @@ app.post("/artifact/addtransaction", async (req, res) => {
         `;
         await db.run(query, [user, confirmation, item]);
         db.close();
-        res.type("text").send("Purchase succesful! This confirmation number has been sent"
-          + "to your email: " + confirmation);
+        res.type("text").send("Purchase succesful! This confirmation number has been sent" +
+          "to your email: " + confirmation);
       }
     }
   } catch (err) {
