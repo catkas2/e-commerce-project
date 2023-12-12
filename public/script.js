@@ -73,12 +73,15 @@
   }
 
   /** Requests the data regarding the search term entered in the search bar */
-  function searchRequest() {
-    fetch("artifact/items?search=" + id("search-bar").value.trim())
-      .then(statusCheck)
-      .then(res => res.json())
-      .then(filterSearch)
-      .catch(handleError);
+  async function searchRequest() {
+    try {
+      let response = await fetch("/artifact/items?search=" + id("search-bar").value.trim());
+      await statusCheck(response);
+      response = await response.json();
+      filterSearch(response);
+    } catch (err) {
+      handleError(err);
+    }
   }
 
   /**
@@ -130,12 +133,15 @@
    * Fetches information requested from price point selected
    * @param {String} price - price point of item being asked for
    */
-  function requestFilteredPrice(price) {
-    fetch("artifact/items/" + price)
-      .then(statusCheck)
-      .then(res => res.json())
-      .then(filteredPrice)
-      .catch(handleError);
+  async function requestFilteredPrice(price) {
+    try {
+      let response = await fetch("/artifact/items" + price);
+      await statusCheck(response);
+      response = await response.json();
+      filteredPrice(response);
+    } catch (err) {
+      handleError(err);
+    }
   }
 
   /**
@@ -270,16 +276,19 @@
       id('cancel-purchase').classList.remove('hidden');
       id('next').classList.add('hidden');
 
-      // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW IF CANCELED
       id('confirm-purchase').addEventListener('click', addTransaction);
+      id('cancel-purchase').addEventListener('click', () => {
+        id('confirm-purchase').classList.add("hidden");
+        id('cancel-purchase').classList.add('hidden');
+        id('next').classList.remove('hidden');
+        id('card-number').classList.remove('hidden');
+        id('card-num-label').classList.remove('hidden');
+        id('purchase-view').removeChild(cardP);
+      });
 
-      /*
-       * let sequence = generateSequence();
-       * console.log(sequence);
-       */
     } else {
-      // display to user somehow
-      console.log('invalid card number. input must be between 13 and 18 digits, with no spaces');
+      let err = 'invalid card number. input must be between 13 and 18 digits, with no spaces';
+      handleError(err);
     }
   }
 
