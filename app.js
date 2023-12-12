@@ -28,6 +28,10 @@ app.use(multer().none());
 
 const PORT_NUM = 8000;
 const SERVER_ERR_CODE = 500;
+const PARAM_ERR = 400;
+const PRICE_RANGE = 10;
+const OUT_STOCK_ERR = 409;
+const ERR = 404;
 
 // get either all items, or items that match a search query param
 app.get("/artifact/items", async (req, res) => {
@@ -61,7 +65,7 @@ app.get("/artifact/items/:price", async (req, res) => {
     let data;
     let db = await getDBConnection();
     query = "SELECT * FROM items WHERE price BETWEEN ? and ?";
-    data = await db.all(query, price - 10, price);
+    data = await db.all(query, price - PRICE_RANGE, price);
     await db.close();
     res.json(data);
   } catch (err) {
@@ -135,7 +139,7 @@ app.post("/artifact/newuser", async (req, res) => {
       let usernameQuery = "SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?";
       let userExists = await db.get(usernameQuery, username);
       if (emailExists.count > 0 || userExists.count > 0) {
-        res.status(400)
+        res.status(PARAM_ERR)
           .type("text")
           .send("email or username already registered with an account");
       } else {
@@ -147,7 +151,7 @@ app.post("/artifact/newuser", async (req, res) => {
         res.json(response);
       }
     } else {
-      res.status(400)
+      res.status(PARAM_ERR)
         .type("text")
         .send("Missing one or more pieces of information");
     }
@@ -168,28 +172,25 @@ app.post("/artifact/login", async (req, res) => {
       let userQuery = "SELECT COUNT(*) AS count FROM credentials WHERE username LIKE ?";
       let userExists = await db.get(userQuery, username);
       if (userExists.count === 0) {
-        res.status(404)
+        res.status(ERR)
           .type("text")
           .send("username does not exist. please create an account with us.");
       } else {
         let pswQuery = "SELECT password FROM credentials WHERE username LIKE ?";
         let correctPsw = await db.get(pswQuery, username);
-        console.log(correctPsw.password);
-        console.log(password);
         if (correctPsw.password === password) {
-          console.log("works");
           await db.run("UPDATE credentials SET status = ? WHERE username = ?", ["active", username]);
           let response = await db.get("SELECT * FROM credentials WHERE username = ?", username);
           db.close();
           res.json(response);
         } else {
-          res.status(400)
+          res.status(PARAM_ERR)
             .type("text")
             .send("Incorrect password entered. Try again.");
         }
       }
     } else {
-      res.status(400)
+      res.status(PARAM_ERR)
         .type("text")
         .send("Missing username or password");
     }
@@ -205,7 +206,6 @@ app.post("/artifact/logout", async (req, res) => {
     let db = await getDBConnection();
     let username = req.body.username;
     await db.run("UPDATE credentials SET status = ? WHERE username = ?", ["inactive", username]);
-    console.log("user successfully logged out");
     res.type("text").send("Sucessfully logged out. Thank you for visiting.");
   } catch (err) {
     res.status(SERVER_ERR_CODE)
@@ -220,11 +220,13 @@ app.post("/artifact/feedback", async (req, res) => {
     let item = req.body.itemId;
     let rating = req.body.rating;
     let feedback = req.body.feedback;
-    let query = "INSERT INTO feedback (user_id, item_id, rating, feedback, date) VALUES(?, ?, ?, ?, datetime())";
+    let query = "INSERT INTO feedback (user_id, item_id, rating, feedback, date)" +
+      "VALUES(?, ?, ?, ?, datetime())";
     let db = await getDBConnection();
     await db.run(query, [user, item, rating, feedback]);
     await db.close();
-    res.type('text').send('Thank you for reviewing this product! We take your feedback to heart at Aurea Vita : )');
+    res.type('text').send('Thank you for reviewing this product! We take your feedback to heart' +
+    'at Aurea Vita : )');
   } catch (err) {
     res.status(SERVER_ERR_CODE)
       .type("text")
@@ -239,35 +241,34 @@ app.post("/artifact/addtransaction", async (req, res) => {
     let user = req.body.userId;
     let confirmation = req.body.confirmationNum;
     let item = req.body.itemId;
-    let confirmationQuery = "SELECT COUNT(*) AS count FROM transactions WHERE confirmation_code LIKE ?";
+    let confirmationQuery = "SELECT COUNT(*) AS count FROM transactions WHERE"
+      + "confirmation_code LIKE ?";
     let db = await getDBConnection();
     let confirmationExists = await db.get(confirmationQuery, confirmation);
 
-    // check if the generated confirmation number exists already
     if (confirmationExists.count > 0) {
       db.close();
-      res.status(409)
+      res.status(OUT_STOCK_ERR)
         .type("text")
-        .send("This confirmation number already exists in our database. Please try the purchase again.");
+        .send("This confirmation number already exists in our database. Please try the" +
+          "purchase again.");
     } else {
-      // check if the current inventory of the item is 0
       let result = await db.get("SELECT inventory FROM items WHERE id = ?", item);
       if (result.inventory === 0) {
         db.close();
-        res.status(404)
+        res.status(ERR)
           .type("text")
           .send("Sorry, this item is currently out of stock. Please try again at a later date");
       } else {
-        // update inventory in database if not out of stock
         let update = result.inventory - 1;
         await db.run("UPDATE items SET inventory = ? WHERE id = ?", [update, item]);
-        // insert transaction into database
         let query = `INSERT INTO transactions (user_id, confirmation_code, item_id, date)
         VALUES (?, ?, ?, datetime())
         `;
         await db.run(query, [user, confirmation, item]);
         db.close();
-        res.type("text").send("Purchase succesful! This confirmation number has been sent to your email: " + confirmation);
+        res.type("text").send("Purchase succesful! This confirmation number has been sent"
+          + "to your email: " + confirmation);
       }
     }
   } catch (err) {
