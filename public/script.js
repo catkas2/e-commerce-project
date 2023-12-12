@@ -629,18 +629,18 @@
       qs("#product-view img").src = "img/" + res.shortname + "1.jpeg";
     });
     id("item-description").textContent = res.description;
-    requestItemFeedback();
+    requestItemFeedback(res.id);
     id("all-reviews").classList.remove("hidden");
   }
 
   /** Requests all feedback for an item from database */
-  async function requestItemFeedback() {
+  async function requestItemFeedback(item_id) {
     try {
-      let response = await fetch("/artifact/feedback/" + ITEM_ID);
-      await statusCheck(response);
-      response = await response.text();
-      handleError(response);
-      displayFeedback(response);
+      let res = await fetch("/artifact/feedback/" + item_id);
+      await statusCheck(res);
+      res = await res.json();
+      handleError(res);
+      displayFeedback(res);
     } catch (err) {
       handleError();
     }
@@ -651,39 +651,38 @@
    * @param {JSON} res - List of feedback for item
    */
   function displayFeedback(res) {
-    let avgFeedback = calculateAverageFeedback(res);
-    for (let i = 0; i < res.length; i++) {
-      let user = gen("p");
-      let feedback = gen("p");
-      let feedbackContainer = gen("div");
-      user = res[i].user_id;
-      feedback = res[i].feedback;
-      feedbackContainer.classList.add("review-box");
-
-      if (avgFeedback) {
-        id("item-rating").textContent = "No rating yet";
-      } else {
+    if (res.length === 0) {
+      id("item-rating").textContent = "No rating yet";
+    } else {
+      let avgFeedback = calculateAverageFeedback(res);
+      for (let i = 0; i < res.length; i++) {
+        let user = gen("p");
+        let feedback = gen("p");
+        let feedbackContainer = gen("div");
+        user = res[i].user_id;
+        feedback = res[i].feedback;
+        feedbackContainer.classList.add("review-box");
         id("item-rating").textContent = avgFeedback + "/5";
+        feedbackContainer.appendChild(user);
+        feedbackContainer.appendChild(feedback);
+        id("all-reviews").appendChild(feedbackContainer);
       }
-      feedbackContainer.appendChild(user);
-      feedbackContainer.appendChild(feedback);
-      id("all-reviews").appendChild(feedbackContainer);
     }
   }
 
   /**
    * Using the information from previous feedback data, determine the average rating
-   * @param {JSON} res - data represeting all the previous feedbacks
+   * @param {JSON} response - data represeting all the previous feedbacks
    * @returns {Integer} averageFeedback - the average rating from all feedback recieved
    */
-  function calculateAverageFeedback(res) {
+  function calculateAverageFeedback(response) {
     let totalRating = 0;
     let allFeedbackRatings = [];
-    for (let i = 0; i < res.length; i++) {
-      allFeedbackRatings.push(res[i].rating);
-      totalRating += res[i].rating;
+    for (let i = 0; i < response.length; i++) {
+      allFeedbackRatings.push(response[i].rating);
+      totalRating += response[i].rating;
     }
-    let avgFeedback = totalRating / res.length;
+    let avgFeedback = totalRating / response.length;
     return avgFeedback;
   }
 
