@@ -687,6 +687,11 @@
       feedback = res[i].feedback;
       feedbackContainer.classList.add("review-box");
 
+      if(avgFeedback === 0) {
+        id("item-rating").textContent = "No rating yet";
+      } else {
+        id("item-rating").textContent = avgFeedback + "/5";
+      }
       feedbackContainer.appendChild(user);
       feedbackContainer.appendChild(feedback);
       id("all-reviews").appendChild(feedbackContainer);
@@ -698,7 +703,6 @@
    * @param {JSON} res - data represeting all the previous feedbacks
    */
   function calculateAverageFeedback(res) {
-    console.log("help");
     let totalRating = 0;
     let allFeedbackRatings = [];
     for (let i = 0; i < res.length; i++) {
@@ -709,8 +713,6 @@
     let avgFeedback = totalRating / res.length;
     console.log(avgFeedback);
     return avgFeedback;
-    //id("item-rating").textContent = avgFeedback + "/5";
-    //console.log(avgFeedback + "/5");
   }
 
   /** Hides all other views except that for a specific item */
