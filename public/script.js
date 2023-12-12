@@ -16,6 +16,7 @@
 (function() {
   window.addEventListener("load", init);
   const TIMEOUT = 3000;
+  const randomGenNum = 0.5;
   let NAME; // current name
   let USERNAME; // current username
   let USER_ID;
@@ -610,7 +611,8 @@
     }
   }
 
-  /** displays detailed information about each item
+  /**
+   * displays detailed information about each item
    * @param {JSON} res - represents the data of the item selected
    */
   function displayItemInfo(res) {
@@ -644,7 +646,10 @@
     }
   }
 
-  /** Displays feedback on website */
+  /**
+   * Displays feedback on product page
+   * @param {JSON} res - List of feedback for item
+   */
   function displayFeedback(res) {
     let avgFeedback = calculateAverageFeedback(res);
     for (let i = 0; i < res.length; i++) {
@@ -655,7 +660,7 @@
       feedback = res[i].feedback;
       feedbackContainer.classList.add("review-box");
 
-      if(avgFeedback) {
+      if (avgFeedback) {
         id("item-rating").textContent = "No rating yet";
       } else {
         id("item-rating").textContent = avgFeedback + "/5";
@@ -669,6 +674,7 @@
   /**
    * Using the information from previous feedback data, determine the average rating
    * @param {JSON} res - data represeting all the previous feedbacks
+   * @returns Integer represeting the average rating from all feedback recieved
    */
   function calculateAverageFeedback(res) {
     let totalRating = 0;
@@ -693,7 +699,10 @@
     id("product-view").classList.add("flex");
   }
 
-  /** Generates a random mix of 2 numbers and 2 letters */
+  /**
+   * Generates a random mix of 2 numbers and 2 letters
+   * @returns a String representing a transaction number
+   */
   function generateSequence() {
     let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let numbers = '0123456789';
@@ -707,7 +716,7 @@
       let randomNumber = numbers.charAt(Math.floor(Math.random() * numbers.length));
       randomSequence += randomNumber;
     }
-    randomSequence = randomSequence.split('').sort(() => Math.random() - 0.5)
+    randomSequence = randomSequence.split('').sort(() => Math.random() - randomGenNum)
       .join('');
     return randomSequence;
   }
@@ -737,8 +746,6 @@
     id("login-text").textContent = "Create an Account";
     id("create-btn").classList.remove("hidden");
     id("login-btn").classList.add("hidden");
-    // everything reguarding creating an account must happen here --> make request to backend
-
   }
 
   /** Creates a new user given the data filled out on the website */
@@ -762,7 +769,10 @@
     }
   }
 
-  /** Disables functionality of page and displays error for user */
+  /**
+   *  Disables functionality of page and displays error for user
+   * @param {String} err - Error message sent from server
+   */
   function handleError(err) {
     let errorMsg = gen("p");
     errorMsg.textContent = err;
