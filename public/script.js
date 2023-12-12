@@ -645,12 +645,13 @@
   }
 
   /** Requests all feedback for an item from database */
-  async function requestItemFeedback(item_id) {
+  async function requestItemFeedback(id) {
     try {
-      let res = await fetch("/artifact/feedback/" + item_id);
+      let res = await fetch("/artifact/feedback/" + id);
       await statusCheck(res);
       res = await res.json();
-      handleError(res);
+      console.log(res);
+      //handleError(res);
       displayFeedback(res);
     } catch (err) {
       handleError();
@@ -662,6 +663,7 @@
    * @param {JSON} res - List of feedback for item
    */
   function displayFeedback(res) {
+    console.log('length' + res.length);
     if (res.length === 0) {
       id("item-rating").textContent = "No rating yet";
     } else {
@@ -670,14 +672,16 @@
         let user = gen("p");
         let feedback = gen("p");
         let feedbackContainer = gen("div");
+        user.textContent = "@" + res[i].username;
+        feedback.textContent = res[i].feedback;
         console.log(res);
         user.textContent = res[i].username;
         feedback.textContent = res[i].feedback;
         feedbackContainer.classList.add("review-box");
         id("item-rating").textContent = avgFeedback + "/5";
+        console.log(user.textContent);
         feedbackContainer.appendChild(user);
         feedbackContainer.appendChild(feedback);
-        console.log(feedbackContainer);
         id("all-reviews").appendChild(feedbackContainer);
       }
     }

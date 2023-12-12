@@ -580,7 +580,13 @@ hr {
   margin-left: 10px;
   margin-right: 10px;
   display: inline-block;
-  padding: 10px;
+  height: 200px;
+}
+
+.review-box p {
+  width: 80%;
+  text-wrap: wrap;
+  text-align: center;
 }
 
 .feedback-div {
