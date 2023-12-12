@@ -180,7 +180,8 @@ app.post("/artifact/login", async (req, res) => {
         let pswQuery = "SELECT password FROM credentials WHERE username LIKE ?";
         let correctPsw = await db.get(pswQuery, username);
         if (correctPsw.password === password) {
-          await db.run("UPDATE credentials SET status = ? WHERE username = ?", ["active", username]);
+          let query = "UPDATE credentials SET status = ? WHERE username = ?";
+          await db.run(query, ["active", username]);
           let response = await db.get("SELECT * FROM credentials WHERE username = ?", username);
           db.close();
           res.json(response);
