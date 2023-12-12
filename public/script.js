@@ -15,8 +15,6 @@
 
 (function() {
   window.addEventListener("load", init);
-  let numOfEntry = 0;
-  const DATABASE_SIZE = 25;
   let NAME; // current name
   let USERNAME; // current username
   let USER_ID;
@@ -87,7 +85,7 @@
     for (let i = 0; i < res.length; i++) {
       filteredItems.push(res[i].id);
     }
-    for (let i = 0; i < DATABASE_SIZE; i++) {
+    for (let i = 0; i < allItems.length; i++) {
       if (filteredItems.includes(parseInt(allItems[i].id))) {
         allItems[i].classList.remove("hidden");
       } else {
@@ -143,7 +141,7 @@
       for (let i = 0; i < res.length; i++) {
         filteredItems.push(res[i].id);
       }
-      for (let i = 0; i < DATABASE_SIZE; i++) {
+      for (let i = 0; i < allItems.length; i++) {
         if (filteredItems.includes(parseInt(allItems[i].id))) {
           if (checked) {
             allItems[i].classList.remove("hidden");
@@ -183,24 +181,6 @@
   function scrollToCategories() {
     let target = document.getElementById("scroll-to-collections");
     target.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-  }
-
-  /**
-   * DELETE LATER Gives the user the ability to write feedback and submit it.
-   * Limited to the first 5 entries due to space.
-   */
-  function addFeedback() {
-    if (numOfEntry < MAX_ENTRIES) { // place holder for later; only display 5 reviews at a time
-      let entry = id("entry").value;
-      let container = document.createElement("section");
-      container.classList.add("post");
-      let contents = document.createElement("p");
-      contents.textContent = "Feedback: " + entry;
-      container.appendChild(contents);
-      id("posts").appendChild(container);
-      id("entry").value = "";
-      numOfEntry++;
-    }
   }
 
   /** Handles user login */
@@ -529,7 +509,7 @@
     for (let i = 0; i < res.length; i++) {
       filteredItems.push(res[i].id);
     }
-    for (let i = 0; i < DATABASE_SIZE; i++) {
+    for (let i = 0; i < allItems.length; i++) {
       if (filteredItems.includes(parseInt(allItems[i].id))) {
         allItems[i].classList.remove("hidden");
       } else {
