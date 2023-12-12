@@ -15,6 +15,7 @@
 
 (function() {
   window.addEventListener("load", init);
+  const TIMEOUT = 3000;
   let NAME; // current name
   let USERNAME; // current username
   let USER_ID;
@@ -40,9 +41,9 @@
     qs("header div img").addEventListener("click", goHome);
     id("layout").addEventListener("change", changeLayout);
     id("cost").querySelectorAll("input")
-    .forEach(element => {
-      element.addEventListener("click", filterPrice);
-    });
+      .forEach(element => {
+        element.addEventListener("click", filterPrice);
+      });
     id("search-bar").addEventListener("input", enableSearch);
   }
 
@@ -270,6 +271,7 @@
 
       // ADD EVT LISTENER TO CANCEL PURCHASE --> GO BACK TO ORIGINAL PURCHASE-VIEW IF CANCELED
       id('confirm-purchase').addEventListener('click', addTransaction);
+
       /*
        * let sequence = generateSequence();
        * console.log(sequence);
@@ -305,7 +307,7 @@
         id('card-number').classList.remove('hidden');
         id('buy-now').classList.remove('hidden');
         id('card-number').value = "";
-      }, 3000);
+      }, TIMEOUT);
     } catch (err) {
       handleError(err);
     }
@@ -321,7 +323,6 @@
       response = await response.json();
       unhidePurchases();
       for (let i = 0; i < response.length; i++) {
-        console.log(response[i]);
         id("history-heading").textContent = NAME + "'s Transaction History";
         let infoContainer = gen("div");
         infoContainer.classList.add("history-info-container");
@@ -333,26 +334,10 @@
 
         let historyInfo = gen('div');
         historyInfo.classList.add("history-info");
-        let datetime = gen("p");
-        datetime.classList.add("datetime");
-        datetime.textContent = response[i].date;
-        historyInfo.appendChild(datetime);
-
-        let historyName = gen("h4");
-        historyName.classList.add("history-name");
-        historyName.textContent = response[i].item_name;
-        historyInfo.appendChild(historyName);
-
-        let price = gen("p");
-        price.classList.add("history-price");
-        price.textContent = "$" + response[i].price;
-        historyInfo.appendChild(price);
-
-        let confirmation = gen("p");
-        confirmation.classList.add("confirmation");
-        confirmation.textContent = response[i].confirmation_code;
-        historyInfo.appendChild(confirmation);
-
+        elementGenerator("p", "datetime", response[i].date, historyInfo);
+        elementGenerator("h4", "history-name", response[i].item_name, historyInfo);
+        elementGenerator("p", "history-price", "$" + response[i].price, historyInfo);
+        elementGenerator("p", "confirmation", response[i].confirmation_code, historyInfo);
         infoContainer.appendChild(historyInfo);
         id("entry-container").appendChild(infoContainer);
         userFeedbackArea(infoContainer, response[i].item_id);
@@ -360,6 +345,13 @@
     } catch (err) {
       handleError(err);
     }
+  }
+
+  function elementGenerator(elementType, className, text, parentElement) {
+    let element = gen(elementType);
+    element.classList.add(className);
+    element.textContent = text;
+    parentElement.appendChild(element);
   }
 
   /**
@@ -779,7 +771,7 @@
     setTimeout(() => {
       id("error").classList.add("hidden");
       id("error").removeChild(errorMsg);
-    }, 5000);
+    }, TIMEOUT);
   }
 
  /**
