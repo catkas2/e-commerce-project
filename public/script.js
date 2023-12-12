@@ -39,18 +39,20 @@
     id("create-account").addEventListener("click", createAccount);
     qs("header div img").addEventListener("click", goHome);
     id("layout").addEventListener("change", changeLayout);
-    id("cost").querySelectorAll("input").forEach(element => {
+    id("cost").querySelectorAll("input")
+    .forEach(element => {
       element.addEventListener("click", filterPrice);
     });
     id("search-bar").addEventListener("input", enableSearch);
   }
 
+  /** Makes all buttons on page function */
   function initializeButtons() {
     id("browse-btn").addEventListener("click", scrollToCategories);
     id("plant-btn").addEventListener("click", openPlantItems);
     id("water-btn").addEventListener("click", openWaterItems);
     id("rock-btn").addEventListener("click", openRockItems);
-    id("submit-search-btn").addEventListener("click", searchRequest)
+    id("submit-search-btn").addEventListener("click", searchRequest);
     qsa(".logout").forEach(element => {
       element.addEventListener("click", handleLogout);
     });
@@ -126,34 +128,34 @@
    * Fetches information requested from price point selected
    * @param {String} price - price point of item being asked for
    */
-    function requestFilteredPrice(price) {
-      fetch("artifact/items/" + price)
-        .then(statusCheck)
-        .then(res => res.json())
-        .then(filteredPrice)
-        .catch(handleError);
-    }
+  function requestFilteredPrice(price) {
+    fetch("artifact/items/" + price)
+      .then(statusCheck)
+      .then(res => res.json())
+      .then(filteredPrice)
+      .catch(handleError);
+  }
 
-    /**
-     * Filters through items on website by type
-     * @param {JSON} res - The data of the filtered products
-     */
-    function filteredPrice(res) {
-      let filteredItems = [];
-      let allItems = qsa(".product-container");
-      for (let i = 0; i < res.length; i++) {
-        filteredItems.push(res[i].id);
-      }
-      for (let i = 0; i < allItems.length; i++) {
-        if (filteredItems.includes(parseInt(allItems[i].id))) {
-          if (checked) {
-            allItems[i].classList.remove("hidden");
-          } else {
-            allItems[i].classList.add("hidden");
-          }
+  /**
+   * Filters through items on website by type
+   * @param {JSON} res - The data of the filtered products
+   */
+  function filteredPrice(res) {
+    let filteredItems = [];
+    let allItems = qsa(".product-container");
+    for (let i = 0; i < res.length; i++) {
+      filteredItems.push(res[i].id);
+    }
+    for (let i = 0; i < allItems.length; i++) {
+      if (filteredItems.includes(parseInt(allItems[i].id))) {
+        if (checked) {
+          allItems[i].classList.remove("hidden");
+        } else {
+          allItems[i].classList.add("hidden");
         }
       }
     }
+  }
 
   /** Changes product layout from grid to list */
   function changeLayout() {
@@ -253,11 +255,9 @@
 
   /** handles confirming a purchase for the user */
   function confirmPurchase() {
-    console.log('inside confirm purchase');
     let cardNum = id("card-number").value;
     let regex = /^\d{13,18}$/;
     if (regex.test(cardNum)) {
-      console.log('passed test');
       id("card-number").classList.add("hidden");
       let cardP = gen('p');
       cardP.id = 'card-p';
@@ -362,15 +362,20 @@
     }
   }
 
+  /**
+   * Creates space for user to enter feedback for products they've purchased
+   * @param {Element} infoContainer - container that holds all purchase history information
+   * @param {String} productID - product identifier used to reference product selected
+   */
   function userFeedbackArea(infoContainer, productID) {
     let feedbackDiv = gen("div");
-    feedbackDiv.classList.add("feedback-div")
+    feedbackDiv.classList.add("feedback-div");
     let feedbackInfo = gen("p");
     let feedbackArea = gen("textarea");
     let reviewNumber = gen("select");
     let submitReviewBtn = gen("button");
     submitReviewBtn.textContent = "Submit Review";
-    submitReviewBtn.classList.add(".submit-btn")
+    submitReviewBtn.classList.add(".submit-btn");
     feedbackArea.setAttribute("id", productID + "feedback");
     reviewNumber.setAttribute("id", productID + "rating");
     for (let i = 1; i < 6; i++) {
@@ -392,6 +397,10 @@
     });
   }
 
+  /**
+   * Uploads feedback to database
+   * @param {String} productID - product identifier used to reference product selected
+   */
   async function saveFeedback(productID) {
     let params = new FormData();
     let rating = id(productID + "rating").value;
@@ -410,6 +419,7 @@
     }
   }
 
+  /** Creates view displaying purchase history for user */
   function unhidePurchases() {
     id("purchase-history").classList.remove("hidden");
     id("main-view").classList.add("hidden");
@@ -433,9 +443,8 @@
   /**
    * Displays page for users not logged in, removing the function to purchase,
    * and view transaction histroy
-   * @param {JSON} res - The data of the logged out user
    */
-  function logoutView(res) {
+  function logoutView() {
     qsa(".login").forEach(element => {
       element.classList.remove("hidden");
     });
