@@ -17,6 +17,7 @@
   window.addEventListener("load", init);
   const TIMEOUT = 3000;
   const randomGenNum = 0.5;
+  const RATING = 6;
   let NAME; // current name
   let USERNAME; // current username
   let USER_ID;
@@ -387,7 +388,7 @@
     submitReviewBtn.classList.add(".submit-btn");
     feedbackArea.setAttribute("id", productID + "feedback");
     reviewNumber.setAttribute("id", productID + "rating");
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < RATING; i++) {
       let selectNum = gen("option");
       selectNum.setAttribute("value", i);
       selectNum.textContent = i;
@@ -664,6 +665,7 @@
       id("item-rating").textContent = "No rating yet";
     } else {
       let avgFeedback = calculateAverageFeedback(res);
+      console.log(res.length);
       for (let i = 0; i < res.length; i++) {
         let user = gen("p");
         let feedback = gen("p");
@@ -674,6 +676,7 @@
         id("item-rating").textContent = avgFeedback + "/5";
         feedbackContainer.appendChild(user);
         feedbackContainer.appendChild(feedback);
+        console.log(feedbackContainer);
         id("all-reviews").appendChild(feedbackContainer);
       }
     }
