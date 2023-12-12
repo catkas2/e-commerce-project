@@ -674,7 +674,7 @@
   /**
    * Using the information from previous feedback data, determine the average rating
    * @param {JSON} res - data represeting all the previous feedbacks
-   * @returns Integer represeting the average rating from all feedback recieved
+   * @returns {Integer} averageFeedback - the average rating from all feedback recieved
    */
   function calculateAverageFeedback(res) {
     let totalRating = 0;
@@ -701,7 +701,7 @@
 
   /**
    * Generates a random mix of 2 numbers and 2 letters
-   * @returns a String representing a transaction number
+   * @returns {String} - a transaction number
    */
   function generateSequence() {
     let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -784,13 +784,13 @@
     }, TIMEOUT);
   }
 
- /**
-  * Helper function to return the response"s result text if successful, otherwise
-  * returns the rejected Promise result with an error status and corresponding text
-  * @param {object} res - response to check for success/error
-  * @return {object} - valid response if response was successful, otherwise rejected
-  *                    Promise result
-  */
+  /**
+   * Helper function to return the response"s result text if successful, otherwise
+   * returns the rejected Promise result with an error status and corresponding text
+   * @param {object} res - response to check for success/error
+   * @return {object} - valid response if response was successful, otherwise rejected
+   *                    Promise result
+   */
   async function statusCheck(res) {
     if (!res.ok) {
       throw new Error(await res.text());
