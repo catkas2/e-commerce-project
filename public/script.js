@@ -666,13 +666,13 @@
       id("item-rating").textContent = "No rating yet";
     } else {
       let avgFeedback = calculateAverageFeedback(res);
-      console.log(res.length);
       for (let i = 0; i < res.length; i++) {
         let user = gen("p");
         let feedback = gen("p");
         let feedbackContainer = gen("div");
-        user = res[i].user_id;
-        feedback = res[i].feedback;
+        console.log(res);
+        user.textContent = res[i].username;
+        feedback.textContent = res[i].feedback;
         feedbackContainer.classList.add("review-box");
         id("item-rating").textContent = avgFeedback + "/5";
         feedbackContainer.appendChild(user);
