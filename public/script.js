@@ -2,10 +2,6 @@
 /* eslint-disable valid-jsdoc */
 /* eslint-disable no-console */
 /*
- * Name: Catalina Kashiwa and Liana Rosado
- * Date: December 10th, 2023
- * Section: CSE 154 AB/AE
- *
  * This is the JS used for client-side interactions. It allows users to browse through
  * our available items, filtering based on catergory, price, and has search functionality.
  * Users are able to login and out as well as create an acocunt. If a user is logged in,

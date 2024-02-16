@@ -1,12 +1,4 @@
-/* eslint-disable max-len */
-/* eslint-disable no-magic-numbers */
-/* eslint-disable no-console */
-/* eslint-disable max-lines-per-function */
 /*
- * Name: Catalina Kashiwa and Liana Rosado
- * Date: December 10th, 2023
- * Section: CSE 154 AB/AE
- *
  * This is the JS used for server-side functionality of our final project. It obtains the
  * data from the database regarding items/products, user-information for login functionality,
  * previous transactions and feedback made by users. It also allows for users create new accounts,
